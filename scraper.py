@@ -178,7 +178,7 @@ class ScrapeBot(object):
         self.update_user()
         self.scroll_down()
         time.sleep(2)
-        self.like_tweet()
+        self.scrape_tweets()
         self.browser.quit()
 
 
