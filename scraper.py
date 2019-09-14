@@ -46,8 +46,10 @@ class ScrapeBot(object):
 
     def __init__(self, url):
         self.locator_dictionary = TwitterLocator.__dict__
-        self.browser = webdriver.Chrome()  # export PATH=$PATH:/path/to/chromedriver/folder
-        self.browser.get(url)
+
+        self.browser = webdriver.Chrome('/usr/local/bin/chromedriver')  # export PATH=$PATH:/path/to/chromedriver/folder
+        self.browser.get(URL.TWITTER)
+    
         self.timeout = 10
         self.scroll_pause_time = 5
         self.session = session_factory()
