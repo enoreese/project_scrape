@@ -2,7 +2,7 @@ import os
 import random
 import time
 import traceback
-
+import boto3
 from selenium import webdriver
 from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
 from selenium.webdriver.common.by import By
@@ -10,6 +10,9 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
+
+from models.users import Person
+from models.base import session_factory
 
 
 class URL:
@@ -31,18 +34,26 @@ class TwitterLocator:
     tweets = (By.TAG_NAME, "article")
     like_btn = (By.XPATH, "//*[@id='react-root']/div/div/div/main/div/div/div/div[1]/div/div[2]/div/div/section/div/div/div/div[2]/div/article/div/div[2]/div[2]/div[4]/div[3]/div")
     latest_tweets = (By.PARTIAL_LINK_TEXT, 'Latest')
-    user = (By.XPATH, '')
-    handle = (By.XPATH, '')
+    name = (By.XPATH, '/html/body/div[2]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/h1/a')
+    handle = (By.XPATH, '/html/body/div[2]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/h2/a/span/b')
+    bio = (By.XPATH, '/html/body/div[2]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/p')
+    location = (By.XPATH, '/html/body/div[2]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/div[1]/span[2]')
+    website = (By.XPATH, '/html/body/div[2]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/div[2]/span[2]/a')
+    date_joined = (By.XPATH, '/html/body/div[2]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/div[3]/span[2]')
 
 
+class ScrapeBot(object):
 
-class LikeBot(object):
-
-    def __init__(self):
+    def __init__(self, url):
         self.locator_dictionary = TwitterLocator.__dict__
+
         self.browser = webdriver.Chrome('/usr/local/bin/chromedriver')  # export PATH=$PATH:/path/to/chromedriver/folder
         self.browser.get(URL.TWITTER)
+    
         self.timeout = 10
+        self.scroll_pause_time = 5
+        self.session = session_factory()
+        self.handle = ""
 
     def login(self, username=Constants.USERNAME, password=Constants.PASSWORD):
         # print(self.submit_btn)
@@ -56,6 +67,19 @@ class LikeBot(object):
 
     def view_latest_tweets(self):
         self.latest_tweets.click()
+
+    def scroll_down(self, limit=50):
+        tweets = self.browser.find_elements(*self.locator_dictionary['tweets'])
+        no_tweets = len(tweets)
+        while no_tweets < limit:
+            # Scroll down to bottom
+            self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight)")
+
+            # Wait to load page
+            time.sleep(self.scroll_pause_time)
+
+            tweets = self.browser.find_elements(*self.locator_dictionary['tweets'])
+            no_tweets = len(tweets)
 
     def like_tweet(self):
         """
@@ -74,11 +98,46 @@ class LikeBot(object):
         # print("Liked Tweet: {}".format(tweet.text))
         # time.sleep(5)
 
-    def gather_tweets(self):
+    def add_tweet(self, tweets):
+        s3 = boto3.resource('s3')
+        t = time.localtime()
+        current_time = time.strftime("%H:%M:%S", t)
+        filename = "{}_tweets_{}.txt".format(self.handle, current_time)
+        tweet_file = s3.Object(os.environ.get('BUCKET_NAME'), filename)
+        tweet_file.put(Body=tweets)
+
+    def update_user(self):
+        self.handle = self.browser.find_element(*self.locator_dictionary['handle']).text
+
+        user = self.session.query(Person).filter_by(self.handle)
+        user.name = self.browser.find_element(*self.locator_dictionary['name']).text
+        user.handle = self.handle
+        user.bio = self.browser.find_element(*self.locator_dictionary['bio']).text
+        user.location = self.browser.find_element(*self.locator_dictionary['location']).text
+        user.website = self.browser.find_element(*self.locator_dictionary['website']).text
+        user.date_joined = self.browser.find_element(*self.locator_dictionary['date_joined']).text
+
+        self.session.add(user)
+        self.session.commit()
+        self.session.close
+
+    def mark_as_scraped(self):
+        user = self.session.query(Person).filter_by(self.handle)
+
+        user.is_scraped = 1
+
+        self.session.add(user)
+        self.session.commit()
+        self.session.close
+
+    def scrape_tweets(self):
+        all_tweets = ""
         tweets = self.browser.find_elements(*self.locator_dictionary['tweets'])
         for tweet in tweets:
-            enter_user(tweet)
-            scrape_user()
+            all_tweets = all_tweets + tweet.text
+
+        self.add_tweet(tweets=all_tweets)
+        self.mark_as_scraped()
 
     def _find_element(self, *loc):
         return self.browser.find_element(*loc)
@@ -109,18 +168,20 @@ class LikeBot(object):
                 # I could have returned element, however because of lazy loading, I am seeking the element before return
                 return self._find_element(*self.locator_dictionary[what])
         except AttributeError:
-            super(LikeBot, self).__getattribute__("method_missing")(what)
+            super(ScrapeBot, self).__getattribute__("method_missing")(what)
 
     def method_missing(self, what):
         print ("No %s here!" % what)
 
     def run(self):
-        self.login()
-        self.search()
-        self.view_latest_tweets()
+        # self.login()
+        # self.search()
+        # self.view_latest_tweets()
+        self.update_user()
+        self.scroll_down()
         time.sleep(2)
-        self.like_tweet()
+        self.scrape_tweets()
         self.browser.quit()
 
-if __name__ == "__main__":
-    LikeBot().run()
+
+
