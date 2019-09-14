@@ -40,7 +40,7 @@ class LikeBot(object):
 
     def __init__(self):
         self.locator_dictionary = TwitterLocator.__dict__
-        self.browser = webdriver.Chrome()  # export PATH=$PATH:/path/to/chromedriver/folder
+        self.browser = webdriver.Chrome('/usr/local/bin/chromedriver')  # export PATH=$PATH:/path/to/chromedriver/folder
         self.browser.get(URL.TWITTER)
         self.timeout = 10
 
