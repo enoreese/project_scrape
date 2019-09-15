@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 
 mysql_url = "mysql://{}:{}@localhost/{}".format(
     os.environ.get("DB_USERNAME", "root"),
-    os.environ.get("DB_PASSWORD", "root"),
+    os.environ.get("DB_PASSWORD", "olorunfemi007"),
     os.environ.get("DB_NAME", "scrape_db")
 )
 engine = create_engine(mysql_url)
@@ -18,4 +18,3 @@ Base = declarative_base()
 def session_factory():
     Base.metadata.create_all(engine)
     return _SessionFactory()
-git
