@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-engine = create_engine('postgresql://dbuser:dbpassword@localhost:5432/sqlalchemy-orm-tutorial')
+engine = create_engine('mysql://root:olorunfemi007@localhost:3306/twitter_table')
 # use session_factory() to get a new Session
 _SessionFactory = sessionmaker(bind=engine)
 

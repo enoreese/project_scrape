@@ -32,7 +32,8 @@ class TwitterLocator:
     search_input = (By.CLASS_NAME, "r-30o5oe")
     search_btn = (By.ID, "nav-search")
     tweets = (By.TAG_NAME, "article")
-    like_btn = (By.XPATH, "//*[@id='react-root']/div/div/div/main/div/div/div/div[1]/div/div[2]/div/div/section/div/div/div/div[2]/div/article/div/div[2]/div[2]/div[4]/div[3]/div")
+    like_btn = (By.XPATH,
+                "//*[@id='react-root']/div/div/div/main/div/div/div/div[1]/div/div[2]/div/div/section/div/div/div/div[2]/div/article/div/div[2]/div[2]/div[4]/div[3]/div")
     latest_tweets = (By.PARTIAL_LINK_TEXT, 'Latest')
     name = (By.XPATH, '/html/body/div[2]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/h1/a')
     handle = (By.XPATH, '/html/body/div[2]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/h2/a/span/b')
@@ -44,12 +45,13 @@ class TwitterLocator:
 
 class ScrapeBot(object):
 
-    def __init__(self, url):
+    def __init__(self):
         self.locator_dictionary = TwitterLocator.__dict__
+        print("Loadoing......")
 
-        self.browser = webdriver.Chrome()  # export PATH=$PATH:/path/to/chromedriver/folder
+        self.browser = webdriver.Chrome('/usr/local/bin/chromedriver')  # export PATH=$PATH:/path/to/chromedriver/folder
         self.browser.get(URL.TWITTER)
-    
+
         self.timeout = 10
         self.scroll_pause_time = 5
         self.session = session_factory()
@@ -171,7 +173,7 @@ class ScrapeBot(object):
             super(ScrapeBot, self).__getattribute__("method_missing")(what)
 
     def method_missing(self, what):
-        print ("No %s here!" % what)
+        print("No %s here!" % what)
 
     def run(self):
         # self.login()
@@ -184,4 +186,5 @@ class ScrapeBot(object):
         self.browser.quit()
 
 
-
+if __name__ == '__main__':
+    ScrapeBot().run()
