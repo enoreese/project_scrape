@@ -17,6 +17,10 @@ class ScrapeUsers:
         return users.all()
 
     def run(self):
-        users = self.__get_users()
+        # users = self.__get_users()
+        users = [
+            "https://twitter.com/osasu-usen",
+            "https://twitter.com/artisedot"
+        ]
         for user in users:
-            ScrapeBot(url=user.twitter_page_url).run()
+            ScrapeBot(url=user).run()

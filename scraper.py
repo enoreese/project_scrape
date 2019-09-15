@@ -119,7 +119,7 @@ class ScrapeBot(object):
 
         self.session.add(user)
         self.session.commit()
-        self.session.close
+        # self.session.close
 
     def mark_as_scraped(self):
         user = self.session.query(Person).filter_by(self.handle)
@@ -128,7 +128,7 @@ class ScrapeBot(object):
 
         self.session.add(user)
         self.session.commit()
-        self.session.close
+        # self.session.close
 
     def scrape_tweets(self):
         all_tweets = ""
