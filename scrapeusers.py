@@ -17,7 +17,7 @@ from models.base import session_factory
 
 class URL:
     # TWITTER = 'http://twitter.com/login'
-    TWITTER = 'https://twitter.com/search?q=%23casdf&src=typd'
+    TWITTER = 'https://twitter.com/search?q=%23NigeriansLeaveSA&src=tyah'
 
 
 class Constants:
@@ -144,11 +144,11 @@ class ScrapeBot(object):
                 time.sleep(10)
 
 
-    def add_user(self, name, userid):
+    def add_user(self, handle, userid):
         user = Person(
-            name=name,
+            name='',
             date_joined='',
-            handle='',
+            handle=handle,
             location='',
             website='',
             bio='',
@@ -166,14 +166,22 @@ class ScrapeBot(object):
         print(handles)
         print("handelsssnijdiidjdj")
         for elements in handles:
-            userids = elements.get_attribute("data-user-id")
+
             print(elements)
-            handle_id = elements.find_element(*self.locator_dictionary['handle_real']).text
+            handle_check = elements.find_element(*self.locator_dictionary['handle_real']).text
+            user = self.session.query(Person).filter_by(handle=handle_check).first()
+            if not user:
+                print('Not found duplicate...Skipping')
+                handle_id = elements.find_element(*self.locator_dictionary['handle_real']).text
+                userids = elements.get_attribute("data-user-id")
+                self.add_user(handle=handle_id, userid=userids)
+
+
             # handle_id = elements.text
 
-            print(userids)
-            print(handle_id)
-            self.add_user(name=handle_id, userid=userids)
+                print(userids)
+                print(handle_id)
+
             # self.mark_as_scraped()
 
 
@@ -241,7 +249,7 @@ class ScrapeBot(object):
         # self.scrape_tweets()
         self.scroll()
         self.scrape_user()
-        self.browser.quit()
+        # self.browser.quit()
 
 if __name__ == '__main__':
     ScrapeBot().run()
