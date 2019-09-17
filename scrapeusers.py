@@ -16,7 +16,8 @@ from models.base import session_factory
 
 
 class URL:
-    TWITTER = 'http://twitter.com/login'
+    # TWITTER = 'http://twitter.com/login'
+    TWITTER = 'https://twitter.com/search?q=%23NigeriansLeaveSA&src=tyah'
 
 
 class Constants:
@@ -35,8 +36,8 @@ class TwitterLocator:
     like_btn = (By.XPATH,
                 "//*[@id='react-root']/div/div/div/main/div/div/div/div[1]/div/div[2]/div/div/section/div/div/div/div[2]/div/article/div/div[2]/div[2]/div[4]/div[3]/div")
     latest_tweets = (By.PARTIAL_LINK_TEXT, 'Latest')
-    name = (By.XPATH, '/html/body/div[2]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/h1/a')
-    handle = (By.XPATH, '/html/body/div[2]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/h2/a/span/b')
+    handle = (By.CLASS_NAME, 'account-group')
+    handle_real = (By.CSS_SELECTOR, 'span.username')
     bio = (By.XPATH, '/html/body/div[2]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/p')
     location = (By.XPATH, '/html/body/div[2]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/div[1]/span[2]')
     website = (By.XPATH, '/html/body/div[2]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/div[2]/span[2]/a')
@@ -122,15 +123,69 @@ class ScrapeBot(object):
         self.session.commit()
         # self.session.close
 
-    def add_user(self):
+    def scroll(self):
+        time.sleep(5)
+        lenOfPage = self.browser.execute_script(
+            "window.scrollTo(0, document.body.scrollHeight);var lenOfPage=document.body.scrollHeight;return lenOfPage;")
+        time.sleep(5)
+        match = False
+        while (match == False):
+            lastCount = lenOfPage
+            time.sleep(3)
+            lenOfPage = self.browser.execute_script(
+                "window.scrollTo(0, document.body.scrollHeight);var lenOfPage=document.body.scrollHeight;return lenOfPage;")
+
+            self.browser.find_element_by_tag_name('body').send_keys(Keys.END)
+            print('scrolling...')
+            time.sleep(5)
+            if lastCount == lenOfPage:
+                match = True
+                print('end of scrolling...')
+                time.sleep(10)
+
+
+    def add_user(self, handle, userid):
         user = Person(
             name='',
-            handle='',
-            twitter_page_url=''
+            date_joined='',
+            handle=handle,
+            location='',
+            website='',
+            bio='',
+            tweets='',
+            twitter_page_url='',
+            is_scraped=0,
+            user_id=userid
         )
 
         self.session.add(user)
         self.session.commit()
+
+    def scrape_user(self):
+        handles = self.browser.find_elements(*self.locator_dictionary['handle'])
+        print(handles)
+        print("handelsssnijdiidjdj")
+        for elements in handles:
+
+            print(elements)
+            handle_check = elements.find_element(*self.locator_dictionary['handle_real']).text
+            user = self.session.query(Person).filter_by(handle=handle_check).first()
+            if not user:
+                print('Not found duplicate...Skipping')
+                handle_id = elements.find_element(*self.locator_dictionary['handle_real']).text
+                userids = elements.get_attribute("data-user-id")
+                self.add_user(handle=handle_id, userid=userids)
+
+
+            # handle_id = elements.text
+
+                print(userids)
+                print(handle_id)
+
+            # self.mark_as_scraped()
+
+
+
 
     def mark_as_scraped(self):
         user = self.session.query(Person).filter_by(self.handle)
@@ -188,11 +243,13 @@ class ScrapeBot(object):
         # self.login()
         # self.search()
         # self.view_latest_tweets()
-        self.update_user()
-        self.scroll_down()
-        time.sleep(2)
-        self.scrape_tweets()
-        self.browser.quit()
+        # self.update_user()
+        # self.scroll_down()
+        # time.sleep(2)
+        # self.scrape_tweets()
+        self.scroll()
+        self.scrape_user()
+        # self.browser.quit()
 
 if __name__ == '__main__':
     ScrapeBot().run()
