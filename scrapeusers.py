@@ -128,24 +128,13 @@ class ScrapeBot(object):
         logger.info("Scrape users on page...")
         handles = self.browser.find_elements(*self.locator_dictionary['handle'])
         logger.info("len of handles: {}".format(len(handles)))
-        for elements in handles:
-            print(elements.text)
-            handle = elements.text
-            if handle and '@' in handle:
-                handle = handle.split('@')[1]
-                # handle_check = elements.find_element(*self.locator_dictionary['handle_real']).text
-                print(handle)
-                try:
-                    user = self.session.query(Person).filter_by(handle=handle).first()
-                except sqlalchemy.exc.InternalError as e:
-                    logger.warn(e)
+        handles = [(handle.text.split('@')[1], handle.get_attribute("data-user-id"))
+                   if handle.text and '@' in handle.text else '' for handle in handles]
 
-                if not user:
-                    print('Not found duplicate...Skipping')
-                    # handle_id = elements.find_element(*self.locator_dictionary['handle_real']).text
-                    userids = elements.get_attribute("data-user-id")
-                    print(userids)
-                    self.add_user(handle=handle, userid=userids)
+        for (handle, userid) in handles:
+            print("User id: ", userid)
+            print("Handle: ", handle)
+            self.add_user(handle=handle, userid=userid)
 
     def _find_element(self, *loc):
         return self.browser.find_element(*loc)

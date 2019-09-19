@@ -1,2 +1,3 @@
 *.pem
 .idea/workspace.xml
+driver/chromedriver
