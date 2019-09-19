@@ -2,7 +2,7 @@ import os
 import time
 import traceback
 import sqlalchemy.exc
-from selenium import webdriver
+from selenium import webdriver, common
 from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -54,15 +54,15 @@ class ScrapeBot(object):
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
         options.add_argument("--disable-extensions")
-        options.add_argument("disable-infobars")
+        options.add_argument("--disable-infobars")
         options.add_experimental_option("useAutomationExtension", False)
         self.browser = webdriver.Chrome(chrome_options=options, executable_path='driver/chromedriver')  # export PATH=$PATH:/path/to/chromedriver/folder
         url = "https://twitter.com/search?q=%23{}&src=tyah".format(hashtag)
         logger.info("Scraping hashtag: {}".format(hashtag))
         self.browser.get(url=url)
 
-        self.timeout = 10
-        self.scroll_pause_time = 5
+        self.timeout = 20
+        self.scroll_pause_time = 7
         self.session = session_factory()
         self.handle = ""
 
@@ -85,7 +85,12 @@ class ScrapeBot(object):
             time.sleep(self.scroll_pause_time)
 
             # Calculate new scroll height and compare with last scroll height
-            new_height = self.browser.execute_script("return document.body.scrollHeight")
+            try:
+                new_height = self.browser.execute_script("return document.body.scrollHeight")
+            except common.exceptions.TimeoutException as e:
+                logger.warn(e)
+                break
+
             print("New Height: ", new_height)
 
             handles = self.browser.find_elements(*self.locator_dictionary['handle'])
