@@ -73,50 +73,32 @@ class ScrapeBot(object):
     def scroll(self):
         logger.info("Scrolling... ")
         # Get scroll height
-        # last_height = self.browser.execute_script("return document.body.scrollHeight")
+        last_height = self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);var lenOfPage=document.body.scrollHeight;return lenOfPage;")
         handles = self.browser.find_elements(*self.locator_dictionary['handle'])
         logger.info("Initial handles: {}".format(len(handles)))
-        # last_handles = len(handles)
+        last_handles = len(handles)
 
-        while self.no_of_pagedowns:
-            print("Scrolling Down, Page Downs: ", self.no_of_pagedowns)
-            self.down.send_keys(Keys.PAGE_DOWN)
+        while True:
+            print("Scrolling Down...")
+            # Scroll down to bottom
+            self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
+            # Wait to load page
             time.sleep(self.scroll_pause_time)
 
-            logger.info(
-                "Gathered handles: {}".format(len(self.browser.find_elements(*self.locator_dictionary['handle']))))
-            self.no_of_pagedowns -= 1
-
-        # while True:
-        #     print("Scrolling Down...")
-        #     # Scroll down to bottom
-        #     self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        #
-        #     # Wait to load page
-        #     time.sleep(self.scroll_pause_time)
-
             # Calculate new scroll height and compare with last scroll height
-            # try:
-            #     new_height = self.browser.execute_script("return document.body.scrollHeight")
-            # except common.exceptions.TimeoutException as e:
-            #     logger.warn(e)
-            #     break
-            #
-            # print("New Height: ", new_height)
+            try:
+                print("Getting new height...")
+                new_height = self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);var lenOfPage=document.body.scrollHeight;return lenOfPage;")
+            except common.exceptions.TimeoutException as e:
+                logger.warn(e)
+                break
 
-            # handles =
-            # logger.info("Gathered handles: {}".format(len(self.browser.find_elements(*self.locator_dictionary['handle']))))
-            #
-            # new_handles = len(self.browser.find_elements(*self.locator_dictionary['handle']))
-            # print("New Height: ", new_handles)
-            #
-            # if new_handles == last_handles:
-            #     break
-            #
-            # last_handles = new_handles
-            # print("Last Handles: ", last_handles)
-            # time.sleep(1)
+            if new_height == last_height:
+                break
+            last_height = new_height
+
+        logger.info("Gathered handles: {}".format(len(self.browser.find_elements(*self.locator_dictionary['handle']))))
 
     def add_user(self, handle, userid):
         user = Person(
