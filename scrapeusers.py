@@ -8,6 +8,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.keys import Keys
 
 from models.users import Person
 from models.base import session_factory
@@ -43,6 +44,7 @@ class TwitterLocator:
     location = (By.XPATH, '/html/body/div[2]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/div[1]/span[2]')
     website = (By.XPATH, '/html/body/div[2]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/div[2]/span[2]/a')
     date_joined = (By.XPATH, '/html/body/div[2]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/div[3]/span[2]')
+    down = (By.TAG_NAME, 'body')
 
 
 class ScrapeBot(object):
@@ -58,6 +60,8 @@ class ScrapeBot(object):
         logger.info("Scraping hashtag: {}".format(hashtag))
         self.browser.get(url=url)
 
+        self.no_of_pagedowns = 100
+
         self.timeout = 20
         self.scroll_pause_time = 7
         self.session = session_factory()
@@ -66,21 +70,31 @@ class ScrapeBot(object):
     def view_latest_tweets(self):
         self.latest_tweets.click()
 
-    def scroll(self, limit=1500):
+    def scroll(self):
         logger.info("Scrolling... ")
         # Get scroll height
-        last_height = self.browser.execute_script("return document.body.scrollHeight")
+        # last_height = self.browser.execute_script("return document.body.scrollHeight")
         handles = self.browser.find_elements(*self.locator_dictionary['handle'])
         logger.info("Initial handles: {}".format(len(handles)))
-        last_handles = len(handles)
+        # last_handles = len(handles)
 
-        while True:
-            print("Scrolling Down...")
-            # Scroll down to bottom
-            self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        while self.no_of_pagedowns:
+            print("Scrolling Down, Page Downs: ", self.no_of_pagedowns)
+            self.down.send_keys(Keys.PAGE_DOWN)
 
-            # Wait to load page
             time.sleep(self.scroll_pause_time)
+
+            logger.info(
+                "Gathered handles: {}".format(len(self.browser.find_elements(*self.locator_dictionary['handle']))))
+            self.no_of_pagedowns -= 1
+
+        # while True:
+        #     print("Scrolling Down...")
+        #     # Scroll down to bottom
+        #     self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        #
+        #     # Wait to load page
+        #     time.sleep(self.scroll_pause_time)
 
             # Calculate new scroll height and compare with last scroll height
             # try:
@@ -91,18 +105,18 @@ class ScrapeBot(object):
             #
             # print("New Height: ", new_height)
 
-            handles = self.browser.find_elements(*self.locator_dictionary['handle'])
-            logger.info("Gathered handles: {}".format(len(handles)))
-
-            new_handles = len(handles)
-            print("New Height: ", new_handles)
-
-            if new_handles == last_handles:
-                break
-
-            last_handles = new_handles
-            print("Last Handles: ", last_handles)
-            time.sleep(1)
+            # handles =
+            # logger.info("Gathered handles: {}".format(len(self.browser.find_elements(*self.locator_dictionary['handle']))))
+            #
+            # new_handles = len(self.browser.find_elements(*self.locator_dictionary['handle']))
+            # print("New Height: ", new_handles)
+            #
+            # if new_handles == last_handles:
+            #     break
+            #
+            # last_handles = new_handles
+            # print("Last Handles: ", last_handles)
+            # time.sleep(1)
 
     def add_user(self, handle, userid):
         user = Person(
