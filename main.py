@@ -3,7 +3,7 @@ from datetime import date
 from models.users import Person
 from models.base import session_factory
 
-from .scraper import ScrapeBot
+from scraper import ScrapeBot
 
 
 class ScrapeUsers:
@@ -16,7 +16,16 @@ class ScrapeUsers:
         self.session.close()
         return users.all()
 
-    def run(self):
-        users = self.__get_users()
+    @staticmethod
+    def run():
+        # users = self.__get_users()
+        users = [
+            "https://twitter.com/osasu_usen",
+            "https://twitter.com/artisedot"
+        ]
         for user in users:
-            ScrapeBot(url=user.twitter_page_url).run()
+            ScrapeBot(url=user).run()
+
+
+if __name__ == '__main__':
+    ScrapeUsers().run()

@@ -31,7 +31,8 @@ class TwitterLocator:
     submit_btn = (By.TAG_NAME, "button")
     search_input = (By.CLASS_NAME, "r-30o5oe")
     search_btn = (By.ID, "nav-search")
-    tweets = (By.TAG_NAME, "article")
+    tweets = (By.CLASS_NAME, "js-stream-item")
+    tweets_no = (By.XPATH, "/html/body/div[2]/div[2]/div/div[1]/div/div[2]/div/div/div[2]/div/div/ul/li[1]/a/span[3]")
     like_btn = (By.XPATH, "//*[@id='react-root']/div/div/div/main/div/div/div/div[1]/div/div[2]/div/div/section/div/div/div/div[2]/div/article/div/div[2]/div[2]/div[4]/div[3]/div")
     latest_tweets = (By.PARTIAL_LINK_TEXT, 'Latest')
     name = (By.XPATH, '/html/body/div[2]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/h1/a')
@@ -47,8 +48,13 @@ class ScrapeBot(object):
     def __init__(self, url):
         self.locator_dictionary = TwitterLocator.__dict__
 
+<<<<<<< HEAD
         self.browser = webdriver.Chrome()  # export PATH=$PATH:/path/to/chromedriver/folder
         self.browser.get(URL.TWITTER)
+=======
+        self.browser = webdriver.Chrome('driver/chromedriver')  # export PATH=$PATH:/path/to/chromedriver/folder
+        self.browser.get(url)
+>>>>>>> bd4732f8764b2d798d0a18484857aa4d31173de8
     
         self.timeout = 10
         self.scroll_pause_time = 5
@@ -70,7 +76,14 @@ class ScrapeBot(object):
 
     def scroll_down(self, limit=50):
         tweets = self.browser.find_elements(*self.locator_dictionary['tweets'])
+        tweets_no = self.browser.find_element(*self.locator_dictionary['tweets_no']).text
+        tweets_no = float(tweets_no.replace(',',''))
+        print("Tweets No: ", tweets_no)
+        if tweets_no < limit:
+            limit = tweets_no
         no_tweets = len(tweets)
+        print("initial No: ", no_tweets)
+        print("Limit: ", limit)
         while no_tweets < limit:
             # Scroll down to bottom
             self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight)")
@@ -80,6 +93,7 @@ class ScrapeBot(object):
 
             tweets = self.browser.find_elements(*self.locator_dictionary['tweets'])
             no_tweets = len(tweets)
+            print("Gathered {} tweets".format(no_tweets))
 
     def like_tweet(self):
         """
@@ -108,33 +122,42 @@ class ScrapeBot(object):
 
     def update_user(self):
         self.handle = self.browser.find_element(*self.locator_dictionary['handle']).text
+        print("Handle: ", self.handle)
 
-        user = self.session.query(Person).filter_by(self.handle)
-        user.name = self.browser.find_element(*self.locator_dictionary['name']).text
-        user.handle = self.handle
-        user.bio = self.browser.find_element(*self.locator_dictionary['bio']).text
-        user.location = self.browser.find_element(*self.locator_dictionary['location']).text
-        user.website = self.browser.find_element(*self.locator_dictionary['website']).text
-        user.date_joined = self.browser.find_element(*self.locator_dictionary['date_joined']).text
+        # user = self.session.query(Person).filter_by(handle=self.handle)
+        # print("User: ", user)
+        # user.name = self.browser.find_element(*self.locator_dictionary['name']).text
+        print("Name: ", self.browser.find_element(*self.locator_dictionary['name']).text)
+        # user.handle = self.handle
+        # user.bio = self.browser.find_element(*self.locator_dictionary['bio']).text
+        print("Bio: ", self.browser.find_element(*self.locator_dictionary['bio']).text)
+        # user.location = self.browser.find_element(*self.locator_dictionary['location']).text
+        print("Location: ", self.browser.find_element(*self.locator_dictionary['location']).text)
+        # user.website = self.browser.find_element(*self.locator_dictionary['website']).text
+        print("Website: ", self.browser.find_element(*self.locator_dictionary['website']).text)
+        # user.date_joined = self.browser.find_element(*self.locator_dictionary['date_joined']).text
+        print("Date Joined: ", self.browser.find_element(*self.locator_dictionary['date_joined']).text)
 
-        self.session.add(user)
-        self.session.commit()
-        self.session.close
+        # self.session.add(user)
+        # self.session.commit()
+        # self.session.close
 
     def mark_as_scraped(self):
-        user = self.session.query(Person).filter_by(self.handle)
+        user = self.session.query(Person).filter_by(handle=self.handle)
 
         user.is_scraped = 1
 
         self.session.add(user)
         self.session.commit()
-        self.session.close
+        # self.session.close
 
     def scrape_tweets(self):
-        all_tweets = ""
         tweets = self.browser.find_elements(*self.locator_dictionary['tweets'])
-        for tweet in tweets:
-            all_tweets = all_tweets + tweet.text
+        print("length of tweets: ", len(tweets))
+
+        all_tweets = [tweet.text for tweet in tweets]
+        all_tweets = ' '.join(all_tweets)
+        print("All tweets: ", all_tweets)
 
         self.add_tweet(tweets=all_tweets)
         self.mark_as_scraped()
