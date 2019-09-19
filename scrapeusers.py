@@ -114,7 +114,7 @@ class ScrapeBot(object):
         for elements in handles:
             print(elements.text)
             handle = elements.text
-            if handle:
+            if handle and handle.split('@')[1]:
                 handle = handle.split('@')[1]
                 # handle_check = elements.find_element(*self.locator_dictionary['handle_real']).text
                 print(handle)
