@@ -3,6 +3,7 @@ import random
 import time
 import traceback
 import boto3
+import sqlalchemy.exc
 from selenium import webdriver
 from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
 from selenium.webdriver.common.by import By
@@ -161,7 +162,11 @@ class UpdateBot(object):
         # self.session.close
 
     def get_users(self):
-        users = self.session.query(Person).filter_by(is_scraped=0)
+        try:
+            users = self.session.query(Person).filter_by(is_scraped=0)
+        except sqlalchemy.exc.InternalError as e:
+            logger.warn(e)
+
         return users
 
     def scrape_tweets(self):

@@ -1,12 +1,10 @@
 import os
-import random
 import time
 import traceback
-import boto3
+import sqlalchemy.exc
 from selenium import webdriver
 from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.chrome.options import Options
@@ -120,7 +118,11 @@ class ScrapeBot(object):
                 handle = handle.split('@')[1]
                 # handle_check = elements.find_element(*self.locator_dictionary['handle_real']).text
                 print(handle)
-                user = self.session.query(Person).filter_by(handle=handle).first()
+                try:
+                    user = self.session.query(Person).filter_by(handle=handle).first()
+                except sqlalchemy.exc.InternalError as e:
+                    logger.warn(e)
+
                 if not user:
                     print('Not found duplicate...Skipping')
                     # handle_id = elements.find_element(*self.locator_dictionary['handle_real']).text
