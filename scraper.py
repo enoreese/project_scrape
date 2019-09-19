@@ -9,11 +9,15 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.chrome.options import Options
 
+# from pymemcache.client import base
 from models.users import Person
 from models.base import session_factory
+from scrapelog import ScrapeLog
 
+
+logger = ScrapeLog()
 
 class URL:
     TWITTER = 'http://twitter.com/login'
@@ -43,18 +47,23 @@ class TwitterLocator:
     date_joined = (By.XPATH, '/html/body/div[2]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/div[3]/span[2]')
 
 
-class ScrapeBot(object):
+class UpdateBot(object):
 
-    def __init__(self, url):
+    def __init__(self, handle, headless=True):
         self.locator_dictionary = TwitterLocator.__dict__
-
-        self.browser = webdriver.Chrome('driver/chromedriver')  # export PATH=$PATH:/path/to/chromedriver/folder
+        options = Options()
+        options.headless = headless
+        self.browser = webdriver.Chrome(options=options, executable_path='driver/chromedriver')  # export PATH=$PATH:/path/to/chromedriver/folder
+        logger.info("Updating DB for handle: {}".format(handle))
+        url = "https://twitter.com/{}".format(str(handle))
         self.browser.get(url)
     
         self.timeout = 10
         self.scroll_pause_time = 5
         self.session = session_factory()
-        self.handle = ""
+        self.handle = handle
+
+        # self.memc = base.Client(('localhost', 11211))
 
     def login(self, username=Constants.USERNAME, password=Constants.PASSWORD):
         # print(self.submit_btn)
@@ -69,7 +78,7 @@ class ScrapeBot(object):
     def view_latest_tweets(self):
         self.latest_tweets.click()
 
-    def scroll_down(self, limit=50):
+    def scroll_down(self, limit=100):
         tweets = self.browser.find_elements(*self.locator_dictionary['tweets'])
         tweets_no = self.browser.find_element(*self.locator_dictionary['tweets_no']).text
         tweets_no = float(tweets_no.replace(',',''))
@@ -77,7 +86,7 @@ class ScrapeBot(object):
         if tweets_no < limit:
             limit = tweets_no
         no_tweets = len(tweets)
-        print("initial No: ", no_tweets)
+        logger.info("initial No: {}".format(no_tweets))
         print("Limit: ", limit)
         while no_tweets < limit:
             # Scroll down to bottom
@@ -88,7 +97,7 @@ class ScrapeBot(object):
 
             tweets = self.browser.find_elements(*self.locator_dictionary['tweets'])
             no_tweets = len(tweets)
-            print("Gathered {} tweets".format(no_tweets))
+            logger.info("Gathered {} tweets".format(no_tweets))
 
     def like_tweet(self):
         """
@@ -108,6 +117,7 @@ class ScrapeBot(object):
         # time.sleep(5)
 
     def add_tweet(self, tweets):
+        logger.info("Adding tweets to S3...")
         s3 = boto3.resource('s3')
         t = time.localtime()
         current_time = time.strftime("%H:%M:%S", t)
@@ -116,6 +126,7 @@ class ScrapeBot(object):
         tweet_file.put(Body=tweets)
 
     def update_user(self):
+        logger.info("Updating User...")
         self.handle = self.browser.find_element(*self.locator_dictionary['handle']).text
         print("Handle: ", self.handle)
 
@@ -138,6 +149,7 @@ class ScrapeBot(object):
         # self.session.close
 
     def mark_as_scraped(self):
+        logger.info("Mark user as scraped")
         user = self.session.query(Person).filter_by(handle=self.handle)
 
         user.is_scraped = 1
@@ -145,6 +157,10 @@ class ScrapeBot(object):
         self.session.add(user)
         self.session.commit()
         # self.session.close
+
+    def get_users(self):
+        users = self.session.query(Person).filter_by(is_scraped=0)
+        return users
 
     def scrape_tweets(self):
         tweets = self.browser.find_elements(*self.locator_dictionary['tweets'])
@@ -186,15 +202,12 @@ class ScrapeBot(object):
                 # I could have returned element, however because of lazy loading, I am seeking the element before return
                 return self._find_element(*self.locator_dictionary[what])
         except AttributeError:
-            super(ScrapeBot, self).__getattribute__("method_missing")(what)
+            super(UpdateBot, self).__getattribute__("method_missing")(what)
 
     def method_missing(self, what):
-        print ("No %s here!" % what)
+        logger.warn("No %s here!" % what)
 
     def run(self):
-        # self.login()
-        # self.search()
-        # self.view_latest_tweets()
         self.update_user()
         self.scroll_down()
         time.sleep(2)
