@@ -51,10 +51,10 @@ class ScrapeBot(object):
 
     def __init__(self, hashtag, headless=True):
         self.locator_dictionary = TwitterLocator.__dict__
-        options = webdriver.ChromeOptions()
-        options.addArguments("--headless")
-        options.addArguments("--no-sandbox")
-        options.addArguments("--disable-dev-shm-usage")
+        options = Options()
+        options.add_argument("--headless")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
         self.browser = webdriver.Chrome(options=options, executable_path='driver/chromedriver')  # export PATH=$PATH:/path/to/chromedriver/folder
         url = "https://twitter.com/search?q=%23{}&src=tyah".format(hashtag)
         logger.info("Scraping hashtag: {}".format(hashtag))
