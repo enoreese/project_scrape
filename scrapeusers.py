@@ -72,9 +72,9 @@ class ScrapeBot(object):
         last_height = self.browser.execute_script("return document.body.scrollHeight")
         handles = self.browser.find_elements(*self.locator_dictionary['handle'])
         logger.info("Initial handles: {}".format(len(handles)))
-        no_tweets = len(handles)
+        last_handles = len(handles)
 
-        while no_tweets < limit:
+        while True:
             print("Scrolling Down...")
             # Scroll down to bottom
             self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
@@ -93,12 +93,16 @@ class ScrapeBot(object):
 
             handles = self.browser.find_elements(*self.locator_dictionary['handle'])
             logger.info("Gathered handles: {}".format(len(handles)))
-            no_tweets = len(handles)
-            # if new_height == last_height:
-            #     break
-            # last_height = new_height
-            # print("Last Height: ", last_height)
-            # time.sleep(1)
+
+            new_handles = len(handles)
+            print("New Height: ", new_handles)
+
+            if new_handles == last_handles:
+                break
+
+            last_handles = new_handles
+            print("Last Handles: ", last_handles)
+            time.sleep(1)
 
     def add_user(self, handle, userid):
         user = Person(
