@@ -51,21 +51,17 @@ class ScrapeBot(object):
 
     def __init__(self, hashtag, headless=True):
         self.locator_dictionary = TwitterLocator.__dict__
-        print("Loading....")
         options = Options()
         options.headless = True
         self.browser = webdriver.Chrome(options=options, executable_path='driver/chromedriver')  # export PATH=$PATH:/path/to/chromedriver/folder
-        print("get browser")
         url = "https://twitter.com/search?q=%23{}&src=tyah".format(hashtag)
         logger.info("Scraping hashtag: {}".format(hashtag))
         self.browser.get(url=url)
 
         self.timeout = 10
-        self.scroll_pause_time = 10
-        print("here 2")
+        self.scroll_pause_time = 2
         self.session = session_factory()
         self.handle = ""
-        print("finish init")
 
     def view_latest_tweets(self):
         self.latest_tweets.click()
@@ -116,13 +112,19 @@ class ScrapeBot(object):
         handles = self.browser.find_elements(*self.locator_dictionary['handle'])
         logger.info("len of handles: {}".format(len(handles)))
         for elements in handles:
-            handle_check = elements.find_element(*self.locator_dictionary['handle_real']).text
-            user = self.session.query(Person).filter_by(handle=handle_check).first()
-            if not user:
-                print('Not found duplicate...Skipping')
-                handle_id = elements.find_element(*self.locator_dictionary['handle_real']).text
-                userids = elements.get_attribute("data-user-id")
-                self.add_user(handle=handle_id, userid=userids)
+            print(elements.text)
+            handle = elements.text
+            if handle:
+                handle = handle.split('@')[1]
+                # handle_check = elements.find_element(*self.locator_dictionary['handle_real']).text
+                print(handle)
+                user = self.session.query(Person).filter_by(handle=handle).first()
+                if not user:
+                    print('Not found duplicate...Skipping')
+                    # handle_id = elements.find_element(*self.locator_dictionary['handle_real']).text
+                    userids = elements.get_attribute("data-user-id")
+                    print(userids)
+                    self.add_user(handle=handle, userid=userids)
 
     def _find_element(self, *loc):
         return self.browser.find_element(*loc)
