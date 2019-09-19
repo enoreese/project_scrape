@@ -52,8 +52,10 @@ class UpdateBot(object):
 
     def __init__(self, handle, headless=True):
         self.locator_dictionary = TwitterLocator.__dict__
-        options = Options()
-        options.headless = True
+        options = webdriver.ChromeOptions()
+        options.add_experimental_option("excludeSwitches", ["ignore-certificate-errors"])
+        options.add_argument('--disable-gpu')
+        options.add_argument('--headless')
         self.browser = webdriver.Chrome(chrome_options=options, executable_path='driver/chromedriver')  # export PATH=$PATH:/path/to/chromedriver/folder
         logger.info("Updating DB for handle: {}".format(handle))
         url = "https://twitter.com/{}".format(str(handle))
