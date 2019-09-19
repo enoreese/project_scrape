@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a4ef8ffc-212e-459b-96e4-930f5c5152e2" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/scraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/scraper.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scrapeusers.py" beforeDir="false" afterPath="$PROJECT_DIR$/scrapeusers.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -13,11 +14,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="scraper.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="scraper.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scraper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="146">
-              <caret line="174" column="8" selection-start-line="174" selection-start-column="8" selection-end-line="174" selection-end-column="8" />
+            <state relative-caret-position="333">
+              <caret line="61" column="46" lean-forward="true" selection-start-line="61" selection-start-column="46" selection-end-line="61" selection-end-column="46" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -34,11 +35,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="scrapeusers.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="scrapeusers.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scrapeusers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="299">
-              <caret line="89" column="19" selection-start-line="89" selection-start-column="19" selection-end-line="89" selection-end-column="19" />
+            <state relative-caret-position="142">
+              <caret line="55" column="51" selection-start-line="55" selection-start-column="51" selection-end-line="55" selection-end-column="51" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -104,9 +105,9 @@
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/hashtags.txt" />
         <option value="$PROJECT_DIR$/models/base.py" />
-        <option value="$PROJECT_DIR$/scraper.py" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/scrapeusers.py" />
+        <option value="$PROJECT_DIR$/scraper.py" />
       </list>
     </option>
   </component>
@@ -253,7 +254,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../../ASIN5/BoroMe/Twitter Scraper/main.py" />
     <entry file="file://$PROJECT_DIR$/../RecognizeNg/api/models/base.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -579,6 +579,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="244">
           <caret line="32" column="19" selection-start-line="32" selection-start-column="19" selection-end-line="32" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -609,16 +612,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scraper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="146">
-          <caret line="174" column="8" selection-start-line="174" selection-start-column="8" selection-end-line="174" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -626,10 +619,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file:///anaconda3/envs/Development/lib/python3.6/site-packages/selenium/common/exceptions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="207" column="6" selection-start-line="207" selection-start-column="6" selection-end-line="207" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/scrapeusers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="89" column="19" selection-start-line="89" selection-start-column="19" selection-end-line="89" selection-end-column="19" />
+        <state relative-caret-position="142">
+          <caret line="55" column="51" selection-start-line="55" selection-start-column="51" selection-end-line="55" selection-end-column="51" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scraper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="333">
+          <caret line="61" column="46" lean-forward="true" selection-start-line="61" selection-start-column="46" selection-end-line="61" selection-end-column="46" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>

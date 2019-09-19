@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-mysql_url = "mysql+pymysql://{}:{}@localhost:8889/{}".format(
+mysql_url = "mysql+pymysql://{}:{}@localhost:3306/{}".format(
     os.environ.get("DB_USERNAME"),
     os.environ.get("DB_PASSWORD"),
     os.environ.get("DB_NAME", "scrape_db")
