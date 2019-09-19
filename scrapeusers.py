@@ -9,10 +9,13 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.chrome.options import Options
 
 from models.users import Person
 from models.base import session_factory
+from scrapelog import ScrapeLog
+
+logger = ScrapeLog()
 
 
 class URL:
@@ -37,7 +40,7 @@ class TwitterLocator:
                 "//*[@id='react-root']/div/div/div/main/div/div/div/div[1]/div/div[2]/div/div/section/div/div/div/div[2]/div/article/div/div[2]/div[2]/div[4]/div[3]/div")
     latest_tweets = (By.PARTIAL_LINK_TEXT, 'Latest')
     handle = (By.CLASS_NAME, 'account-group')
-    handle_real = (By.CSS_SELECTOR, 'span.username')
+    handle_real = (By.XPATH, '//span[@dir="ltr"]')
     bio = (By.XPATH, '/html/body/div[2]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/p')
     location = (By.XPATH, '/html/body/div[2]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/div[1]/span[2]')
     website = (By.XPATH, '/html/body/div[2]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/div[2]/span[2]/a')
@@ -46,103 +49,50 @@ class TwitterLocator:
 
 class ScrapeBot(object):
 
-    def __init__(self):
+    def __init__(self, hashtag, headless=True):
         self.locator_dictionary = TwitterLocator.__dict__
         print("Loading....")
-        self.browser = webdriver.Chrome('/usr/local/bin/chromedriver')  # export PATH=$PATH:/path/to/chromedriver/folder
-        self.browser.get(URL.TWITTER)
+        options = Options()
+        options.headless = True
+        self.browser = webdriver.Chrome(options=options, executable_path='driver/chromedriver')  # export PATH=$PATH:/path/to/chromedriver/folder
+        print("get browser")
+        url = "https://twitter.com/search?q=%23{}&src=tyah".format(hashtag)
+        logger.info("Scraping hashtag: {}".format(hashtag))
+        self.browser.get(url=url)
 
         self.timeout = 10
-        self.scroll_pause_time = 5
+        self.scroll_pause_time = 10
+        print("here 2")
         self.session = session_factory()
         self.handle = ""
-
-    def login(self, username=Constants.USERNAME, password=Constants.PASSWORD):
-        # print(self.submit_btn)
-        self.username.send_keys(username)
-        self.password.send_keys(password)
-        self.submit_btn.click()
-
-    def search(self, q=Constants.GLOBAL_ENTRY_Q):
-        self.search_input.send_keys(q)
-        self.search_input.send_keys(Keys.ENTER)
+        print("finish init")
 
     def view_latest_tweets(self):
         self.latest_tweets.click()
 
-    def scroll_down(self, limit=50):
-        tweets = self.browser.find_elements(*self.locator_dictionary['tweets'])
-        no_tweets = len(tweets)
-        while no_tweets < limit:
+    def scroll(self):
+        logger.info("Scrolling... ")
+        # Get scroll height
+        last_height = self.browser.execute_script("return document.body.scrollHeight")
+        handles = self.browser.find_elements(*self.locator_dictionary['handle'])
+        logger.info("Initial handles: {}".format(len(handles)))
+
+        while True:
             # Scroll down to bottom
-            self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight)")
+            self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
             # Wait to load page
             time.sleep(self.scroll_pause_time)
 
-            tweets = self.browser.find_elements(*self.locator_dictionary['tweets'])
-            no_tweets = len(tweets)
+            # Calculate new scroll height and compare with last scroll height
+            new_height = self.browser.execute_script("return document.body.scrollHeight")
 
-    def like_tweet(self):
-        """
-        Like a random tweet
-        :return:
-        """
-        tweets = self.browser.find_elements(*self.locator_dictionary['tweets'])
-        tweet = random.choice(tweets)
-        for twet in tweets:
-            lik = twet.find_element(*self.locator_dictionary['like_btn'])
-            lik.click()
-            print("Liked Tweet: {}".format(twet.text))
-            time.sleep(5)
-        # like = tweet.find_element(*self.locator_dictionary['like_btn'])
-        # like.click()
-        # print("Liked Tweet: {}".format(tweet.text))
-        # time.sleep(5)
-
-    def add_tweet(self, tweets):
-        s3 = boto3.resource('s3')
-        t = time.localtime()
-        current_time = time.strftime("%H:%M:%S", t)
-        filename = "{}_tweets_{}.txt".format(self.handle, current_time)
-        tweet_file = s3.Object(os.environ.get('BUCKET_NAME'), filename)
-        tweet_file.put(Body=tweets)
-
-    def update_user(self):
-        self.handle = self.browser.find_element(*self.locator_dictionary['handle']).text
-
-        user = self.session.query(Person).filter_by(self.handle)
-        user.name = self.browser.find_element(*self.locator_dictionary['name']).text
-        user.handle = self.handle
-        user.bio = self.browser.find_element(*self.locator_dictionary['bio']).text
-        user.location = self.browser.find_element(*self.locator_dictionary['location']).text
-        user.website = self.browser.find_element(*self.locator_dictionary['website']).text
-        user.date_joined = self.browser.find_element(*self.locator_dictionary['date_joined']).text
-
-        self.session.add(user)
-        self.session.commit()
-        # self.session.close
-
-    def scroll(self):
-        time.sleep(5)
-        lenOfPage = self.browser.execute_script(
-            "window.scrollTo(0, document.body.scrollHeight);var lenOfPage=document.body.scrollHeight;return lenOfPage;")
-        time.sleep(5)
-        match = False
-        while (match == False):
-            lastCount = lenOfPage
-            time.sleep(3)
-            lenOfPage = self.browser.execute_script(
-                "window.scrollTo(0, document.body.scrollHeight);var lenOfPage=document.body.scrollHeight;return lenOfPage;")
-
-            self.browser.find_element_by_tag_name('body').send_keys(Keys.END)
-            print('scrolling...')
-            time.sleep(5)
-            if lastCount == lenOfPage:
-                match = True
-                print('end of scrolling...')
-                time.sleep(10)
-
+            handles = self.browser.find_elements(*self.locator_dictionary['handle'])
+            logger.info("Gathered handles: {}".format(len(handles)))
+            if new_height == last_height:
+                break
+            last_height = new_height
+            time.sleep(1)
 
     def add_user(self, handle, userid):
         user = Person(
@@ -162,11 +112,10 @@ class ScrapeBot(object):
         self.session.commit()
 
     def scrape_user(self):
+        logger.info("Scrape users on page...")
         handles = self.browser.find_elements(*self.locator_dictionary['handle'])
-        print(handles)
-        print("handelsssnijdiidjdj")
+        logger.info("len of handles: {}".format(len(handles)))
         for elements in handles:
-
             print(elements)
             handle_check = elements.find_element(*self.locator_dictionary['handle_real']).text
             user = self.session.query(Person).filter_by(handle=handle_check).first()
@@ -175,35 +124,6 @@ class ScrapeBot(object):
                 handle_id = elements.find_element(*self.locator_dictionary['handle_real']).text
                 userids = elements.get_attribute("data-user-id")
                 self.add_user(handle=handle_id, userid=userids)
-
-
-            # handle_id = elements.text
-
-                print(userids)
-                print(handle_id)
-
-            # self.mark_as_scraped()
-
-
-
-
-    def mark_as_scraped(self):
-        user = self.session.query(Person).filter_by(self.handle)
-
-        user.is_scraped = 1
-
-        self.session.add(user)
-        self.session.commit()
-        # self.session.close
-
-    def scrape_tweets(self):
-        all_tweets = ""
-        tweets = self.browser.find_elements(*self.locator_dictionary['tweets'])
-        for tweet in tweets:
-            all_tweets = all_tweets + tweet.text
-
-        self.add_tweet(tweets=all_tweets)
-        self.mark_as_scraped()
 
     def _find_element(self, *loc):
         return self.browser.find_element(*loc)
@@ -240,22 +160,7 @@ class ScrapeBot(object):
         print("No %s here!" % what)
 
     def run(self):
-        # self.login()
-        # self.search()
-        # self.view_latest_tweets()
-        # self.update_user()
-        # self.scroll_down()
-        # time.sleep(2)
-        # self.scrape_tweets()
+        print("running")
         self.scroll()
         self.scrape_user()
-        # self.browser.quit()
-
-if __name__ == '__main__':
-    ScrapeBot().run()
-
-
-
-
-
-
+        self.browser.quit()
