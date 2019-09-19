@@ -66,14 +66,15 @@ class ScrapeBot(object):
     def view_latest_tweets(self):
         self.latest_tweets.click()
 
-    def scroll(self):
+    def scroll(self, limit=1500):
         logger.info("Scrolling... ")
         # Get scroll height
         last_height = self.browser.execute_script("return document.body.scrollHeight")
         handles = self.browser.find_elements(*self.locator_dictionary['handle'])
         logger.info("Initial handles: {}".format(len(handles)))
+        no_tweets = len(handles)
 
-        while True:
+        while no_tweets < limit:
             print("Scrolling Down...")
             # Scroll down to bottom
             self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
@@ -82,21 +83,22 @@ class ScrapeBot(object):
             time.sleep(self.scroll_pause_time)
 
             # Calculate new scroll height and compare with last scroll height
-            try:
-                new_height = self.browser.execute_script("return document.body.scrollHeight")
-            except common.exceptions.TimeoutException as e:
-                logger.warn(e)
-                break
-
-            print("New Height: ", new_height)
+            # try:
+            #     new_height = self.browser.execute_script("return document.body.scrollHeight")
+            # except common.exceptions.TimeoutException as e:
+            #     logger.warn(e)
+            #     break
+            #
+            # print("New Height: ", new_height)
 
             handles = self.browser.find_elements(*self.locator_dictionary['handle'])
             logger.info("Gathered handles: {}".format(len(handles)))
-            if new_height == last_height:
-                break
-            last_height = new_height
-            print("Last Height: ", last_height)
-            time.sleep(1)
+            no_tweets = len(handles)
+            # if new_height == last_height:
+            #     break
+            # last_height = new_height
+            # print("Last Height: ", last_height)
+            # time.sleep(1)
 
     def add_user(self, handle, userid):
         user = Person(
