@@ -55,7 +55,7 @@ class ScrapeBot(object):
         options.add_argument("--disable-dev-shm-usage")
         options.add_argument("--disable-extensions")
         options.add_argument("disable-infobars")
-        self.browser = webdriver.Chrome(options=options, executable_path='driver/chromedriver')  # export PATH=$PATH:/path/to/chromedriver/folder
+        self.browser = webdriver.Chrome(chrome_options=options, executable_path='driver/chromedriver')  # export PATH=$PATH:/path/to/chromedriver/folder
         url = "https://twitter.com/search?q=%23{}&src=tyah".format(hashtag)
         logger.info("Scraping hashtag: {}".format(hashtag))
         self.browser.get(url=url)

@@ -58,7 +58,7 @@ class UpdateBot(object):
         options.add_argument("--disable-dev-shm-usage")
         options.add_argument("--disable-extensions")
         options.add_argument("disable-infobars")
-        self.browser = webdriver.Chrome(options=options, executable_path='driver/chromedriver')  # export PATH=$PATH:/path/to/chromedriver/folder
+        self.browser = webdriver.Chrome(chrome_options=options, executable_path='driver/chromedriver')  # export PATH=$PATH:/path/to/chromedriver/folder
         logger.info("Updating DB for handle: {}".format(handle))
         url = "https://twitter.com/{}".format(str(handle))
         self.browser.get(url)
