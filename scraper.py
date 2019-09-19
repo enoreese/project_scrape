@@ -53,6 +53,7 @@ class UpdateBot(object):
         self.locator_dictionary = TwitterLocator.__dict__
         options = Options()
         options.headless = headless
+        options.add_argument('--no-sandbox')
         self.browser = webdriver.Chrome(options=options, executable_path='driver/chromedriver')  # export PATH=$PATH:/path/to/chromedriver/folder
         logger.info("Updating DB for handle: {}".format(handle))
         url = "https://twitter.com/{}".format(str(handle))

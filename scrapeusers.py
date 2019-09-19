@@ -53,13 +53,14 @@ class ScrapeBot(object):
         self.locator_dictionary = TwitterLocator.__dict__
         options = Options()
         options.headless = True
+        options.add_argument('--no-sandbox')
         self.browser = webdriver.Chrome(options=options, executable_path='driver/chromedriver')  # export PATH=$PATH:/path/to/chromedriver/folder
         url = "https://twitter.com/search?q=%23{}&src=tyah".format(hashtag)
         logger.info("Scraping hashtag: {}".format(hashtag))
         self.browser.get(url=url)
 
         self.timeout = 10
-        self.scroll_pause_time = 2
+        self.scroll_pause_time = 5
         self.session = session_factory()
         self.handle = ""
 
