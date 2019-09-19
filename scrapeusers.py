@@ -128,8 +128,10 @@ class ScrapeBot(object):
         logger.info("Scrape users on page...")
         handles = self.browser.find_elements(*self.locator_dictionary['handle'])
         logger.info("len of handles: {}".format(len(handles)))
-        handles = [(handle.text.split('@')[1], handle.get_attribute("data-user-id"))
-                   if handle.text and '@' in handle.text else '' for handle in handles]
+        handles = [(handle.text.split('@')[1], handle.get_attribute("data-user-id")) for handle in handles
+                   if handle.text and '@' in handle.text]
+
+        print("len of handles: ", len(handles))
 
         for (handle, userid) in handles:
             print("User id: ", userid)
