@@ -73,7 +73,8 @@ class ScrapeBot(object):
     def scroll(self):
         logger.info("Scrolling... ")
         # Get scroll height
-        last_height = self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);var lenOfPage=document.body.scrollHeight;return lenOfPage;")
+        last_height = self.browser.execute_script(
+                        "return document.querySelectorAll('.stream-items > li.stream-item').length")
         handles = self.browser.find_elements(*self.locator_dictionary['handle'])
         logger.info("Initial handles: {}".format(len(handles)))
         last_handles = len(handles)
@@ -81,10 +82,15 @@ class ScrapeBot(object):
         i=0
         while True:
             print("Scrolling down..., I: ", i)
+
+            self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
+            time.sleep(self.scroll_pause_time)
+
             elemsCount = self.browser.execute_script(
                 "return document.querySelectorAll('.stream-items > li.stream-item').length")
 
-            self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            print("Elems count: ", elemsCount)
 
             try:
                 WebDriverWait(self.browser, 20).until(
@@ -93,6 +99,10 @@ class ScrapeBot(object):
                             elemsCount + 1) + "]"))
             except:
                 break
+
+            if elemsCount == last_height:
+                break
+            last_height = elemsCount
 
             i+=1
         logger.info("Gathered handles: {}".format(len(self.browser.find_elements(*self.locator_dictionary['handle']))))
