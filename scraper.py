@@ -136,22 +136,22 @@ class UpdateBot(object):
         self.handle = self.browser.find_element(*self.locator_dictionary['handle']).text
         print("Handle: ", self.handle)
 
-        # user = self.session.query(Person).filter_by(handle=self.handle)
+        user = self.session.query(Person).filter_by(handle=self.handle)
         # print("User: ", user)
-        # user.name = self.browser.find_element(*self.locator_dictionary['name']).text
+        user.name = self.browser.find_element(*self.locator_dictionary['name']).text
         print("Name: ", self.browser.find_element(*self.locator_dictionary['name']).text)
-        # user.handle = self.handle
-        # user.bio = self.browser.find_element(*self.locator_dictionary['bio']).text
+        user.handle = self.handle
+        user.bio = self.browser.find_element(*self.locator_dictionary['bio']).text
         print("Bio: ", self.browser.find_element(*self.locator_dictionary['bio']).text)
-        # user.location = self.browser.find_element(*self.locator_dictionary['location']).text
+        user.location = self.browser.find_element(*self.locator_dictionary['location']).text
         print("Location: ", self.browser.find_element(*self.locator_dictionary['location']).text)
-        # user.website = self.browser.find_element(*self.locator_dictionary['website']).text
+        user.website = self.browser.find_element(*self.locator_dictionary['website']).text
         print("Website: ", self.browser.find_element(*self.locator_dictionary['website']).text)
-        # user.date_joined = self.browser.find_element(*self.locator_dictionary['date_joined']).text
+        user.date_joined = self.browser.find_element(*self.locator_dictionary['date_joined']).text
         print("Date Joined: ", self.browser.find_element(*self.locator_dictionary['date_joined']).text)
 
-        # self.session.add(user)
-        # self.session.commit()
+        self.session.add(user)
+        self.session.commit()
         # self.session.close
 
     def mark_as_scraped(self):
