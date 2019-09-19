@@ -1,5 +1,6 @@
 from datetime import date
 import multiprocessing as mp
+import threading as th
 from models.users import Person
 from models.base import session_factory
 import time
@@ -42,16 +43,18 @@ class ScrapeUsers:
 
     def run(self):
         logger.info("Starting Handles Scraper in Parallel")
-        scrape_handles = mp.Process(target=self.scrape())
-        scrape_handles.start()
+        th.Thread(target=self.scrape()).start()
+        # scrape_handles = mp.Process(target=self.scrape())
+        # scrape_handles.start()
 
-        logger.info("Starting Handles Scraper in Parallel")
-        update_users = mp.Process(target=self.update())
-        update_users.start()
-
-        scrape_handles.join()
-
-        update_users.join()
+        logger.info("Starting Update Scraper in Parallel")
+        th.Thread(target=self.update()).start()
+        # update_users = mp.Process(target=self.update())
+        # update_users.start()
+        #
+        # scrape_handles.join()
+        #
+        # update_users.join()
 
 
 if __name__ == '__main__':

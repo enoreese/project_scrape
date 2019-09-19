@@ -116,7 +116,6 @@ class ScrapeBot(object):
         handles = self.browser.find_elements(*self.locator_dictionary['handle'])
         logger.info("len of handles: {}".format(len(handles)))
         for elements in handles:
-            print(elements)
             handle_check = elements.find_element(*self.locator_dictionary['handle_real']).text
             user = self.session.query(Person).filter_by(handle=handle_check).first()
             if not user:
