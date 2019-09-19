@@ -78,26 +78,23 @@ class ScrapeBot(object):
         logger.info("Initial handles: {}".format(len(handles)))
         last_handles = len(handles)
 
+        i=0
         while True:
-            print("Scrolling Down...")
-            # Scroll down to bottom
+            print("Scrolling down..., I: ", i)
+            elemsCount = self.browser.execute_script(
+                "return document.querySelectorAll('.stream-items > li.stream-item').length")
+
             self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
-            # Wait to load page
-            time.sleep(self.scroll_pause_time)
-
-            # Calculate new scroll height and compare with last scroll height
             try:
-                print("Getting new height...")
-                new_height = self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);var lenOfPage=document.body.scrollHeight;return lenOfPage;")
-            except common.exceptions.TimeoutException as e:
-                logger.warn(e)
+                WebDriverWait(self.browser, 20).until(
+                    lambda x: x.find_element_by_xpath(
+                        "//*[contains(@class,'stream-items')]/li[contains(@class,'stream-item')][" + str(
+                            elemsCount + 1) + "]"))
+            except:
                 break
 
-            if new_height == last_height:
-                break
-            last_height = new_height
-
+            i+=1
         logger.info("Gathered handles: {}".format(len(self.browser.find_elements(*self.locator_dictionary['handle']))))
 
     def add_user(self, handle, userid):
