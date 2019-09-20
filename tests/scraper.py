@@ -334,7 +334,7 @@ class TestSelenium2():
             print("GetItem succeeded:")
             users = json.dumps(item, indent=4, cls=DecimalEncoder)
 
-        users = [user.handle for user in users]
+        users = [user['handle'] for user in users]
         return users
 
     def test_update(self):
