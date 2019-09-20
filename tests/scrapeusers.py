@@ -4,7 +4,7 @@ import traceback
 import json
 import decimal
 import boto3
-from botocore.exceptions import ClientError
+
 from selenium import webdriver
 from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
 from selenium.webdriver.common.by import By

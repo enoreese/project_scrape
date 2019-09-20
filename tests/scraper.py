@@ -6,6 +6,7 @@ import boto3
 import sqlalchemy.exc
 import json, decimal
 from selenium import webdriver
+from botocore.exceptions import ClientError
 from selenium.common.exceptions import StaleElementReferenceException, TimeoutException, NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -319,11 +320,23 @@ class UpdateBot(object):
 
 class TestSelenium2():
     def __get_users(self):
-        session = session_factory()
-        users = session.query(Person).filter_by(is_scraped=0)
-        session.close()
-        users = users.all()
-        users = [str(user.handle) for user in users]
+        dynamodb = boto3.resource("dynamodb", region_name='us-west-2', endpoint_url="http://localhost:8000")
+
+        table = dynamodb.Table('person')
+        try:
+            response = table.get_item(
+                Key={
+                    'is_scraped': 0,
+                }
+            )
+        except ClientError as e:
+            logger.warn(e.response['Error']['Message'])
+        else:
+            item = response['Item']
+            print("GetItem succeeded:")
+            users = json.dumps(item, indent=4, cls=DecimalEncoder)
+
+        users = [user.handle for user in users]
         return users
 
     def test_update(self):
