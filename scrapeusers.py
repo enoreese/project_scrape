@@ -194,7 +194,8 @@ def scrape():
 
 if __name__ == '__main__':
     logger.info("Starting Handles Scraper in Parallel")
-    scrape_handles = mp.Process(target=scrape)
-    scrape_handles.start()
-
-    scrape_handles.join()
+    # scrape_handles = mp.Process(target=scrape)
+    # scrape_handles.start()
+    #
+    # scrape_handles.join()
+    scrape()

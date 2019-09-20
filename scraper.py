@@ -262,7 +262,8 @@ def update():
 
 if __name__ == '__main__':
     logger.info("Starting Update Scraper in Parallel")
-    update_users = mp.Process(target=update)
-    update_users.start()
-
-    update_users.join()
+    # update_users = mp.Process(target=update)
+    # update_users.start()
+    #
+    # update_users.join()
+    update()
