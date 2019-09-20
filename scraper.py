@@ -66,6 +66,7 @@ class UpdateBot(object):
         self.scroll_pause_time = 5
         self.session = session_factory()
         self.handle = handle
+        self.filename = ''
 
         # self.memc = base.Client(('localhost', 11211))
 
@@ -132,8 +133,8 @@ class UpdateBot(object):
         s3 = boto3.resource('s3')
         t = time.localtime()
         current_time = time.strftime("%H:%M:%S", t)
-        filename = "{}_tweets_{}.txt".format(self.handle, current_time)
-        tweet_file = s3.Object(os.environ.get('BUCKET_NAME'), filename)
+        self.filename = "{}_tweets_{}.txt".format(self.handle, current_time)
+        tweet_file = s3.Object(os.environ.get('BUCKET_NAME'), self.filename)
         tweet_file.put(Body=tweets)
 
     def update_user(self):
@@ -170,6 +171,7 @@ class UpdateBot(object):
         user = self.session.query(Person).filter_by(handle=self.handle).first()
 
         user.is_scraped = 1
+        user.tweets = self.filename
 
         self.session.add(user)
         self.session.commit()
