@@ -11,7 +11,6 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.chrome.options import Options
-import multiprocessing as mp
 # from pymemcache.client import base
 from models.users import Person
 from models.base import session_factory
@@ -240,30 +239,30 @@ class UpdateBot(object):
         self.browser.quit()
 
 
-def __get_users():
-    session = session_factory()
-    users = session.query(Person).filter_by(is_scraped=0)
-    session.close()
-    users = users.all()
-    users = [str(user.handle) for user in users]
-    return users
+class TestSelenium2():
+    def __get_users(self):
+        session = session_factory()
+        users = session.query(Person).filter_by(is_scraped=0)
+        session.close()
+        users = users.all()
+        users = [str(user.handle) for user in users]
+        return users
 
+    def test_update(self):
+        while True:
+            users = self.__get_users()
+            for user in users:
+                if user:
+                    logger.info("Updating user: {}".format(user))
+                    UpdateBot(handle=str(user)).run()
+                    time.sleep(5)
+            time.sleep(60)
 
-def update():
-    while True:
-        users = __get_users()
-        for user in users:
-            if user:
-                logger.info("Updating user: {}".format(user))
-                UpdateBot(handle=str(user)).run()
-                time.sleep(5)
-        time.sleep(60)
-
-
-if __name__ == '__main__':
-    logger.info("Starting Update Scraper in Parallel")
-    # update_users = mp.Process(target=update)
-    # update_users.start()
-    #
-    # update_users.join()
-    update()
+#
+# if __name__ == '__main__':
+#     logger.info("Starting Update Scraper in Parallel")
+#     # update_users = mp.Process(target=update)
+#     # update_users.start()
+#     #
+#     # update_users.join()
+#     update()

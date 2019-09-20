@@ -6,7 +6,7 @@ import subprocess
 # activate_this = "/home/ubuntu/tensorflow/bin/activate_this.py"
 # exec(open(activate_this).read(), dict(__file__=activate_this))
 
-from scrapelog import ScrapeLog
+from tests.scrapelog import ScrapeLog
 
 
 logger = ScrapeLog()

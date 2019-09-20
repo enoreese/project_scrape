@@ -1,12 +1,10 @@
-from datetime import date
 import multiprocessing as mp
-import threading as th
-from models.users import Person
-from models.base import session_factory
+from tests.models.users import Person
+from tests.models.base import session_factory
 import time
-from scraper import UpdateBot
-from scrapeusers import ScrapeBot
-from scrapelog import ScrapeLog
+from tests.scraper import UpdateBot
+from tests.scrapeusers import ScrapeBot
+from tests.scrapelog import ScrapeLog
 
 print("loading logger")
 logger = ScrapeLog()

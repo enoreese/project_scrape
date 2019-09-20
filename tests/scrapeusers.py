@@ -1,18 +1,15 @@
 import os
 import time
 import traceback
-import sqlalchemy.exc
-from selenium import webdriver, common
+from selenium import webdriver
 from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.keys import Keys
-import multiprocessing as mp
-from models.users import Person
-from models.base import session_factory
-from scrapelog import ScrapeLog
+from .models.users import Person
+from .models.base import session_factory
+from tests.scrapelog import ScrapeLog
 
 logger = ScrapeLog()
 
@@ -184,18 +181,19 @@ class ScrapeBot(object):
         self.browser.quit()
 
 
-def scrape():
-    with open('hashtags.txt', 'r') as file:
-        data = file.read().replace('\n', '')
-        hashtags = data.split(",")
-        for hashtag in hashtags:
-            ScrapeBot(hashtag=hashtag).run()
+class TestSelenium1():
+    def test_scrape(self):
+        with open('hashtags.txt', 'r') as file:
+            data = file.read().replace('\n', '')
+            hashtags = data.split(",")
+            for hashtag in hashtags:
+                ScrapeBot(hashtag=hashtag).run()
 
 
-if __name__ == '__main__':
-    logger.info("Starting Handles Scraper in Parallel")
-    # scrape_handles = mp.Process(target=scrape)
-    # scrape_handles.start()
-    #
-    # scrape_handles.join()
-    scrape()
+# if __name__ == '__main__':
+#     logger.info("Starting Handles Scraper in Parallel")
+#     # scrape_handles = mp.Process(target=scrape)
+#     # scrape_handles.start()
+#     #
+#     # scrape_handles.join()
+#     scrape()
