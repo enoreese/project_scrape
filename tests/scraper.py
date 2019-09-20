@@ -197,6 +197,8 @@ class UpdateBot(object):
             name = 'false'
         bio = self.browser.find_element(*self.locator_dictionary['bio']).text
         print("Bio: ", bio)
+        if not bio:
+            bio = 'empty'
         location = self.browser.find_element(*self.locator_dictionary['location']).text
         print("Location: ", location)
         if not location:
