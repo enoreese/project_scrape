@@ -131,7 +131,6 @@ class UpdateBot(object):
 
     def update_user(self):
         logger.info("Updating User...")
-        self.handle = self.browser.find_element(*self.locator_dictionary['handle']).text
         print("Handle: ", self.handle)
 
         user = self.session.query(Person).filter_by(handle=self.handle).first()
