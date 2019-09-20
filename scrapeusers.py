@@ -9,7 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
-
+import multiprocessing as mp
 from models.users import Person
 from models.base import session_factory
 from scrapelog import ScrapeLog
@@ -182,3 +182,19 @@ class ScrapeBot(object):
         self.scroll()
         self.scrape_user()
         self.browser.quit()
+
+
+def scrape():
+    with open('hashtags.txt', 'r') as file:
+        data = file.read().replace('\n', '')
+        hashtags = data.split(",")
+        for hashtag in hashtags:
+            ScrapeBot(hashtag=hashtag).run()
+
+
+if __name__ == '__main__':
+    logger.info("Starting Handles Scraper in Parallel")
+    scrape_handles = mp.Process(target=scrape)
+    scrape_handles.start()
+
+    scrape_handles.join()
