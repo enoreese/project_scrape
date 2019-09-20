@@ -34,11 +34,15 @@ class ScrapeUsers:
                 ScrapeBot(hashtag=hashtag).run()
 
     def update(self, users):
-        for user in users:
-            if user:
-                logger.info("Updating user: {}".format(user))
-                UpdateBot(handle=str(user)).run()
-                time.sleep(5)
+        while True:
+            users = self.__get_users()
+            for user in users:
+                if user:
+                    logger.info("Updating user: {}".format(user))
+                    UpdateBot(handle=str(user)).run()
+                    time.sleep(5)
+            time.sleep(60)
+
             # time.sleep(50)
 
     def run(self):
@@ -47,21 +51,15 @@ class ScrapeUsers:
         # th.Thread(target=self.scrape()).start()
         scrape_handles = mp.Process(target=self.scrape)
         scrape_handles.start()
-        scrape_handles.join()
 
         logger.info("Starting Update Scraper in Parallel")
         # self.update()
         # th.Thread(target=self.update()).start()
-        while True:
-            users = self.__get_users()
-            update_users = mp.Process(self.update, (users,))
-            update_users.start()
-            update_users.join()
-            time.sleep(60)
-        #
+        update_users = mp.Process(self.update)
+        update_users.start()
 
-        #
-
+        scrape_handles.join()
+        update_users.join()
 
 
 if __name__ == '__main__':
