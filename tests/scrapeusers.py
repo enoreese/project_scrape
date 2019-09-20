@@ -68,7 +68,7 @@ class ScrapeBot(object):
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
         self.browser = webdriver.Chrome(options=options,
-                                        executable_path='../../chromedriver')  # export PATH=$PATH:/path/to/chromedriver/folder
+                                        executable_path='/home/ubuntu/scraper/chromedriver')  # export PATH=$PATH:/path/to/chromedriver/folder
         url = "https://twitter.com/search?q=%23{}&src=tyah".format(hashtag)
         logger.info("Scraping hashtag: {}".format(hashtag))
         self.browser.get(url=url)
