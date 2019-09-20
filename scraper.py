@@ -187,7 +187,6 @@ class UpdateBot(object):
         all_tweets = ' '.join(all_tweets)
 
         self.add_tweet(tweets=all_tweets)
-        self.mark_as_scraped()
 
     def _find_element(self, *loc):
         return self.browser.find_element(*loc)
@@ -228,6 +227,7 @@ class UpdateBot(object):
         self.scroll_down()
         time.sleep(2)
         self.scrape_tweets()
+        self.mark_as_scraped()
         self.browser.quit()
 
 
