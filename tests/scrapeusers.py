@@ -76,7 +76,7 @@ class ScrapeBot(object):
         self.no_of_pagedowns = 100
 
         self.timeout = 10
-        self.scroll_pause_time = 3
+        self.scroll_pause_time = 5
         self.session = session_factory()
         self.handle = ""
 
