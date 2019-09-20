@@ -325,7 +325,7 @@ class TestSelenium2():
         table = dynamodb.Table('person')
         try:
             response = table.query(
-                KeyConditionExpression=Attr('is_scraped').eq(0)
+                FilterExpression=Attr('is_scraped').eq(0)
             )
         except ClientError as e:
             logger.warn(e.response['Error']['Message'])
