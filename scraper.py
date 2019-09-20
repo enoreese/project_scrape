@@ -85,7 +85,10 @@ class UpdateBot(object):
     def scroll_down(self, limit=100):
         tweets = self.browser.find_elements(*self.locator_dictionary['tweets'])
         tweets_no = self.browser.find_element(*self.locator_dictionary['tweets_no']).text
-        tweets_no = float(tweets_no.replace(',',''))
+        if 'K' in tweets_no or 'M' in tweets_no:
+            tweets_no = limit
+        else:
+            tweets_no = float(tweets_no.replace(',', ''))
         print("Tweets No: ", tweets_no)
         if tweets_no < limit:
             limit = tweets_no
