@@ -6,7 +6,7 @@ import decimal
 import boto3
 
 from selenium import webdriver
-from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
+from selenium.common.exceptions import StaleElementReferenceException, TimeoutException, WebDriverException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
@@ -234,7 +234,10 @@ class TestSelenium1():
             data = file.read().replace('\n', '')
             hashtags = data.split(",")
             for hashtag in hashtags:
-                ScrapeBot(hashtag=hashtag).run()
+                try:
+                    ScrapeBot(hashtag=hashtag).run()
+                except WebDriverException as e:
+                    logger.warn(e)
 
 # if __name__ == '__main__':
 #     logger.info("Starting Handles Scraper in Parallel")
