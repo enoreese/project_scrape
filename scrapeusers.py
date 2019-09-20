@@ -132,9 +132,11 @@ class ScrapeBot(object):
         for handle in handles:
             if handle.text and '@' in handle.text:
                 handle, userid = handle.text.split('@')[1], handle.get_attribute("data-user-id")
-                print("User id: ", userid)
-                print("Handle: ", handle)
+                # print("User id: ", userid)
+                # print("Handle: ", handle)
                 self.add_user(handle=handle, userid=userid)
+
+        logger.info("Finish Scrape User tweet")
 
     def _find_element(self, *loc):
         return self.browser.find_element(*loc)
