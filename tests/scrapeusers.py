@@ -67,7 +67,7 @@ class ScrapeBot(object):
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
-        self.browser = webdriver.Chrome(chrome_options=options,
+        self.browser = webdriver.Chrome(options=options,
                                         executable_path='../chromedriver')  # export PATH=$PATH:/path/to/chromedriver/folder
         url = "https://twitter.com/search?q=%23{}&src=tyah".format(hashtag)
         logger.info("Scraping hashtag: {}".format(hashtag))
@@ -91,6 +91,10 @@ class ScrapeBot(object):
                 "return document.querySelectorAll('.stream-items > li.stream-item').length")
         except TimeoutException as e:
             logger.warn(e)
+            time.sleep(3)
+            last_height = self.browser.execute_script(
+                "return document.querySelectorAll('.stream-items > li.stream-item').length")
+        else:
             last_height = 0
         handles = self.browser.find_elements(*self.locator_dictionary['handle'])
         logger.info("Initial handles: {}".format(len(handles)))
@@ -100,7 +104,14 @@ class ScrapeBot(object):
         while True:
             print("Scrolling down..., I: ", i)
 
-            self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            try:
+                self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            except TimeoutException as e:
+                logger.warn(e)
+                time.sleep(3)
+                self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            else:
+                break
 
             time.sleep(self.scroll_pause_time)
 
