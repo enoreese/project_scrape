@@ -7,9 +7,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.chrome.options import Options
-from .models.users import Person
-from .models.base import session_factory
-from tests.scrapelog import ScrapeLog
+from models.users import Person
+from models.base import session_factory
+from scrapelog import ScrapeLog
 
 logger = ScrapeLog()
 
