@@ -183,7 +183,7 @@ class UpdateBot(object):
         # self.session.close
 
     def update_user_dynamo(self):
-        dynamodb = boto3.resource('dynamodb')
+        dynamodb = boto3.resource('dynamodb', region_name='us-east-2')
 
         table = dynamodb.Table('person')
 
@@ -238,7 +238,7 @@ class UpdateBot(object):
         # self.session.close
 
     def mark_as_scraped_dynamo(self):
-        dynamodb = boto3.resource('dynamodb')
+        dynamodb = boto3.resource('dynamodb', region_name='us-east-2')
 
         table = dynamodb.Table('person')
 
@@ -319,7 +319,7 @@ class UpdateBot(object):
 
 class TestSelenium2():
     def __get_users(self):
-        dynamodb = boto3.resource("dynamodb")
+        dynamodb = boto3.resource("dynamodb", region_name='us-east-2')
         users = []
         table = dynamodb.Table('person')
         try:
