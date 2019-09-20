@@ -102,7 +102,7 @@ class ScrapeBot(object):
 
         i = 0
         while True:
-            print("Scrolling down..., I: ", i)
+            logger.info("Scrolling down..., I: ", i)
 
             try:
                 self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
