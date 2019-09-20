@@ -33,7 +33,7 @@ class ScrapeUsers:
             for hashtag in hashtags:
                 ScrapeBot(hashtag=hashtag).run()
 
-    def update(self, users):
+    def update(self):
         while True:
             users = self.__get_users()
             for user in users:
