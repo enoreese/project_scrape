@@ -14,8 +14,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.chrome.options import Options
 # from pymemcache.client import base
-from models.users import Person
-from models.base import session_factory
+# from models.users import Person
+# from models.base import session_factory
 from scrapelog import ScrapeLog
 
 
@@ -77,7 +77,7 @@ class UpdateBot(object):
     
         self.timeout = 10
         self.scroll_pause_time = 5
-        self.session = session_factory()
+        # self.session = session_factory()
         self.handle = handle
         self.filename = ''
 
@@ -150,44 +150,43 @@ class UpdateBot(object):
         tweet_file = s3.Object(os.environ.get('BUCKET_NAME'), self.filename)
         tweet_file.put(Body=tweets)
 
-    def update_user(self):
-        logger.info("Updating User...")
-        print("Handle: ", self.handle)
-
-        user = self.session.query(Person).filter_by(handle=self.handle).first()
-        try:
-            name = self.browser.find_element(*self.locator_dictionary['name']).text
-            name = name.encode('ascii', 'ignore').decode('ascii')
-            print("Name: ", name)
-        except sqlalchemy.exc.InternalError as e:
-            logger.warn(e)
-            name = ''
-        user.name = name
-        user.bio = self.browser.find_element(*self.locator_dictionary['bio']).text
-        print("Bio: ", self.browser.find_element(*self.locator_dictionary['bio']).text)
-        user.location = self.browser.find_element(*self.locator_dictionary['location']).text
-        print("Location: ", self.browser.find_element(*self.locator_dictionary['location']).text)
-
-        try:
-            website = self.browser.find_element(*self.locator_dictionary['website']).text
-            print("Website: ", self.browser.find_element(*self.locator_dictionary['website']).text)
-        except NoSuchElementException as e:
-            logger.warn(e)
-            website = ''
-        user.website = website
-        user.date_joined = self.browser.find_element(*self.locator_dictionary['date_joined']).text
-        print("Date Joined: ", self.browser.find_element(*self.locator_dictionary['date_joined']).text)
-
-        self.session.add(user)
-        self.session.commit()
+    # def update_user(self):
+    #     logger.info("Updating User...")
+    #     print("Handle: ", self.handle)
+    #
+    #     user = self.session.query(Person).filter_by(handle=self.handle).first()
+    #     try:
+    #         name = self.browser.find_element(*self.locator_dictionary['name']).text
+    #         name = name.encode('ascii', 'ignore').decode('ascii')
+    #         print("Name: ", name)
+    #     except sqlalchemy.exc.InternalError as e:
+    #         logger.warn(e)
+    #         name = ''
+    #     user.name = name
+    #     user.bio = self.browser.find_element(*self.locator_dictionary['bio']).text
+    #     print("Bio: ", self.browser.find_element(*self.locator_dictionary['bio']).text)
+    #     user.location = self.browser.find_element(*self.locator_dictionary['location']).text
+    #     print("Location: ", self.browser.find_element(*self.locator_dictionary['location']).text)
+    #
+    #     try:
+    #         website = self.browser.find_element(*self.locator_dictionary['website']).text
+    #         print("Website: ", self.browser.find_element(*self.locator_dictionary['website']).text)
+    #     except NoSuchElementException as e:
+    #         logger.warn(e)
+    #         website = ''
+    #     user.website = website
+    #     user.date_joined = self.browser.find_element(*self.locator_dictionary['date_joined']).text
+    #     print("Date Joined: ", self.browser.find_element(*self.locator_dictionary['date_joined']).text)
+    #
+    #     self.session.add(user)
+    #     self.session.commit()
         # self.session.close
 
     def update_user_dynamo(self):
-        dynamodb = boto3.resource('dynamodb', region_name='us-west-2', endpoint_url="http://localhost:8000")
+        dynamodb = boto3.resource('dynamodb', region_name='us-west-2', endpoint_url="http://dynamodb.us-east-2.amazonaws.com")
 
         table = dynamodb.Table('person')
 
-        user = self.session.query(Person).filter_by(handle=self.handle).first()
         try:
             name = self.browser.find_element(*self.locator_dictionary['name']).text
             name = name.encode('ascii', 'ignore').decode('ascii')
@@ -227,19 +226,19 @@ class UpdateBot(object):
         print("User updated:")
         print(json.dumps(response, indent=4, cls=DecimalEncoder))
 
-    def mark_as_scraped(self):
-        logger.info("Mark user as scraped")
-        user = self.session.query(Person).filter_by(handle=self.handle).first()
-
-        user.is_scraped = 1
-        user.tweets = self.filename
-
-        self.session.add(user)
-        self.session.commit()
+    # def mark_as_scraped(self):
+    #     logger.info("Mark user as scraped")
+    #     user = self.session.query(Person).filter_by(handle=self.handle).first()
+    #
+    #     user.is_scraped = 1
+    #     user.tweets = self.filename
+    #
+    #     self.session.add(user)
+    #     self.session.commit()
         # self.session.close
 
     def mark_as_scraped_dynamo(self):
-        dynamodb = boto3.resource('dynamodb', region_name='us-west-2', endpoint_url="http://localhost:8000")
+        dynamodb = boto3.resource('dynamodb', region_name='us-west-2', endpoint_url="http://dynamodb.us-east-2.amazonaws.com")
 
         table = dynamodb.Table('person')
 
@@ -258,13 +257,13 @@ class UpdateBot(object):
         print("User updated:")
         print(json.dumps(response, indent=4, cls=DecimalEncoder))
 
-    def get_users(self):
-        try:
-            users = self.session.query(Person).filter_by(is_scraped=0)
-        except sqlalchemy.exc.InternalError as e:
-            logger.warn(e)
-
-        return users
+    # def get_users(self):
+    #     try:
+    #         users = self.session.query(Person).filter_by(is_scraped=0)
+    #     except sqlalchemy.exc.InternalError as e:
+    #         logger.warn(e)
+    #
+    #     return users
 
     def scrape_tweets(self):
         tweets = self.browser.find_elements(*self.locator_dictionary['tweets'])
@@ -320,7 +319,7 @@ class UpdateBot(object):
 
 class TestSelenium2():
     def __get_users(self):
-        dynamodb = boto3.resource("dynamodb", region_name='us-west-2', endpoint_url="http://localhost:8000")
+        dynamodb = boto3.resource("dynamodb", region_name='us-west-2', endpoint_url="http://dynamodb.us-east-2.amazonaws.com")
 
         table = dynamodb.Table('person')
         try:
