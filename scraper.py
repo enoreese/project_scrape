@@ -142,9 +142,14 @@ class UpdateBot(object):
         print("Handle: ", self.handle)
 
         user = self.session.query(Person).filter_by(handle=self.handle).first()
-        # print("User: ", user)
-        user.name = self.browser.find_element(*self.locator_dictionary['name']).text
-        print("Name: ", self.browser.find_element(*self.locator_dictionary['name']).text)
+        try:
+            name = self.browser.find_element(*self.locator_dictionary['name']).text
+            name = name.encode('ascii', 'ignore').decode('ascii')
+            print("Name: ", name)
+        except sqlalchemy.exc.InternalError as e:
+            logger.warn(e)
+            name = ''
+        user.name = name
         user.bio = self.browser.find_element(*self.locator_dictionary['bio']).text
         print("Bio: ", self.browser.find_element(*self.locator_dictionary['bio']).text)
         user.location = self.browser.find_element(*self.locator_dictionary['location']).text
@@ -156,9 +161,7 @@ class UpdateBot(object):
         except NoSuchElementException as e:
             logger.warn(e)
             website = ''
-
         user.website = website
-
         user.date_joined = self.browser.find_element(*self.locator_dictionary['date_joined']).text
         print("Date Joined: ", self.browser.find_element(*self.locator_dictionary['date_joined']).text)
 
