@@ -55,7 +55,7 @@ class ScrapeUsers:
         logger.info("Starting Update Scraper in Parallel")
         # self.update()
         # th.Thread(target=self.update()).start()
-        update_users = mp.Process(self.update)
+        update_users = mp.Process(target=self.update)
         update_users.start()
 
         scrape_handles.join()

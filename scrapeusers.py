@@ -131,7 +131,7 @@ class ScrapeBot(object):
 
         for handle in handles:
             if handle.text and '@' in handle.text:
-                handle = handle.text.split('@')[1]
+                handle_txt = handle.text.split('@')[1]
                 try:
                     userid = handle.get_attribute("data-user-id")
                 except TimeoutException as e:
@@ -139,7 +139,7 @@ class ScrapeBot(object):
                     userid = ''
                 # print("User id: ", userid)
                 # print("Handle: ", handle)
-                self.add_user(handle=handle, userid=userid)
+                self.add_user(handle=handle_txt, userid=userid)
 
         logger.info("Finish Scrape User tweet")
 
