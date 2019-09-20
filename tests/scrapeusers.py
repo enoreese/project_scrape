@@ -225,7 +225,6 @@ class ScrapeBot(object):
                     userid = ''
                 # print("User id: ", userid)
                 # print("Handle: ", handle)
-                logger.info("saving to DynamoDB")
                 self.add_user_dynamo(handle=handle_txt, user_id=userid)
 
         logger.info("Finish Scrape User handles")
