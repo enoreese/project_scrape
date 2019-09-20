@@ -110,8 +110,6 @@ class ScrapeBot(object):
                 logger.warn(e)
                 time.sleep(3)
                 self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            else:
-                break
 
             time.sleep(self.scroll_pause_time)
 
@@ -238,6 +236,8 @@ class TestSelenium1():
                     ScrapeBot(hashtag=hashtag).run()
                 except WebDriverException as e:
                     logger.warn(e)
+                    time.sleep(3)
+                    ScrapeBot(hashtag=hashtag).run()
 
 # if __name__ == '__main__':
 #     logger.info("Starting Handles Scraper in Parallel")
