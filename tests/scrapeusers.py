@@ -142,7 +142,7 @@ class ScrapeBot(object):
         self.session.commit()
 
     def add_user_dynamo(self, handle, user_id):
-        dynamodb = boto3.resource("dynamodb", region_name='us-west-2', endpoint_url="http://dynamodb.us-east-2.amazonaws.com")
+        dynamodb = boto3.resource("dynamodb", region_name='us-east-2', endpoint_url="http://dynamodb.us-east-2.amazonaws.com")
 
         table = dynamodb.Table('Person')
 
