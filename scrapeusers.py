@@ -62,8 +62,8 @@ class ScrapeBot(object):
 
         self.no_of_pagedowns = 100
 
-        self.timeout = 20
-        self.scroll_pause_time = 7
+        self.timeout = 10
+        self.scroll_pause_time = 3
         self.session = session_factory()
         self.handle = ""
 
@@ -131,7 +131,12 @@ class ScrapeBot(object):
 
         for handle in handles:
             if handle.text and '@' in handle.text:
-                handle, userid = handle.text.split('@')[1], handle.get_attribute("data-user-id")
+                handle = handle.text.split('@')[1]
+                try:
+                    userid = handle.get_attribute("data-user-id")
+                except TimeoutException as e:
+                    logger.warn(e)
+                    userid = ''
                 # print("User id: ", userid)
                 # print("Handle: ", handle)
                 self.add_user(handle=handle, userid=userid)

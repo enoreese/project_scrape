@@ -22,7 +22,9 @@ class ScrapeUsers:
     def __get_users(self):
         users = self.session.query(Person).filter_by(is_scraped=0)
         self.session.close()
-        return users.all()
+        users = users.all()
+        users = [str(user.handle) for user in users]
+        return users
 
     def scrape(self):
         with open('hashtags.txt', 'r') as file:
@@ -51,12 +53,14 @@ class ScrapeUsers:
         logger.info("Starting Update Scraper in Parallel")
         # self.update()
         # th.Thread(target=self.update()).start()
-        update_users = mp.Process(target=self.update)
-        update_users.start()
+        p = mp.Pool(3)
+        output = p.map(self.update, self.__get_users())
+        # update_users = mp.Process(target=self.update)
+        # update_users.start()
         #
         scrape_handles.join()
         #
-        update_users.join()
+        # update_users.join()
 
 
 if __name__ == '__main__':
