@@ -103,8 +103,12 @@ class UpdateBot(object):
             time.sleep(self.scroll_pause_time)
 
             tweets = self.browser.find_elements(*self.locator_dictionary['tweets'])
-            no_tweets = len(tweets)
-            logger.info("Gathered {} tweets".format(no_tweets))
+            new_tweets = len(tweets)
+            logger.info("Gathered {} tweets".format(new_tweets))
+
+            if no_tweets == new_tweets:
+                break
+            no_tweets = new_tweets
 
     def like_tweet(self):
         """
