@@ -102,7 +102,7 @@ class ScrapeBot(object):
 
         i = 0
         while True:
-            logger.info("Scrolling down..., I: ", i)
+            logger.info("Scrolling down..., I: ".format( i))
 
             try:
                 self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
@@ -116,7 +116,7 @@ class ScrapeBot(object):
             elemsCount = self.browser.execute_script(
                 "return document.querySelectorAll('.stream-items > li.stream-item').length")
 
-            logger.info("Elems count: ", elemsCount)
+            logger.info("Elems count: {}".format( elemsCount))
 
             try:
                 WebDriverWait(self.browser, 20).until(
