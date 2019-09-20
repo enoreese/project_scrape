@@ -45,18 +45,18 @@ class ScrapeUsers:
         logger.info("Starting Handles Scraper in Parallel")
         # self.scrape()
         # th.Thread(target=self.scrape()).start()
-        # scrape_handles = mp.Process(target=self.scrape)
-        # scrape_handles.start()
+        scrape_handles = mp.Process(target=self.scrape)
+        scrape_handles.start()
 
         logger.info("Starting Update Scraper in Parallel")
-        self.update()
+        # self.update()
         # th.Thread(target=self.update()).start()
-        # update_users = mp.Process(target=self.update)
-        # update_users.start()
+        update_users = mp.Process(target=self.update)
+        update_users.start()
         #
-        # scrape_handles.join()
+        scrape_handles.join()
         #
-        # update_users.join()
+        update_users.join()
 
 
 if __name__ == '__main__':
