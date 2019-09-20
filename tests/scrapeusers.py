@@ -86,8 +86,12 @@ class ScrapeBot(object):
     def scroll(self):
         logger.info("Scrolling... ")
         # Get scroll height
-        last_height = self.browser.execute_script(
-            "return document.querySelectorAll('.stream-items > li.stream-item').length")
+        try:
+            last_height = self.browser.execute_script(
+                "return document.querySelectorAll('.stream-items > li.stream-item').length")
+        except TimeoutException as e:
+            logger.warn(e)
+            last_height = 0
         handles = self.browser.find_elements(*self.locator_dictionary['handle'])
         logger.info("Initial handles: {}".format(len(handles)))
         last_handles = len(handles)
