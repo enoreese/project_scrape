@@ -330,9 +330,9 @@ class TestSelenium2():
         except ClientError as e:
             logger.warn(e.response['Error']['Message'])
         else:
-            item = response['Items']
+            users = response['Items']
             print("GetItem succeeded:")
-            users = json.dumps(item, indent=4, cls=DecimalEncoder)
+            # users = json.dumps(item, indent=4, cls=DecimalEncoder)
 
         users = [user['handle'] for user in users]
         return users
