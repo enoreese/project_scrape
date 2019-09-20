@@ -215,7 +215,7 @@ class UpdateBot(object):
             Key={
                 'handle': self.handle,
             },
-            UpdateExpression="set name = :n, bio=:b, location=:l, website=:w, date_joined=:j",
+            UpdateExpression="set twitter_name=:n, bio=:b, location=:l, website=:w, date_joined=:j",
             ExpressionAttributeValues={
                 ':n': name,
                 ':b': bio,

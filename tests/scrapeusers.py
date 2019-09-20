@@ -116,7 +116,7 @@ class ScrapeBot(object):
             elemsCount = self.browser.execute_script(
                 "return document.querySelectorAll('.stream-items > li.stream-item').length")
 
-            print("Elems count: ", elemsCount)
+            logger.info("Elems count: ", elemsCount)
 
             try:
                 WebDriverWait(self.browser, 20).until(
