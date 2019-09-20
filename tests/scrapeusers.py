@@ -105,6 +105,7 @@ class ScrapeBot(object):
             print("Scrolling down..., I: ".format( i))
 
             try:
+                logger.info("Scrolling Down...")
                 self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
             except TimeoutException as e:
                 logger.warn(e)
