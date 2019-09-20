@@ -35,8 +35,8 @@ class ScrapeUsers:
 
     def update(self, user):
         if user:
-            logger.info("Updating user: {}".format(user.handle))
-            UpdateBot(handle=str(user.handle)).run()
+            logger.info("Updating user: {}".format(user))
+            UpdateBot(handle=str(user)).run()
             time.sleep(5)
             # time.sleep(50)
 
