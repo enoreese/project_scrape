@@ -54,10 +54,9 @@ class ScrapeUsers:
         # th.Thread(target=self.update()).start()
         while True:
             users = self.__get_users()
-            update_users = mp.Pool()
-            update_users.apply_async(self.update, (users,))
-            # update_users.start()
-            # update_users.join()
+            update_users = mp.Process(self.update, (users,))
+            update_users.start()
+            update_users.join()
             time.sleep(60)
         #
 
