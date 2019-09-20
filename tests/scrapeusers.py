@@ -150,12 +150,6 @@ class ScrapeBot(object):
             Item={
                 'handle': handle,
                 'userid': user_id,
-                'name': '',
-                'location': '',
-                'website': '',
-                'bio': '',
-                'tweets': '',
-                'twitter_page_url': '',
                 'is_scraped': 0,
             }
         )
