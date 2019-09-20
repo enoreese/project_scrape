@@ -1,6 +1,10 @@
 import os
 import time
 import traceback
+import json
+import decimal
+import boto3
+from botocore.exceptions import ClientError
 from selenium import webdriver
 from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
 from selenium.webdriver.common.by import By
@@ -12,6 +16,17 @@ from models.base import session_factory
 from scrapelog import ScrapeLog
 
 logger = ScrapeLog()
+
+
+# Helper class to convert a DynamoDB item to JSON.
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, decimal.Decimal):
+            if o % 1 > 0:
+                return float(o)
+            else:
+                return int(o)
+        return super(DecimalEncoder, self).default(o)
 
 
 class URL:
@@ -52,7 +67,8 @@ class ScrapeBot(object):
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
-        self.browser = webdriver.Chrome(chrome_options=options, executable_path='../chromedriver')  # export PATH=$PATH:/path/to/chromedriver/folder
+        self.browser = webdriver.Chrome(chrome_options=options,
+                                        executable_path='../chromedriver')  # export PATH=$PATH:/path/to/chromedriver/folder
         url = "https://twitter.com/search?q=%23{}&src=tyah".format(hashtag)
         logger.info("Scraping hashtag: {}".format(hashtag))
         self.browser.get(url=url)
@@ -71,12 +87,12 @@ class ScrapeBot(object):
         logger.info("Scrolling... ")
         # Get scroll height
         last_height = self.browser.execute_script(
-                        "return document.querySelectorAll('.stream-items > li.stream-item').length")
+            "return document.querySelectorAll('.stream-items > li.stream-item').length")
         handles = self.browser.find_elements(*self.locator_dictionary['handle'])
         logger.info("Initial handles: {}".format(len(handles)))
         last_handles = len(handles)
 
-        i=0
+        i = 0
         while True:
             print("Scrolling down..., I: ", i)
 
@@ -101,7 +117,7 @@ class ScrapeBot(object):
                 break
             last_height = elemsCount
 
-            i+=1
+            i += 1
         logger.info("Gathered handles: {}".format(len(self.browser.find_elements(*self.locator_dictionary['handle']))))
 
     def add_user(self, handle, userid):
@@ -121,6 +137,28 @@ class ScrapeBot(object):
         self.session.add(user)
         self.session.commit()
 
+    def add_user_dynamo(self, handle, user_id):
+        dynamodb = boto3.resource("dynamodb", region_name='us-west-2', endpoint_url="http://localhost:8000")
+
+        table = dynamodb.Table('Person')
+
+        response = table.put_item(
+            Item={
+                'handle': handle,
+                'userid': user_id,
+                'name': '',
+                'location': '',
+                'website': '',
+                'bio': '',
+                'tweets': '',
+                'twitter_page_url': '',
+                'is_scraped': 0,
+            }
+        )
+
+        print("User Added to Dynamo DB:")
+        print(json.dumps(response, indent=4, cls=DecimalEncoder))
+
     def scrape_user(self):
         logger.info("Scrape users on page...")
         handles = self.browser.find_elements(*self.locator_dictionary['handle'])
@@ -136,7 +174,7 @@ class ScrapeBot(object):
                     userid = ''
                 # print("User id: ", userid)
                 # print("Handle: ", handle)
-                self.add_user(handle=handle_txt, userid=userid)
+                self.add_user_dynamo(handle=handle_txt, user_id=userid)
 
         logger.info("Finish Scrape User tweet")
 
@@ -188,7 +226,6 @@ class TestSelenium1():
             hashtags = data.split(",")
             for hashtag in hashtags:
                 ScrapeBot(hashtag=hashtag).run()
-
 
 # if __name__ == '__main__':
 #     logger.info("Starting Handles Scraper in Parallel")

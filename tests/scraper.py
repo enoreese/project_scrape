@@ -4,6 +4,7 @@ import time
 import traceback
 import boto3
 import sqlalchemy.exc
+import json, decimal
 from selenium import webdriver
 from selenium.common.exceptions import StaleElementReferenceException, TimeoutException, NoSuchElementException
 from selenium.webdriver.common.by import By
@@ -18,6 +19,18 @@ from scrapelog import ScrapeLog
 
 
 logger = ScrapeLog()
+
+
+# Helper class to convert a DynamoDB item to JSON.
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, decimal.Decimal):
+            if o % 1 > 0:
+                return float(o)
+            else:
+                return int(o)
+        return super(DecimalEncoder, self).default(o)
+
 
 class URL:
     TWITTER = 'http://twitter.com/login'
@@ -168,6 +181,51 @@ class UpdateBot(object):
         self.session.commit()
         # self.session.close
 
+    def update_user_dynamo(self):
+        dynamodb = boto3.resource('dynamodb', region_name='us-west-2', endpoint_url="http://localhost:8000")
+
+        table = dynamodb.Table('person')
+
+        user = self.session.query(Person).filter_by(handle=self.handle).first()
+        try:
+            name = self.browser.find_element(*self.locator_dictionary['name']).text
+            name = name.encode('ascii', 'ignore').decode('ascii')
+            print("Name: ", name)
+        except sqlalchemy.exc.InternalError as e:
+            logger.warn(e)
+            name = ''
+        bio = self.browser.find_element(*self.locator_dictionary['bio']).text
+        print("Bio: ", bio)
+        location = self.browser.find_element(*self.locator_dictionary['location']).text
+        print("Location: ", location)
+
+        try:
+            website = self.browser.find_element(*self.locator_dictionary['website']).text
+            print("Website: ", website)
+        except NoSuchElementException as e:
+            logger.warn(e)
+            website = ''
+        date_joined = self.browser.find_element(*self.locator_dictionary['date_joined']).text
+        print("Date Joined: ", date_joined)
+
+        response = table.update_item(
+            Key={
+                'handle': self.handle,
+            },
+            UpdateExpression="set name = :n, bio=:b, location=:l, website=:w, date_joined=:j",
+            ExpressionAttributeValues={
+                ':n': name,
+                ':b': bio,
+                ':l': location,
+                ':w': website,
+                ':j': date_joined
+            },
+            ReturnValues="UPDATED_NEW"
+        )
+
+        print("User updated:")
+        print(json.dumps(response, indent=4, cls=DecimalEncoder))
+
     def mark_as_scraped(self):
         logger.info("Mark user as scraped")
         user = self.session.query(Person).filter_by(handle=self.handle).first()
@@ -178,6 +236,26 @@ class UpdateBot(object):
         self.session.add(user)
         self.session.commit()
         # self.session.close
+
+    def mark_as_scraped_dynamo(self):
+        dynamodb = boto3.resource('dynamodb', region_name='us-west-2', endpoint_url="http://localhost:8000")
+
+        table = dynamodb.Table('person')
+
+        response = table.update_item(
+            Key={
+                'handle': self.handle,
+            },
+            UpdateExpression="set is_scraped= :s, tweets=:t",
+            ExpressionAttributeValues={
+                ':s': 1,
+                ':t': self.filename,
+            },
+            ReturnValues="UPDATED_NEW"
+        )
+
+        print("User updated:")
+        print(json.dumps(response, indent=4, cls=DecimalEncoder))
 
     def get_users(self):
         try:
@@ -231,11 +309,11 @@ class UpdateBot(object):
         logger.warn("No %s here!" % what)
 
     def run(self):
-        self.update_user()
+        self.update_user_dynamo()
         self.scroll_down()
         time.sleep(2)
         self.scrape_tweets()
-        self.mark_as_scraped()
+        self.mark_as_scraped_dynamo()
         self.browser.quit()
 
 
