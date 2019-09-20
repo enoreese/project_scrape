@@ -5,7 +5,7 @@ import traceback
 import boto3
 import sqlalchemy.exc
 from selenium import webdriver
-from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
+from selenium.common.exceptions import StaleElementReferenceException, TimeoutException, NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
@@ -143,8 +143,14 @@ class UpdateBot(object):
         print("Bio: ", self.browser.find_element(*self.locator_dictionary['bio']).text)
         user.location = self.browser.find_element(*self.locator_dictionary['location']).text
         print("Location: ", self.browser.find_element(*self.locator_dictionary['location']).text)
-        user.website = self.browser.find_element(*self.locator_dictionary['website']).text
-        print("Website: ", self.browser.find_element(*self.locator_dictionary['website']).text)
+
+        try:
+            user.website = self.browser.find_element(*self.locator_dictionary['website']).text
+            print("Website: ", self.browser.find_element(*self.locator_dictionary['website']).text)
+        except NoSuchElementException as e:
+            logger.warn(e)
+            user.website = ''
+
         user.date_joined = self.browser.find_element(*self.locator_dictionary['date_joined']).text
         print("Date Joined: ", self.browser.find_element(*self.locator_dictionary['date_joined']).text)
 
