@@ -97,6 +97,7 @@ class ScrapeBot(object):
         self.latest_tweets.click()
 
     def scroll_2(self):
+        logger.info("Scrolling...2 ")
         # wait until the first search result is found. Search results will be tweets, which are html list items and have the class='data-item-id':
 
         WebDriverWait(self.browser, self.timeout).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "li[data-item-id]")))
@@ -109,9 +110,12 @@ class ScrapeBot(object):
 
             # find number of visible tweets:
             number_of_tweets = len(tweets)
+            logger.info("Elems count: {}".format(number_of_tweets))
 
             # keep scrolling:
             self.browser.execute_script("arguments[0].scrollIntoView();", tweets[-1])
+
+            time.sleep(self.scroll_pause_time)
 
             try:
                 # wait for more tweets to be visible:
