@@ -6,7 +6,7 @@ import boto3
 import sqlalchemy.exc
 import json, decimal
 from selenium import webdriver
-from boto3.dynamodb.conditions import Key
+from boto3.dynamodb.conditions import Key, Attr
 from botocore.exceptions import ClientError
 from selenium.common.exceptions import StaleElementReferenceException, TimeoutException, NoSuchElementException
 from selenium.webdriver.common.by import By
@@ -325,7 +325,7 @@ class TestSelenium2():
         table = dynamodb.Table('person')
         try:
             response = table.query(
-                KeyConditionExpression=Key('is_scraped').eq(0)
+                KeyConditionExpression=Attr('is_scraped').eq(0)
             )
         except ClientError as e:
             logger.warn(e.response['Error']['Message'])
