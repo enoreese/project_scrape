@@ -266,7 +266,7 @@ class ScrapeBot(object):
 
     def run(self):
         print("running")
-        self.scroll()
+        self.scroll_2()
         self.scrape_user()
         self.browser.quit()
 
