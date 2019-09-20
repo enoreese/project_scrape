@@ -132,7 +132,7 @@ class ScrapeBot(object):
 
         for handle in handles:
             if handle and '@' in handle:
-                handle, userid = handle.text.split('@')[1], handle.get_attribute("data-user-id")
+                handle, userid = handle.split('@')[1], handle.get_attribute("data-user-id")
                 print("User id: ", userid)
                 print("Handle: ", handle)
                 self.add_user(handle=handle, userid=userid)
