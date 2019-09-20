@@ -18,6 +18,19 @@ from scrapelog import ScrapeLog
 logger = ScrapeLog()
 
 
+class wait_for_more_than_n_elements_to_be_present(object):
+    def __init__(self, locator, count):
+        self.locator = locator
+        self.count = count
+
+    def __call__(self, driver):
+        try:
+            elements = EC._find_elements(driver, self.locator)
+            return len(elements) > self.count
+        except StaleElementReferenceException:
+            return False
+
+
 # Helper class to convert a DynamoDB item to JSON.
 class DecimalEncoder(json.JSONEncoder):
     def default(self, o):
@@ -82,6 +95,32 @@ class ScrapeBot(object):
 
     def view_latest_tweets(self):
         self.latest_tweets.click()
+
+    def scroll_2(self):
+        # wait until the first search result is found. Search results will be tweets, which are html list items and have the class='data-item-id':
+
+        WebDriverWait(self.browser, self.timeout).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "li[data-item-id]")))
+
+        # scroll down to the last tweet until there are no more tweets:
+        while True:
+
+            # extract all the tweets:
+            tweets = self.browser.find_elements_by_css_selector("li[data-item-id]")
+
+            # find number of visible tweets:
+            number_of_tweets = len(tweets)
+
+            # keep scrolling:
+            self.browser.execute_script("arguments[0].scrollIntoView();", tweets[-1])
+
+            try:
+                # wait for more tweets to be visible:
+                WebDriverWait(self.browser, self.timeout).until(wait_for_more_than_n_elements_to_be_present(
+                    (By.CSS_SELECTOR, "li[data-item-id]"), number_of_tweets))
+
+            except TimeoutException:
+                # if no more are visible the "wait.until" call will timeout. Catch the exception and exit the while loop:
+                break
 
     def scroll(self):
         logger.info("Scrolling... ")
@@ -182,9 +221,10 @@ class ScrapeBot(object):
                     userid = ''
                 # print("User id: ", userid)
                 # print("Handle: ", handle)
+                logger.info("saving to DynamoDB")
                 self.add_user_dynamo(handle=handle_txt, user_id=userid)
 
-        logger.info("Finish Scrape User tweet")
+        logger.info("Finish Scrape User handles")
 
     def _find_element(self, *loc):
         return self.browser.find_element(*loc)
