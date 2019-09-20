@@ -40,12 +40,12 @@ class TwitterLocator:
     tweets_no = (By.XPATH, "/html/body/div[2]/div[2]/div/div[1]/div/div[2]/div/div/div[2]/div/div/ul/li[1]/a/span[3]")
     like_btn = (By.XPATH, "//*[@id='react-root']/div/div/div/main/div/div/div/div[1]/div/div[2]/div/div/section/div/div/div/div[2]/div/article/div/div[2]/div[2]/div[4]/div[3]/div")
     latest_tweets = (By.PARTIAL_LINK_TEXT, 'Latest')
-    name = (By.XPATH, '/html/body/div[2]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/h1/a')
-    handle = (By.XPATH, '/html/body/div[2]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/h2/a/span/b')
-    bio = (By.XPATH, '/html/body/div[2]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/p')
-    location = (By.XPATH, '/html/body/div[2]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/div[1]/span[2]')
-    website = (By.XPATH, '/html/body/div[2]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/div[2]/span[2]/a')
-    date_joined = (By.XPATH, '/html/body/div[2]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/div[3]/span[2]')
+    name = (By.CSS_SELECTOR, '.ProfileHeaderCard-nameLink')
+    handle = (By.CSS_SELECTOR, '.ProfileHeaderCard-screennameLink > span:nth-child(1) > b:nth-child(1)')
+    bio = (By.CSS_SELECTOR, '.ProfileHeaderCard-bio')
+    location = (By.CSS_SELECTOR, '.ProfileHeaderCard-locationText')
+    website = (By.CSS_SELECTOR, '.ProfileHeaderCard-periscopeProfileTextLink')
+    date_joined = (By.CSS_SELECTOR, '.ProfileHeaderCard-joinDateText')
 
 
 class UpdateBot(object):
