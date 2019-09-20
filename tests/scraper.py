@@ -194,18 +194,20 @@ class UpdateBot(object):
             print("Name: ", name)
         except sqlalchemy.exc.InternalError as e:
             logger.warn(e)
-            name = ''
+            name = 'false'
         bio = self.browser.find_element(*self.locator_dictionary['bio']).text
         print("Bio: ", bio)
         location = self.browser.find_element(*self.locator_dictionary['location']).text
         print("Location: ", location)
+        if not location:
+            location = 'Nigeria'
 
         try:
             website = self.browser.find_element(*self.locator_dictionary['website']).text
             print("Website: ", website)
         except NoSuchElementException as e:
             logger.warn(e)
-            website = ''
+            website = 'empty'
         date_joined = self.browser.find_element(*self.locator_dictionary['date_joined']).text
         print("Date Joined: ", date_joined)
 
