@@ -163,7 +163,7 @@ class UpdateBot(object):
 
     def mark_as_scraped(self):
         logger.info("Mark user as scraped")
-        user = self.session.query(Person).filter_by(handle=self.handle)
+        user = self.session.query(Person).filter_by(handle=self.handle).first()
 
         user.is_scraped = 1
 
@@ -185,7 +185,6 @@ class UpdateBot(object):
 
         all_tweets = [tweet.text for tweet in tweets]
         all_tweets = ' '.join(all_tweets)
-        print("All tweets: ", all_tweets)
 
         self.add_tweet(tweets=all_tweets)
         self.mark_as_scraped()
