@@ -223,7 +223,7 @@ class ScrapeBot(object):
                     userid = handle.get_attribute("data-user-id")
                 except TimeoutException as e:
                     logger.warn(e)
-                    userid = ''
+                    userid = 'empty'
                 # print("User id: ", userid)
                 # print("Handle: ", handle)
                 self.add_user_dynamo(handle=handle_txt, user_id=userid)

@@ -345,7 +345,8 @@ class TestSelenium2():
         while True:
             users = self.__get_users()
             for user in users:
-                if user:
+                no_words = len(user.split(" "))
+                if user and no_words == 1:
                     logger.info("Updating user: {}".format(user))
                     UpdateBot(handle=str(user)).run()
                     time.sleep(5)
