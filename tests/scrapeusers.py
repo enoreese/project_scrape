@@ -113,6 +113,7 @@ class ScrapeBot(object):
             logger.info("Elems count: {}".format(number_of_tweets))
 
             # keep scrolling:
+            logger.info("Keep Scrolling...")
             self.browser.execute_script("arguments[0].scrollIntoView();", tweets[-1])
 
             time.sleep(self.scroll_pause_time)

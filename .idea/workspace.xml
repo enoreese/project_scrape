@@ -23,9 +23,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="hashtags.txt" pinned="false" current-in-tab="false">
+      <file leaf-file-name="hashtags.txt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/hashtags.txt">
-          <provider selected="true" editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="12" selection-start-column="12" selection-end-column="12" />
+            </state>
+          </provider>
         </entry>
       </file>
       <file leaf-file-name="scrapelog.py" pinned="false" current-in-tab="false">
@@ -49,7 +53,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="scrapeusers.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="scrapeusers.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/scrapeusers.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1890">
@@ -138,8 +142,8 @@
         <option value="$PROJECT_DIR$/scrapeusers.py" />
         <option value="$PROJECT_DIR$/scraper.py" />
         <option value="$PROJECT_DIR$/tests/scraper.py" />
-        <option value="$PROJECT_DIR$/hashtags.txt" />
         <option value="$PROJECT_DIR$/tests/scrapeusers.py" />
+        <option value="$PROJECT_DIR$/hashtags.txt" />
       </list>
     </option>
   </component>
@@ -246,6 +250,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.2494043" />
       <window_info anchor="bottom" id="TODO" order="11" />
@@ -641,6 +646,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/tests/scrapeusers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1890">
+          <caret line="227" selection-start-line="227" selection-end-line="227" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/tests/scraper.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="235">
@@ -652,15 +667,9 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/hashtags.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/scrapeusers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1890">
-          <caret line="227" selection-start-line="227" selection-end-line="227" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
+        <state>
+          <caret column="12" selection-start-column="12" selection-end-column="12" />
         </state>
       </provider>
     </entry>
