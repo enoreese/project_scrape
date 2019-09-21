@@ -195,10 +195,12 @@ class UpdateBot(object):
         except sqlalchemy.exc.InternalError as e:
             logger.warn(e)
             name = 'false'
+
         bio = self.browser.find_element(*self.locator_dictionary['bio']).text
         print("Bio: ", bio)
         if not bio:
             bio = 'empty'
+
         location = self.browser.find_element(*self.locator_dictionary['location']).text
         print("Location: ", location)
         if not location:
@@ -210,8 +212,19 @@ class UpdateBot(object):
         except NoSuchElementException as e:
             logger.warn(e)
             website = 'empty'
-        date_joined = self.browser.find_element(*self.locator_dictionary['date_joined']).text
-        print("Date Joined: ", date_joined)
+
+        if not website:
+            website = 'empty'
+
+        try:
+            date_joined = self.browser.find_element(*self.locator_dictionary['date_joined']).text
+            print("Date Joined: ", date_joined)
+        except:
+            logger.warn(e)
+            date_joined = 'empty'
+
+        if not date_joined:
+            date_joined = 'empty'
 
         response = table.update_item(
             Key={
