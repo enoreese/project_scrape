@@ -32,16 +32,21 @@ class ScrapeBot(object):
         self.tweet_config = twint.Config()
 
         self.user_config.Username = handle
-        self.user_config.Format = "ID {id} | Name {name} | Bio {bio} | Location {location} | Join Date {join_date}"
+        # self.user_config.Format = "ID {id} | Name {name} | Bio {bio} | Location {location} | Join Date {join_date}"
+        self.user_config.Store_object = True
+        self.user_config.User_full = True
 
         self.tweet_config.Username = handle
         self.tweet_config.Limit = 120
+        self.tweet_config.Store_object = True
 
     def __lookup(self):
-        return twint.run.Lookup(self.user_config)
+        twint.run.Lookup(self.user_config)
+        return twint.output.users_list
 
     def __scrape_tweets(self):
-        return twint.run.Search(self.tweet_config)
+        twint.run.Search(self.tweet_config)
+        return twint.output.tweets_list
 
     def add_user_dynamo(self,
                         name,
@@ -85,18 +90,21 @@ class ScrapeBot(object):
         tweet_file.put(Body=tweets)
 
     def run(self):
-        print("running")
+        logger.info("User lookup")
         user = self.__lookup()
+        user = user[0]
+        logger.info("Tweets lookup")
         tweets = self.__scrape_tweets()
 
         tweets = [tweet.tweet for tweet in tweets]
+        tweets = ' '.join(tweets)
 
         self.add_tweet(tweets)
         self.add_user_dynamo(
-            handle=user.username if user.handle else 'empty',
+            handle=user.username if user.username else 'empty',
             user_id=user.id if user.id else 'empty',
             bio=user.bio if user.bio else 'empty',
-            date_joined=user.date_joined if user.date_joined else 'empty',
+            date_joined=user.join_date if user.join_date else 'empty',
             location=user.location if user.location else 'empty',
             name=user.name if user.name else 'empty',
             tweets=self.filename,
@@ -106,7 +114,7 @@ class ScrapeBot(object):
 
 class TestSelenium1():
     def test_scrape(self):
-        with open('handles.txt', 'r') as file:
+        with open('../demola_followers.txt', 'r') as file:
             data = file.readlines()
         content = [x.strip() for x in data]
         for handle in content:
@@ -117,10 +125,7 @@ class TestSelenium1():
                 time.sleep(3)
                 ScrapeBot(handle=handle).run()
 
-# if __name__ == '__main__':
-#     logger.info("Starting Handles Scraper in Parallel")
-#     # scrape_handles = mp.Process(target=scrape)
-#     # scrape_handles.start()
-#     #
-#     # scrape_handles.join()
-#     scrape()
+
+if __name__ == '__main__':
+    logger.info("Starting Handles Scraper in Parallel")
+    TestSelenium1().test_scrape()
