@@ -116,7 +116,7 @@ class ScrapeBot(object):
 
 class TestSelenium1():
     def test_scrape(self):
-        with open('../demola_followers.txt', 'r') as file:
+        with open('demola_followers.txt', 'r') as file:
             data = file.readlines()
         content = [x.strip() for x in data]
         for i in range(len(content)):
