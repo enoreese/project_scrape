@@ -157,6 +157,7 @@ class ScrapeBot(object):
         users = self.__get_users()
         logger.info("Length of Users: {}".format(len(users)))
         for user in users:
+            self.handle = user
             logger.info("User lookup: {}".format(user))
             logger.info("Tweets lookup")
             tweets = self.__scrape_tweets(user)
