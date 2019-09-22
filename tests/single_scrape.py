@@ -5,6 +5,8 @@ import json
 import decimal
 import boto3
 import twint
+from boto3.dynamodb.conditions import Key, Attr
+from botocore.exceptions import ClientError
 
 from scrapelog import ScrapeLog
 
@@ -24,11 +26,29 @@ class DecimalEncoder(json.JSONEncoder):
 
 class ScrapeBot(object):
 
-    def __init__(self, handle, i):
+    def __init__(self, handle=None, i=None):
         self.handle = handle
         self.filename = None
         self.i = i
-        logger.info("Scraping for handle: {}".format(self.handle))
+        # logger.info("Scraping for handle: {}".format(self.handle))
+
+    def __get_users(self):
+        dynamodb = boto3.resource("dynamodb", region_name='us-east-2')
+        users = []
+        table = dynamodb.Table('person')
+        try:
+            response = table.scan(
+                FilterExpression=Attr('is_scraped').eq(0)
+            )
+        except ClientError as e:
+            logger.warn(e.response['Error']['Message'])
+        else:
+            users = response['Items']
+            print("GetItem succeeded:")
+            # users = json.dumps(item, indent=4, cls=DecimalEncoder)
+
+        users = [user['handle'] for user in users]
+        return users
 
     def __lookup(self, handle):
         user_config = twint.Config()
@@ -89,6 +109,26 @@ class ScrapeBot(object):
         tweet_file = s3.Object(os.environ.get('BUCKET_NAME'), self.filename)
         tweet_file.put(Body=tweets)
 
+    def mark_as_scraped_dynamo(self, handle):
+        dynamodb = boto3.resource('dynamodb', region_name='us-east-2')
+
+        table = dynamodb.Table('person')
+
+        response = table.update_item(
+            Key={
+                'handle': handle,
+            },
+            UpdateExpression="set is_scraped= :s, tweets=:t",
+            ExpressionAttributeValues={
+                ':s': 1,
+                ':t': self.filename,
+            },
+            ReturnValues="UPDATED_NEW"
+        )
+
+        print("User updated:")
+        print(json.dumps(response, indent=4, cls=DecimalEncoder))
+
     def run(self):
         logger.info("User lookup: {}".format(self.i))
         user = self.__lookup(self.handle)
@@ -113,8 +153,22 @@ class ScrapeBot(object):
             website=user.url if user.url else 'empty'
         )
 
+    def run2(self):
+        users = self.__get_users()
+        logger.info("Length of Users: {}".format(len(users)))
+        for user in users:
+            logger.info("User lookup: {}".format(user))
+            logger.info("Tweets lookup")
+            tweets = self.__scrape_tweets(user)
 
-class TestSelenium1():
+            tweets = [tweet.tweet for tweet in tweets]
+            tweets = ' '.join(tweets)
+
+            self.add_tweet(tweets)
+            self.mark_as_scraped_dynamo(user)
+
+
+class TestSelenium1:
     def test_scrape(self):
         with open('demola_followers.txt', 'r') as file:
             data = file.readlines()
@@ -129,8 +183,14 @@ class TestSelenium1():
                 time.sleep(3)
                 # ScrapeBot(handle=content[i], i=i).run()
 
+    def scrape2(self):
+        try:
+            ScrapeBot().run()
+        except (Exception, IndexError) as e:
+            logger.warn(e)
+            time.sleep(3)
 
 
 if __name__ == '__main__':
-    logger.info("Starting Handles Scraper in Parallel")
-    TestSelenium1().test_scrape()
+    logger.info("Starting Update Scraper in Parallel")
+    TestSelenium1().scrape2()
