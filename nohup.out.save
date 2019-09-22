@@ -1,0 +1,4201 @@
+============================= test session starts ==============================
+platform linux -- Python 3.6.8, pytest-5.1.2, py-1.8.0, pluggy-0.13.0
+rootdir: /home/ubuntu/project_scrape
+collected 1 item
+
+tests/scraper.py F                                                       [100%]
+
+=================================== FAILURES ===================================
+__________________________ TestSelenium2.test_update ___________________________
+
+self = <scraper.TestSelenium2 object at 0x7f468455ea90>
+
+    def test_update(self):
+        while True:
+            users = self.__get_users()
+            for user in users:
+                if user:
+                    logger.info("Updating user: {}".format(user))
+>                   UpdateBot(handle=str(user)).run()
+
+tests/scraper.py:348: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/scraper.py:315: in run
+    self.update_user_dynamo()
+tests/scraper.py:226: in update_user_dynamo
+    ReturnValues="UPDATED_NEW"
+../.local/lib/python3.6/site-packages/boto3/resources/factory.py:520: in do_action
+    response = action(self, *args, **kwargs)
+../.local/lib/python3.6/site-packages/boto3/resources/action.py:83: in __call__
+    response = getattr(parent.meta.client, operation_name)(**params)
+../.local/lib/python3.6/site-packages/botocore/client.py:357: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <botocore.client.DynamoDB object at 0x7f4683a7ec88>
+operation_name = 'UpdateItem'
+api_params = {'ExpressionAttributeValues': {':b': '', ':j': 'Joined November 2014', ':l': 'Nigeria', ':n': 'Yassine Jaber', ...}, 'Key': {'handle': 'JaberYassine'}, 'ReturnValues': 'UPDATED_NEW', 'TableName': 'person', ...}
+
+    def _make_api_call(self, operation_name, api_params):
+        operation_model = self._service_model.operation_model(operation_name)
+        service_name = self._service_model.service_name
+        history_recorder.record('API_CALL', {
+            'service': service_name,
+            'operation': operation_name,
+            'params': api_params,
+        })
+        if operation_model.deprecated:
+            logger.debug('Warning: %s.%s() is deprecated',
+                         service_name, operation_name)
+        request_context = {
+            'client_region': self.meta.region_name,
+            'client_config': self.meta.config,
+            'has_streaming_input': operation_model.has_streaming_input,
+            'auth_type': operation_model.auth_type,
+        }
+        request_dict = self._convert_to_request_dict(
+            api_params, operation_model, context=request_context)
+    
+        service_id = self._service_model.service_id.hyphenize()
+        handler, event_response = self.meta.events.emit_until_response(
+            'before-call.{service_id}.{operation_name}'.format(
+                service_id=service_id,
+                operation_name=operation_name),
+            model=operation_model, params=request_dict,
+            request_signer=self._request_signer, context=request_context)
+    
+        if event_response is not None:
+            http, parsed_response = event_response
+        else:
+            http, parsed_response = self._make_request(
+                operation_model, request_dict, request_context)
+    
+        self.meta.events.emit(
+            'after-call.{service_id}.{operation_name}'.format(
+                service_id=service_id,
+                operation_name=operation_name),
+            http_response=http, parsed=parsed_response,
+            model=operation_model, context=request_context
+        )
+    
+        if http.status_code >= 300:
+            error_code = parsed_response.get("Error", {}).get("Code")
+            error_class = self.exceptions.from_code(error_code)
+>           raise error_class(parsed_response, operation_name)
+E           botocore.exceptions.ClientError: An error occurred (ValidationException) when calling the UpdateItem operation: ExpressionAttributeValues contains invalid value: One or more parameter values were invalid: An AttributeValue may not contain an empty string for key :b
+
+../.local/lib/python3.6/site-packages/botocore/client.py:661: ClientError
+----------------------------- Captured stdout call -----------------------------
+GetItem succeeded:
+URL:  https://twitter.com/jaberyassine
+Name:  Yassine Jaber
+Bio:  
+Location:  
+Date Joined:  Joined November 2014
+----------------------------- Captured stderr call -----------------------------
+python-telegram-logger : INFO: credentials: Found credentials in environment variables.
+python-telegram-logger : INFO: scrapelog: Updating user: JaberYassine
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: JaberYassine
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+------------------------------ Captured log call -------------------------------
+INFO     botocore.credentials:credentials.py:1059 Found credentials in environment variables.
+INFO     tg:scrapelog.py:36 Updating user: JaberYassine
+INFO     tg:scrapelog.py:36 Updating DB for handle: JaberYassine
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+============================== 1 failed in 4.25s ===============================
+============================= test session starts ==============================
+platform linux -- Python 3.6.8, pytest-5.1.2, py-1.8.0, pluggy-0.13.0
+rootdir: /home/ubuntu/project_scrape
+collected 1 item
+
+tests/scraper.py F                                                       [100%]
+
+=================================== FAILURES ===================================
+__________________________ TestSelenium2.test_update ___________________________
+
+self = <scraper.TestSelenium2 object at 0x7fd785daba20>
+
+    def test_update(self):
+        while True:
+            users = self.__get_users()
+            for user in users:
+                if user:
+                    logger.info("Updating user: {}".format(user))
+>                   UpdateBot(handle=str(user)).run()
+
+tests/scraper.py:350: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/scraper.py:317: in run
+    self.update_user_dynamo()
+tests/scraper.py:192: in update_user_dynamo
+    name = self.browser.find_element(*self.locator_dictionary['name']).text
+../.local/lib/python3.6/site-packages/selenium/webdriver/remote/webdriver.py:978: in find_element
+    'value': value})['value']
+../.local/lib/python3.6/site-packages/selenium/webdriver/remote/webdriver.py:321: in execute
+    self.error_handler.check_response(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <selenium.webdriver.remote.errorhandler.ErrorHandler object at 0x7fd7844f61d0>
+response = {'status': 404, 'value': '{"value":{"error":"no such element","message":"no such element: Unable to locate element: {\...-nameLink\\"}\\n  (Session info: headless chrome=77.0.3865.90)","stacktrace":"#0 0x55f81059a959 \\u003Cunknown>\\n"}}'}
+
+    def check_response(self, response):
+        """
+        Checks that a JSON response from the WebDriver does not have an error.
+    
+        :Args:
+         - response - The JSON response from the WebDriver server as a dictionary
+           object.
+    
+        :Raises: If the response contains an error message.
+        """
+        status = response.get('status', None)
+        if status is None or status == ErrorCode.SUCCESS:
+            return
+        value = None
+        message = response.get("message", "")
+        screen = response.get("screen", "")
+        stacktrace = None
+        if isinstance(status, int):
+            value_json = response.get('value', None)
+            if value_json and isinstance(value_json, basestring):
+                import json
+                try:
+                    value = json.loads(value_json)
+                    if len(value.keys()) == 1:
+                        value = value['value']
+                    status = value.get('error', None)
+                    if status is None:
+                        status = value["status"]
+                        message = value["value"]
+                        if not isinstance(message, basestring):
+                            value = message
+                            message = message.get('message')
+                    else:
+                        message = value.get('message', None)
+                except ValueError:
+                    pass
+    
+        exception_class = ErrorInResponseException
+        if status in ErrorCode.NO_SUCH_ELEMENT:
+            exception_class = NoSuchElementException
+        elif status in ErrorCode.NO_SUCH_FRAME:
+            exception_class = NoSuchFrameException
+        elif status in ErrorCode.NO_SUCH_WINDOW:
+            exception_class = NoSuchWindowException
+        elif status in ErrorCode.STALE_ELEMENT_REFERENCE:
+            exception_class = StaleElementReferenceException
+        elif status in ErrorCode.ELEMENT_NOT_VISIBLE:
+            exception_class = ElementNotVisibleException
+        elif status in ErrorCode.INVALID_ELEMENT_STATE:
+            exception_class = InvalidElementStateException
+        elif status in ErrorCode.INVALID_SELECTOR \
+                or status in ErrorCode.INVALID_XPATH_SELECTOR \
+                or status in ErrorCode.INVALID_XPATH_SELECTOR_RETURN_TYPER:
+            exception_class = InvalidSelectorException
+        elif status in ErrorCode.ELEMENT_IS_NOT_SELECTABLE:
+            exception_class = ElementNotSelectableException
+        elif status in ErrorCode.ELEMENT_NOT_INTERACTABLE:
+            exception_class = ElementNotInteractableException
+        elif status in ErrorCode.INVALID_COOKIE_DOMAIN:
+            exception_class = InvalidCookieDomainException
+        elif status in ErrorCode.UNABLE_TO_SET_COOKIE:
+            exception_class = UnableToSetCookieException
+        elif status in ErrorCode.TIMEOUT:
+            exception_class = TimeoutException
+        elif status in ErrorCode.SCRIPT_TIMEOUT:
+            exception_class = TimeoutException
+        elif status in ErrorCode.UNKNOWN_ERROR:
+            exception_class = WebDriverException
+        elif status in ErrorCode.UNEXPECTED_ALERT_OPEN:
+            exception_class = UnexpectedAlertPresentException
+        elif status in ErrorCode.NO_ALERT_OPEN:
+            exception_class = NoAlertPresentException
+        elif status in ErrorCode.IME_NOT_AVAILABLE:
+            exception_class = ImeNotAvailableException
+        elif status in ErrorCode.IME_ENGINE_ACTIVATION_FAILED:
+            exception_class = ImeActivationFailedException
+        elif status in ErrorCode.MOVE_TARGET_OUT_OF_BOUNDS:
+            exception_class = MoveTargetOutOfBoundsException
+        elif status in ErrorCode.JAVASCRIPT_ERROR:
+            exception_class = JavascriptException
+        elif status in ErrorCode.SESSION_NOT_CREATED:
+            exception_class = SessionNotCreatedException
+        elif status in ErrorCode.INVALID_ARGUMENT:
+            exception_class = InvalidArgumentException
+        elif status in ErrorCode.NO_SUCH_COOKIE:
+            exception_class = NoSuchCookieException
+        elif status in ErrorCode.UNABLE_TO_CAPTURE_SCREEN:
+            exception_class = ScreenshotException
+        elif status in ErrorCode.ELEMENT_CLICK_INTERCEPTED:
+            exception_class = ElementClickInterceptedException
+        elif status in ErrorCode.INSECURE_CERTIFICATE:
+            exception_class = InsecureCertificateException
+        elif status in ErrorCode.INVALID_COORDINATES:
+            exception_class = InvalidCoordinatesException
+        elif status in ErrorCode.INVALID_SESSION_ID:
+            exception_class = InvalidSessionIdException
+        elif status in ErrorCode.UNKNOWN_METHOD:
+            exception_class = UnknownMethodException
+        else:
+            exception_class = WebDriverException
+        if value == '' or value is None:
+            value = response['value']
+        if isinstance(value, basestring):
+            if exception_class == ErrorInResponseException:
+                raise exception_class(response, value)
+            raise exception_class(value)
+        if message == "" and 'message' in value:
+            message = value['message']
+    
+        screen = None
+        if 'screen' in value:
+            screen = value['screen']
+    
+        stacktrace = None
+        if 'stackTrace' in value and value['stackTrace']:
+            stacktrace = []
+            try:
+                for frame in value['stackTrace']:
+                    line = self._value_or_default(frame, 'lineNumber', '')
+                    file = self._value_or_default(frame, 'fileName', '<anonymous>')
+                    if line:
+                        file = "%s:%s" % (file, line)
+                    meth = self._value_or_default(frame, 'methodName', '<anonymous>')
+                    if 'className' in frame:
+                        meth = "%s.%s" % (frame['className'], meth)
+                    msg = "    at %s (%s)"
+                    msg = msg % (meth, file)
+                    stacktrace.append(msg)
+            except TypeError:
+                pass
+        if exception_class == ErrorInResponseException:
+            raise exception_class(response, message)
+        elif exception_class == UnexpectedAlertPresentException:
+            alert_text = None
+            if 'data' in value:
+                alert_text = value['data'].get('text')
+            elif 'alert' in value:
+                alert_text = value['alert'].get('text')
+            raise exception_class(message, screen, stacktrace, alert_text)
+>       raise exception_class(message, screen, stacktrace)
+E       selenium.common.exceptions.NoSuchElementException: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-nameLink"}
+E         (Session info: headless chrome=77.0.3865.90)
+
+../.local/lib/python3.6/site-packages/selenium/webdriver/remote/errorhandler.py:242: NoSuchElementException
+----------------------------- Captured stdout call -----------------------------
+GetItem succeeded:
+URL:  https://twitter.com/aayozie
+Name:  Amarachi Ayozie
+Bio:  MIND | SOUL | KNOWLEDGE
+Location:  
+Date Joined:  Joined April 2014
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Nigeria",
+        "website": "empty",
+        "date_joined": "Joined April 2014",
+        "bio": "MIND | SOUL | KNOWLEDGE",
+        "twitter_name": "Amarachi Ayozie"
+    },
+    "ResponseMetadata": {
+        "RequestId": "LAMPO6Q74BOB50HDVB1BU6LIS3VV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:34:51 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "192",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "LAMPO6Q74BOB50HDVB1BU6LIS3VV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "181104145"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  769.0
+Limit:  100
+length of tweets:  116
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "AAyozie_tweets_07:35:26.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "ISI1SVEPHATEMF6NKENJRJDIN3VV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:35:27 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "84",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "ISI1SVEPHATEMF6NKENJRJDIN3VV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "4079347089"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/lakwana_jones
+Name:  Lakwana
+Bio:  A mother of 3 smart, beautiful and athletic children
+Location:  Florida
+Date Joined:  Joined December 2014
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Florida",
+        "website": "empty",
+        "date_joined": "Joined December 2014",
+        "bio": "A mother of 3 smart, beautiful and athletic children",
+        "twitter_name": "Lakwana"
+    },
+    "ResponseMetadata": {
+        "RequestId": "NMHHRBV16P7SID5BVMS9PCQUGFVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:35:35 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "216",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "NMHHRBV16P7SID5BVMS9PCQUGFVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "2531120878"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  852.0
+Limit:  100
+length of tweets:  119
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "lakwana_jones_tweets_07:36:11.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "COCHFASJTU3OSULJ7ATOF92527VV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:36:11 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "90",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "COCHFASJTU3OSULJ7ATOF92527VV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "3547094130"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/vanguardngrnews
+Name:  Vanguard Newspapers
+Bio:  Latest news from Nigeria. Politics, business, technology, style, entertainment.
+Location:  Nigeria
+Date Joined:  Joined May 2009
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Nigeria",
+        "website": "empty",
+        "date_joined": "Joined May 2009",
+        "bio": "Latest news from Nigeria. Politics, business, technology, style, entertainment.",
+        "twitter_name": "Vanguard Newspapers"
+    },
+    "ResponseMetadata": {
+        "RequestId": "LTMVIQSDMPS99VOPCL4VOP14CNVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:36:19 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "250",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "LTMVIQSDMPS99VOPCL4VOP14CNVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "2319334180"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  100
+Limit:  100
+length of tweets:  101
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "vanguardngrnews_tweets_07:36:49.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "90JOEIEV5SU9VO0RFJ6MUCMIAVVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:36:49 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "92",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "90JOEIEV5SU9VO0RFJ6MUCMIAVVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "203972039"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/hayzeewendy
+Name:  Eminent #Project6264
+Bio:  Get cheap data here!|Chess player| MH Advocate @mentallyawareng | Volunteer @ecobarter | Volunteer @chessinslums | Boy child Advocate @theidealman_in | Humanist
+Location:  
+Date Joined:  Joined August 2013
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Nigeria",
+        "website": "empty",
+        "date_joined": "Joined August 2013",
+        "bio": "Get cheap data here!|Chess player| MH Advocate @mentallyawareng | Volunteer @ecobarter | Volunteer @chessinslums | Boy child Advocate @theidealman_in | Humanist",
+        "twitter_name": "Eminent #Project6264"
+    },
+    "ResponseMetadata": {
+        "RequestId": "C9TDNF462CUGH74O3AR333BDS3VV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:36:57 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "335",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "C9TDNF462CUGH74O3AR333BDS3VV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "3586927943"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  2185.0
+Limit:  100
+length of tweets:  101
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "Hayzeewendy_tweets_07:37:27.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "1GI0LSPDFTUENPEPSQ4MSORNERVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:37:27 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "88",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "1GI0LSPDFTUENPEPSQ4MSORNERVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "3365868255"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/sharmarohitraj
+Name:  sharmarohitraj
+Bio:  Mission 2024. 400 plus. followed by PM of India.
+Location:  Delhi
+Date Joined:  Joined September 2009
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Delhi",
+        "website": "empty",
+        "date_joined": "Joined September 2009",
+        "bio": "Mission 2024. 400 plus. followed by PM of India.",
+        "twitter_name": "sharmarohitraj"
+    },
+    "ResponseMetadata": {
+        "RequestId": "ME55V24HNSPD2VA3JEDMTG57CJVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:37:35 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "218",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "ME55V24HNSPD2VA3JEDMTG57CJVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "3481099486"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  100
+Limit:  100
+length of tweets:  118
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "sharmarohitraj_tweets_07:38:10.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "RQM3I7ICAIRKJ4LG7D98DC9MMNVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:38:11 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "91",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "RQM3I7ICAIRKJ4LG7D98DC9MMNVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "4261615498"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/1000hometown
+Name:  Senri Oe
+Bio:  Senri Oe, Jazz Operator. FB! https://www.facebook.com/SenriOe  Senri Essay! https://note.mu/senrigarden  http://ch.nicovideo.jp/senrigarden 
+Location:  Brooklyn, NY
+Date Joined:  Joined May 2010
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Brooklyn, NY",
+        "website": "empty",
+        "date_joined": "Joined May 2010",
+        "bio": "Senri Oe, Jazz Operator. FB! https://www.facebook.com/SenriOe  Senri Essay! https://note.mu/senrigarden  http://ch.nicovideo.jp/senrigarden ",
+        "twitter_name": "Senri Oe"
+    },
+    "ResponseMetadata": {
+        "RequestId": "3MIQKINQP8FRBTV21T5CQJQ8PNVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:38:19 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "305",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "3MIQKINQP8FRBTV21T5CQJQ8PNVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "3189341610"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  8279.0
+Limit:  100
+length of tweets:  100
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "1000hometown_tweets_07:38:48.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "8ROODHVSAE8L4QIGDP4LN58T6VVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:38:48 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "89",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "8ROODHVSAE8L4QIGDP4LN58T6VVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "2765040314"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/drrrsanket
+Name:  Dr.Sanket Bhosale
+Bio:  Doctor, Actor, Humorist,Standup Comedian , Entertainer... Baba ki Chowki
+Location:  Mumbai
+Date Joined:  Joined January 2010
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Mumbai",
+        "website": "empty",
+        "date_joined": "Joined January 2010",
+        "bio": "Doctor, Actor, Humorist,Standup Comedian , Entertainer... Baba ki Chowki",
+        "twitter_name": "Dr.Sanket Bhosale"
+    },
+    "ResponseMetadata": {
+        "RequestId": "PQS4KR7T0C8NL6LT1JFLNG63GBVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:38:56 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "244",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "PQS4KR7T0C8NL6LT1JFLNG63GBVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "3456338203"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  3279.0
+Limit:  100
+length of tweets:  100
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "DrrrSanket_tweets_07:39:26.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "BLL7BHFIC0L1U3S18RD93BLG3FVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:39:26 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "87",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "BLL7BHFIC0L1U3S18RD93BLG3FVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "2999174206"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/kabir_kb1
+Name:  #FreeDadiyataNow 
+
+Bio:  An Engineer||Entrepreneur||Activist with research interests in History, Politics and Technology...
+Location:  Kano
+Date Joined:  Joined December 2014
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Kano",
+        "website": "empty",
+        "date_joined": "Joined December 2014",
+        "bio": "An Engineer||Entrepreneur||Activist with research interests in History, Politics and Technology...",
+        "twitter_name": "#FreeDadiyataNow \n"
+    },
+    "ResponseMetadata": {
+        "RequestId": "221227VNQ2TLR07U7NSJH18UF7VV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:39:34 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "271",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "221227VNQ2TLR07U7NSJH18UF7VV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "293886833"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  2411.0
+Limit:  100
+length of tweets:  101
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "Kabir_Kb1_tweets_07:40:03.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "6M6B73QOPEV5UQKPR1O332911JVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:40:03 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "86",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "6M6B73QOPEV5UQKPR1O332911JVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "3067124245"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/cool aysha 
+💖
+ 
+----------------------------- Captured stderr call -----------------------------
+python-telegram-logger : INFO: credentials: Found credentials in environment variables.
+python-telegram-logger : INFO: scrapelog: Updating user: AAyozie
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: AAyozie
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 21
+python-telegram-logger : INFO: scrapelog: Gathered 39 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 59 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 77 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 96 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 116 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: lakwana_jones
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: lakwana_jones
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 20
+python-telegram-logger : INFO: scrapelog: Gathered 40 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 60 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 80 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 99 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 119 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: vanguardngrnews
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: vanguardngrnews
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 21
+python-telegram-logger : INFO: scrapelog: Gathered 41 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 61 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 81 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 101 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: Hayzeewendy
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: Hayzeewendy
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 21
+python-telegram-logger : INFO: scrapelog: Gathered 41 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 61 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 81 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 101 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: sharmarohitraj
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: sharmarohitraj
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 20
+python-telegram-logger : INFO: scrapelog: Gathered 40 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 59 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 79 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 98 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 118 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: 1000hometown
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: 1000hometown
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 20
+python-telegram-logger : INFO: scrapelog: Gathered 40 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 60 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 80 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 100 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: DrrrSanket
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: DrrrSanket
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 20
+python-telegram-logger : INFO: scrapelog: Gathered 40 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 60 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 80 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 100 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: Kabir_Kb1
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: Kabir_Kb1
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 21
+python-telegram-logger : INFO: scrapelog: Gathered 41 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 61 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 81 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 101 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: Cool Aysha 
+💖
+ 
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: Cool Aysha 
+💖
+ 
+------------------------------ Captured log call -------------------------------
+INFO     botocore.credentials:credentials.py:1059 Found credentials in environment variables.
+INFO     tg:scrapelog.py:36 Updating user: AAyozie
+INFO     tg:scrapelog.py:36 Updating DB for handle: AAyozie
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 21
+INFO     tg:scrapelog.py:36 Gathered 39 tweets
+INFO     tg:scrapelog.py:36 Gathered 59 tweets
+INFO     tg:scrapelog.py:36 Gathered 77 tweets
+INFO     tg:scrapelog.py:36 Gathered 96 tweets
+INFO     tg:scrapelog.py:36 Gathered 116 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: lakwana_jones
+INFO     tg:scrapelog.py:36 Updating DB for handle: lakwana_jones
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 20
+INFO     tg:scrapelog.py:36 Gathered 40 tweets
+INFO     tg:scrapelog.py:36 Gathered 60 tweets
+INFO     tg:scrapelog.py:36 Gathered 80 tweets
+INFO     tg:scrapelog.py:36 Gathered 99 tweets
+INFO     tg:scrapelog.py:36 Gathered 119 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: vanguardngrnews
+INFO     tg:scrapelog.py:36 Updating DB for handle: vanguardngrnews
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 21
+INFO     tg:scrapelog.py:36 Gathered 41 tweets
+INFO     tg:scrapelog.py:36 Gathered 61 tweets
+INFO     tg:scrapelog.py:36 Gathered 81 tweets
+INFO     tg:scrapelog.py:36 Gathered 101 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: Hayzeewendy
+INFO     tg:scrapelog.py:36 Updating DB for handle: Hayzeewendy
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 21
+INFO     tg:scrapelog.py:36 Gathered 41 tweets
+INFO     tg:scrapelog.py:36 Gathered 61 tweets
+INFO     tg:scrapelog.py:36 Gathered 81 tweets
+INFO     tg:scrapelog.py:36 Gathered 101 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: sharmarohitraj
+INFO     tg:scrapelog.py:36 Updating DB for handle: sharmarohitraj
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 20
+INFO     tg:scrapelog.py:36 Gathered 40 tweets
+INFO     tg:scrapelog.py:36 Gathered 59 tweets
+INFO     tg:scrapelog.py:36 Gathered 79 tweets
+INFO     tg:scrapelog.py:36 Gathered 98 tweets
+INFO     tg:scrapelog.py:36 Gathered 118 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: 1000hometown
+INFO     tg:scrapelog.py:36 Updating DB for handle: 1000hometown
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 20
+INFO     tg:scrapelog.py:36 Gathered 40 tweets
+INFO     tg:scrapelog.py:36 Gathered 60 tweets
+INFO     tg:scrapelog.py:36 Gathered 80 tweets
+INFO     tg:scrapelog.py:36 Gathered 100 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: DrrrSanket
+INFO     tg:scrapelog.py:36 Updating DB for handle: DrrrSanket
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 20
+INFO     tg:scrapelog.py:36 Gathered 40 tweets
+INFO     tg:scrapelog.py:36 Gathered 60 tweets
+INFO     tg:scrapelog.py:36 Gathered 80 tweets
+INFO     tg:scrapelog.py:36 Gathered 100 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: Kabir_Kb1
+INFO     tg:scrapelog.py:36 Updating DB for handle: Kabir_Kb1
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 21
+INFO     tg:scrapelog.py:36 Gathered 41 tweets
+INFO     tg:scrapelog.py:36 Gathered 61 tweets
+INFO     tg:scrapelog.py:36 Gathered 81 tweets
+INFO     tg:scrapelog.py:36 Gathered 101 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: Cool Aysha 
+                            💖
+                             
+INFO     tg:scrapelog.py:36 Updating DB for handle: Cool Aysha 
+                            💖
+======================== 1 failed in 323.65s (0:05:23) =========================
+============================= test session starts ==============================
+platform linux -- Python 3.6.8, pytest-5.1.2, py-1.8.0, pluggy-0.13.0
+rootdir: /home/ubuntu/project_scrape
+collected 1 item
+
+tests/scraper.py F                                                       [100%]
+
+=================================== FAILURES ===================================
+__________________________ TestSelenium2.test_update ___________________________
+
+self = <scraper.TestSelenium2 object at 0x7f36e9dfca90>
+
+    def test_update(self):
+        while True:
+            users = self.__get_users()
+            for user in users:
+                if user:
+                    logger.info("Updating user: {}".format(user))
+>                   UpdateBot(handle=str(user)).run()
+
+tests/scraper.py:350: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/scraper.py:317: in run
+    self.update_user_dynamo()
+tests/scraper.py:192: in update_user_dynamo
+    name = self.browser.find_element(*self.locator_dictionary['name']).text
+../.local/lib/python3.6/site-packages/selenium/webdriver/remote/webdriver.py:978: in find_element
+    'value': value})['value']
+../.local/lib/python3.6/site-packages/selenium/webdriver/remote/webdriver.py:321: in execute
+    self.error_handler.check_response(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <selenium.webdriver.remote.errorhandler.ErrorHandler object at 0x7f36e8105ef0>
+response = {'status': 404, 'value': '{"value":{"error":"no such element","message":"no such element: Unable to locate element: {\...-nameLink\\"}\\n  (Session info: headless chrome=77.0.3865.90)","stacktrace":"#0 0x5644a2304959 \\u003Cunknown>\\n"}}'}
+
+    def check_response(self, response):
+        """
+        Checks that a JSON response from the WebDriver does not have an error.
+    
+        :Args:
+         - response - The JSON response from the WebDriver server as a dictionary
+           object.
+    
+        :Raises: If the response contains an error message.
+        """
+        status = response.get('status', None)
+        if status is None or status == ErrorCode.SUCCESS:
+            return
+        value = None
+        message = response.get("message", "")
+        screen = response.get("screen", "")
+        stacktrace = None
+        if isinstance(status, int):
+            value_json = response.get('value', None)
+            if value_json and isinstance(value_json, basestring):
+                import json
+                try:
+                    value = json.loads(value_json)
+                    if len(value.keys()) == 1:
+                        value = value['value']
+                    status = value.get('error', None)
+                    if status is None:
+                        status = value["status"]
+                        message = value["value"]
+                        if not isinstance(message, basestring):
+                            value = message
+                            message = message.get('message')
+                    else:
+                        message = value.get('message', None)
+                except ValueError:
+                    pass
+    
+        exception_class = ErrorInResponseException
+        if status in ErrorCode.NO_SUCH_ELEMENT:
+            exception_class = NoSuchElementException
+        elif status in ErrorCode.NO_SUCH_FRAME:
+            exception_class = NoSuchFrameException
+        elif status in ErrorCode.NO_SUCH_WINDOW:
+            exception_class = NoSuchWindowException
+        elif status in ErrorCode.STALE_ELEMENT_REFERENCE:
+            exception_class = StaleElementReferenceException
+        elif status in ErrorCode.ELEMENT_NOT_VISIBLE:
+            exception_class = ElementNotVisibleException
+        elif status in ErrorCode.INVALID_ELEMENT_STATE:
+            exception_class = InvalidElementStateException
+        elif status in ErrorCode.INVALID_SELECTOR \
+                or status in ErrorCode.INVALID_XPATH_SELECTOR \
+                or status in ErrorCode.INVALID_XPATH_SELECTOR_RETURN_TYPER:
+            exception_class = InvalidSelectorException
+        elif status in ErrorCode.ELEMENT_IS_NOT_SELECTABLE:
+            exception_class = ElementNotSelectableException
+        elif status in ErrorCode.ELEMENT_NOT_INTERACTABLE:
+            exception_class = ElementNotInteractableException
+        elif status in ErrorCode.INVALID_COOKIE_DOMAIN:
+            exception_class = InvalidCookieDomainException
+        elif status in ErrorCode.UNABLE_TO_SET_COOKIE:
+            exception_class = UnableToSetCookieException
+        elif status in ErrorCode.TIMEOUT:
+            exception_class = TimeoutException
+        elif status in ErrorCode.SCRIPT_TIMEOUT:
+            exception_class = TimeoutException
+        elif status in ErrorCode.UNKNOWN_ERROR:
+            exception_class = WebDriverException
+        elif status in ErrorCode.UNEXPECTED_ALERT_OPEN:
+            exception_class = UnexpectedAlertPresentException
+        elif status in ErrorCode.NO_ALERT_OPEN:
+            exception_class = NoAlertPresentException
+        elif status in ErrorCode.IME_NOT_AVAILABLE:
+            exception_class = ImeNotAvailableException
+        elif status in ErrorCode.IME_ENGINE_ACTIVATION_FAILED:
+            exception_class = ImeActivationFailedException
+        elif status in ErrorCode.MOVE_TARGET_OUT_OF_BOUNDS:
+            exception_class = MoveTargetOutOfBoundsException
+        elif status in ErrorCode.JAVASCRIPT_ERROR:
+            exception_class = JavascriptException
+        elif status in ErrorCode.SESSION_NOT_CREATED:
+            exception_class = SessionNotCreatedException
+        elif status in ErrorCode.INVALID_ARGUMENT:
+            exception_class = InvalidArgumentException
+        elif status in ErrorCode.NO_SUCH_COOKIE:
+            exception_class = NoSuchCookieException
+        elif status in ErrorCode.UNABLE_TO_CAPTURE_SCREEN:
+            exception_class = ScreenshotException
+        elif status in ErrorCode.ELEMENT_CLICK_INTERCEPTED:
+            exception_class = ElementClickInterceptedException
+        elif status in ErrorCode.INSECURE_CERTIFICATE:
+            exception_class = InsecureCertificateException
+        elif status in ErrorCode.INVALID_COORDINATES:
+            exception_class = InvalidCoordinatesException
+        elif status in ErrorCode.INVALID_SESSION_ID:
+            exception_class = InvalidSessionIdException
+        elif status in ErrorCode.UNKNOWN_METHOD:
+            exception_class = UnknownMethodException
+        else:
+            exception_class = WebDriverException
+        if value == '' or value is None:
+            value = response['value']
+        if isinstance(value, basestring):
+            if exception_class == ErrorInResponseException:
+                raise exception_class(response, value)
+            raise exception_class(value)
+        if message == "" and 'message' in value:
+            message = value['message']
+    
+        screen = None
+        if 'screen' in value:
+            screen = value['screen']
+    
+        stacktrace = None
+        if 'stackTrace' in value and value['stackTrace']:
+            stacktrace = []
+            try:
+                for frame in value['stackTrace']:
+                    line = self._value_or_default(frame, 'lineNumber', '')
+                    file = self._value_or_default(frame, 'fileName', '<anonymous>')
+                    if line:
+                        file = "%s:%s" % (file, line)
+                    meth = self._value_or_default(frame, 'methodName', '<anonymous>')
+                    if 'className' in frame:
+                        meth = "%s.%s" % (frame['className'], meth)
+                    msg = "    at %s (%s)"
+                    msg = msg % (meth, file)
+                    stacktrace.append(msg)
+            except TypeError:
+                pass
+        if exception_class == ErrorInResponseException:
+            raise exception_class(response, message)
+        elif exception_class == UnexpectedAlertPresentException:
+            alert_text = None
+            if 'data' in value:
+                alert_text = value['data'].get('text')
+            elif 'alert' in value:
+                alert_text = value['alert'].get('text')
+            raise exception_class(message, screen, stacktrace, alert_text)
+>       raise exception_class(message, screen, stacktrace)
+E       selenium.common.exceptions.NoSuchElementException: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-nameLink"}
+E         (Session info: headless chrome=77.0.3865.90)
+
+../.local/lib/python3.6/site-packages/selenium/webdriver/remote/errorhandler.py:242: NoSuchElementException
+----------------------------- Captured stdout call -----------------------------
+GetItem succeeded:
+URL:  https://twitter.com/onyedakaduru
+Name:  Greg_Collinz
+Bio:  Don't rush life.
+Location:  
+Date Joined:  Joined May 2011
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Nigeria",
+        "website": "empty",
+        "date_joined": "Joined May 2011",
+        "bio": "Don't rush life.",
+        "twitter_name": "Greg_Collinz"
+    },
+    "ResponseMetadata": {
+        "RequestId": "Q5ABSNJ011SEJV5RO9GO6T27CNVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:42:37 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "180",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "Q5ABSNJ011SEJV5RO9GO6T27CNVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "1202565433"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  1231.0
+Limit:  100
+length of tweets:  100
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "ONYEDAKADURU_tweets_07:43:07.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "S22V0SHDH5STOJ7LCVJ38KT2C7VV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:43:07 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "89",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "S22V0SHDH5STOJ7LCVJ38KT2C7VV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "3246254287"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/misterkobz
+Name:  T U N D E #BBNaija
+Bio:  #GodFirst Unique | Traveler | owner of @ngrfacts | Business page @unclekobz | For Business DM 07033268646 | ᴍᴜʟᴛɪ ᴀᴡᴀʀᴅ ᴡɪɴɴɪɴɢ ɪɴғʟᴜᴇɴᴢᴀ #PepperDem
+Location:  Lagos, Nigeria
+Date Joined:  Joined May 2013
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Lagos, Nigeria",
+        "website": "empty",
+        "date_joined": "Joined May 2013",
+        "bio": "#GodFirst Unique | Traveler | owner of @ngrfacts | Business page @unclekobz | For Business DM 07033268646 | \u1d0d\u1d1c\u029f\u1d1b\u026a \u1d00\u1d21\u1d00\u0280\u1d05 \u1d21\u026a\u0274\u0274\u026a\u0274\u0262 \u026a\u0274\u0493\u029f\u1d1c\u1d07\u0274\u1d22\u1d00 #PepperDem",
+        "twitter_name": "T U N D E #BBNaija"
+    },
+    "ResponseMetadata": {
+        "RequestId": "G0P0I7REL9PMQ28FVT3TKMIG4RVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:43:16 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "363",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "G0P0I7REL9PMQ28FVT3TKMIG4RVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "3321485970"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  100
+Limit:  100
+length of tweets:  112
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "Misterkobz_tweets_07:43:51.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "LI0ALBKITT5T3IFNL0V2BTL2FNVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:43:51 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "87",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "LI0ALBKITT5T3IFNL0V2BTL2FNVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "2213464070"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/aayozie
+Name:  Amarachi Ayozie
+Bio:  MIND | SOUL | KNOWLEDGE
+Location:  
+Date Joined:  Joined April 2014
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Nigeria",
+        "website": "empty",
+        "date_joined": "Joined April 2014",
+        "bio": "MIND | SOUL | KNOWLEDGE",
+        "twitter_name": "Amarachi Ayozie"
+    },
+    "ResponseMetadata": {
+        "RequestId": "59J5MID5VOG9APKB1CEMMQO6D3VV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:43:59 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "192",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "59J5MID5VOG9APKB1CEMMQO6D3VV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "181104145"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  769.0
+Limit:  100
+length of tweets:  116
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "AAyozie_tweets_07:44:34.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "58K25FMH3I690UB6U30CUBJPBNVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:44:35 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "84",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "58K25FMH3I690UB6U30CUBJPBNVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "3569871902"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/sulaimonolayiw3
+Name:  Sulaimon Olayiwola Bankole
+Bio:  Am a good listener, accommodating, Calm and lovely to be with any giving time. Don't look down on anyone because this life can be something else
+Location:  Lagos
+Date Joined:  Joined September 2019
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Lagos",
+        "website": "empty",
+        "date_joined": "Joined September 2019",
+        "bio": "Am a good listener, accommodating, Calm and lovely to be with any giving time. Don't look down on anyone because this life can be something else",
+        "twitter_name": "Sulaimon Olayiwola Bankole"
+    },
+    "ResponseMetadata": {
+        "RequestId": "RFK9Q7117RC6UCMB4I3INU9HF3VV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:44:42 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "326",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "RFK9Q7117RC6UCMB4I3INU9HF3VV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "165472544"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  6.0
+Limit:  6.0
+length of tweets:  5
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "SulaimonOlayiw3_tweets_07:44:50.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "6LHKI51ATNK0883JHVFLFSN4GBVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:44:50 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "92",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "6LHKI51ATNK0883JHVFLFSN4GBVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "1504676869"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/damotozey
+Name:  Engr Freg
+Bio:  Civil/Structural Engineer/ business analyst . E-mail : damotozey@yahoo.com
+Location:  Nova Scotia, Canada
+Date Joined:  Joined June 2013
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Nova Scotia, Canada",
+        "website": "empty",
+        "date_joined": "Joined June 2013",
+        "bio": "Civil/Structural Engineer/ business analyst . E-mail : damotozey@yahoo.com",
+        "twitter_name": "Engr Freg"
+    },
+    "ResponseMetadata": {
+        "RequestId": "8ECLUBO1OCN6PF734AMADAIS2VVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:44:59 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "248",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "8ECLUBO1OCN6PF734AMADAIS2VVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "4050719359"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  3676.0
+Limit:  100
+length of tweets:  119
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "damotozey_tweets_07:45:35.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "8BKPSBBQE82JU79JP5J5L95U6NVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:45:35 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "86",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "8BKPSBBQE82JU79JP5J5L95U6NVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "2604596249"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/amchizzy
+Name:  Chineze (Ex Mrs Walcott  
+
+Ozil's bae 
+
+Bio:  I am a Mother. Wife. Publicist. Blogger. Tutor. Farmer and Teacher. I love Arsenal and am that BBN Addict u heard about Above all God's favorite daughter
+Location:  Nigeria
+Date Joined:  Joined January 2010
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Nigeria",
+        "website": "empty",
+        "date_joined": "Joined January 2010",
+        "bio": "I am a Mother. Wife. Publicist. Blogger. Tutor. Farmer and Teacher. I love Arsenal and am that BBN Addict u heard about Above all God's favorite daughter",
+        "twitter_name": "Chineze (Ex Mrs Walcott  \n\nOzil's bae \n"
+    },
+    "ResponseMetadata": {
+        "RequestId": "HEVUSDMC2FSS2VPD8FJ7B3NS9JVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:45:43 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "351",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "HEVUSDMC2FSS2VPD8FJ7B3NS9JVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "558999822"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  100
+Limit:  100
+length of tweets:  101
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "Amchizzy_tweets_07:46:12.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "3G9FBF7AFTSA8C5U5DVL647UPRVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:46:12 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "85",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "3G9FBF7AFTSA8C5U5DVL647UPRVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "1910483682"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/naijaproud
+Name:  Proud Naija
+Bio:  
+Location:  
+Date Joined:  Joined July 2017
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Nigeria",
+        "website": "empty",
+        "date_joined": "Joined July 2017",
+        "bio": "empty",
+        "twitter_name": "Proud Naija"
+    },
+    "ResponseMetadata": {
+        "RequestId": "5AKT6SE448EIS3A1S8F1FKN6IJVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:46:20 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "169",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "5AKT6SE448EIS3A1S8F1FKN6IJVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "916561281"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  45.0
+Limit:  45.0
+length of tweets:  17
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "NaijaProud_tweets_07:46:28.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "AFNUE47HSE5HF9109L6F04V91RVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:46:28 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "87",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "AFNUE47HSE5HF9109L6F04V91RVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "3065483334"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/superstaredd
+Name:  Eduardo EDB
+Bio:  Music Artist|Film Maker | C.E.O EddieGold Global Services
+Location:  Lagos, Nigeria
+Date Joined:  Joined April 2015
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Lagos, Nigeria",
+        "website": "empty",
+        "date_joined": "Joined April 2015",
+        "bio": "Music Artist|Film Maker | C.E.O EddieGold Global Services",
+        "twitter_name": "Eduardo EDB"
+    },
+    "ResponseMetadata": {
+        "RequestId": "LBSOQFM00IAOC3P8PKJF6OAVFRVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:46:37 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "229",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "LBSOQFM00IAOC3P8PKJF6OAVFRVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "3430718386"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  3355.0
+Limit:  100
+length of tweets:  118
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "Superstaredd_tweets_07:47:13.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "G3QSPD807P5MEGG8JKEEGT0MKRVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:47:13 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "89",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "G3QSPD807P5MEGG8JKEEGT0MKRVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "2099615908"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/nobodybeme
+Name:  mrnobody
+Bio:  
+Location:  
+Date Joined:  Joined January 2019
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Nigeria",
+        "website": "empty",
+        "date_joined": "Joined January 2019",
+        "bio": "empty",
+        "twitter_name": "mrnobody"
+    },
+    "ResponseMetadata": {
+        "RequestId": "9ICBUE85JA4EQAQM1KB9P138BFVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:47:21 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "169",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "9ICBUE85JA4EQAQM1KB9P138BFVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "2473255990"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  872.0
+Limit:  100
+length of tweets:  101
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "nobodybeme_tweets_07:47:51.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "UBU8HNG34S5CLA2GOGFMDQTHM3VV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:47:51 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "87",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "UBU8HNG34S5CLA2GOGFMDQTHM3VV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "1700097591"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/rofokofo
+Name:  Rofokofo
+Bio:  Man know thyself.
+Location:  
+Date Joined:  Joined June 2014
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Nigeria",
+        "website": "empty",
+        "date_joined": "Joined June 2014",
+        "bio": "Man know thyself.",
+        "twitter_name": "Rofokofo"
+    },
+    "ResponseMetadata": {
+        "RequestId": "1LEAHLA1P1K6NF6NIPM3VSCP7VVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:47:59 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "178",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "1LEAHLA1P1K6NF6NIPM3VSCP7VVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "1457370810"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  7194.0
+Limit:  100
+length of tweets:  100
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "Rofokofo_tweets_07:48:28.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "K5VS9TQGLO103EQV890C19KBDVVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:48:28 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "85",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "K5VS9TQGLO103EQV890C19KBDVVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "2752123833"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/izumichaels_iam
+Name:  I Z U  
+
+#BBNaija
+Bio:  //JUST ME, MYSELF AND I // FOR ADS & ACCOUNT MGT, It's adebayaro@gmail.com or 08070727291 #LFC
+Location:  
+Date Joined:  Joined April 2011
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Nigeria",
+        "website": "empty",
+        "date_joined": "Joined April 2011",
+        "bio": "//JUST ME, MYSELF AND I // FOR ADS & ACCOUNT MGT, It's adebayaro@gmail.com or 08070727291 #LFC",
+        "twitter_name": "I Z U  \n\n#BBNaija"
+    },
+    "ResponseMetadata": {
+        "RequestId": "12B0LMRCGF9N0OM4IVF91HLVQJVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:48:37 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "267",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "12B0LMRCGF9N0OM4IVF91HLVQJVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "294224702"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  100
+Limit:  100
+length of tweets:  101
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "Izumichaels_Iam_tweets_07:49:07.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "U54LUDK76BQ0ISHED82QJRD7JNVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:49:07 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "92",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "U54LUDK76BQ0ISHED82QJRD7JNVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "1234303782"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/preciousspearll
+Name:  God's Own
+Bio:  Aspiring Graphic designer/Blogger.
+Location:  Nigeria
+Date Joined:  Joined February 2014
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Nigeria",
+        "website": "empty",
+        "date_joined": "Joined February 2014",
+        "bio": "Aspiring Graphic designer/Blogger.",
+        "twitter_name": "God's Own"
+    },
+    "ResponseMetadata": {
+        "RequestId": "IGBGE154J8087U75GB05HGLJL7VV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:49:15 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "200",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "IGBGE154J8087U75GB05HGLJL7VV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "172017024"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  4603.0
+Limit:  100
+length of tweets:  100
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "PrecioussPearll_tweets_07:49:45.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "TIH4NCLHEG1D79UENHJROIC8SFVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:49:45 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "92",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "TIH4NCLHEG1D79UENHJROIC8SFVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "2057368128"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/awolowoclan
+Name:  #team-seyi-awolowo
+Bio:  Team Seyi all the way
+Location:  
+Date Joined:  Joined February 2018
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Nigeria",
+        "website": "empty",
+        "date_joined": "Joined February 2018",
+        "bio": "Team Seyi all the way",
+        "twitter_name": "#team-seyi-awolowo"
+    },
+    "ResponseMetadata": {
+        "RequestId": "5V788G7FL0K40GOK6A41IT73JBVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:49:53 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "196",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "5V788G7FL0K40GOK6A41IT73JBVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "206022361"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  2469.0
+Limit:  100
+length of tweets:  100
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "AWOLOWOCLAN_tweets_07:50:23.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "SDK86O2MLHNJVQ4A2HJAQSSV4VVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:50:23 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "88",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "SDK86O2MLHNJVQ4A2HJAQSSV4VVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "3558821425"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/qgoldfinger
+Name:  Queenette Goldfinger
+Bio:  Queen
+Location:  Lagos Nigeria
+Date Joined:  Joined September 2019
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Lagos Nigeria",
+        "website": "empty",
+        "date_joined": "Joined September 2019",
+        "bio": "Queen",
+        "twitter_name": "Queenette Goldfinger"
+    },
+    "ResponseMetadata": {
+        "RequestId": "HM645CEJGDBN3QVG7V9554270JVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:50:31 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "189",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "HM645CEJGDBN3QVG7V9554270JVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "3326555350"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  9.0
+Limit:  9.0
+length of tweets:  7
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "QGoldfinger_tweets_07:50:39.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "OHMJA39TH51OM949QHE6T70H6VVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:50:39 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "88",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "OHMJA39TH51OM949QHE6T70H6VVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "1961320347"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/veronic12276071
+Name:  Ve Ro Ni Ca  
+
+ 
+ 
+#proudlyTitan
+Bio:  A writer / Journalist Free spirited, inquisitive and meticulous. #proudlyVirgo #Na_TachaIstan
+Location:  Rivers, Nigeria
+Date Joined:  Joined July 2019
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Rivers, Nigeria",
+        "website": "empty",
+        "date_joined": "Joined July 2019",
+        "bio": "A writer / Journalist Free spirited, inquisitive and meticulous. #proudlyVirgo #Na_TachaIstan",
+        "twitter_name": "Ve Ro Ni Ca  \n\n \n \n#proudlyTitan"
+    },
+    "ResponseMetadata": {
+        "RequestId": "ID03N62RKMB9DR2I02N9DRSEKNVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:50:47 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "290",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "ID03N62RKMB9DR2I02N9DRSEKNVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "2586426105"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  77.0
+Limit:  77.0
+length of tweets:  45
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "Veronic12276071_tweets_07:51:08.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "69EFKGRVNBS64LJM2L7IUTODCRVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:51:08 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "92",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "69EFKGRVNBS64LJM2L7IUTODCRVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "2181022551"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/wolexz007
+Name:  ZA!BLUESOOT DUVIZE 
+
+ 
+Bio:  dude!!! are u realy reading dis SHIT!!!!?? just pushh the follow button!!!!! make it fast!~~
+Location:  Lagos, Nigeria
+Date Joined:  Joined June 2011
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Lagos, Nigeria",
+        "website": "empty",
+        "date_joined": "Joined June 2011",
+        "bio": "dude!!! are u realy reading dis SHIT!!!!?? just pushh the follow button!!!!! make it fast!~~",
+        "twitter_name": "ZA!BLUESOOT DUVIZE \n\n "
+    },
+    "ResponseMetadata": {
+        "RequestId": "9I36MKJ3ABUDAVNR3NK6F57V7NVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:51:16 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "276",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "9I36MKJ3ABUDAVNR3NK6F57V7NVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "2011926380"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  100
+Limit:  100
+length of tweets:  119
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "wolexz007_tweets_07:51:53.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "O1NFL7K1PDDB5G0AJ8JIV7161JVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:51:53 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "86",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "O1NFL7K1PDDB5G0AJ8JIV7161JVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "1513613839"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/prince__chris
+Name:  Doctor Love 
+
+Bio:  Manchester United. • Graphic Designer partnered with @VLMagAfrica • Digital Artist • Humanist • lover • Tell twitter to free my accounts. IG @Chrishaze_
+Location:  Nigeria-Ghana
+Date Joined:  Joined January 2019
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Nigeria-Ghana",
+        "website": "empty",
+        "date_joined": "Joined January 2019",
+        "bio": "Manchester United. \u2022 Graphic Designer partnered with @VLMagAfrica \u2022 Digital Artist \u2022 Humanist \u2022 lover \u2022 Tell twitter to free my accounts. IG @Chrishaze_",
+        "twitter_name": "Doctor Love \n"
+    },
+    "ResponseMetadata": {
+        "RequestId": "GPNCHNF21HTNUJI923BLI3RU07VV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:52:01 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "338",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "GPNCHNF21HTNUJI923BLI3RU07VV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "3579826807"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  100
+Limit:  100
+length of tweets:  101
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "Prince__Chris_tweets_07:52:31.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "R6ACVVJGJQIQIL7A7GR42TNDDNVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:52:31 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "90",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "R6ACVVJGJQIQIL7A7GR42TNDDNVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "1027303304"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/officialfixedo1
+Name:  Guaranteed Soccer Bet
+Bio:  Welcome To An Online Football Fixed Games Platform.. No Scam Verified Games Only DM this link 08169750880
+Location:  
+Date Joined:  Joined September 2019
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Nigeria",
+        "website": "empty",
+        "date_joined": "Joined September 2019",
+        "bio": "Welcome To An Online Football Fixed Games Platform.. No Scam Verified Games Only DM this link 08169750880",
+        "twitter_name": "Guaranteed Soccer Bet"
+    },
+    "ResponseMetadata": {
+        "RequestId": "R6NROJ7VTEDH2SJCN0HGOS9T8RVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:52:40 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "284",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "R6NROJ7VTEDH2SJCN0HGOS9T8RVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "3443708372"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  166.0
+Limit:  100
+length of tweets:  47
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "Officialfixedo1_tweets_07:53:01.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "HBQAPIC6ATHE1S3BV8H0RM9UNNVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:53:01 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "92",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "HBQAPIC6ATHE1S3BV8H0RM9UNNVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "4040761719"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/dailynewsboss
+Name:  Dailynewsboss
+Bio:  Dailynewsboss. Award-winning media blog. Get daily News, Event, Sport, Infotainment, Gossip and connect your Business and Events to the target audience.
+Location:  
+Date Joined:  Joined August 2019
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Nigeria",
+        "website": "empty",
+        "date_joined": "Joined August 2019",
+        "bio": "Dailynewsboss. Award-winning media blog. Get daily News, Event, Sport, Infotainment, Gossip and connect your Business and Events to the target audience.",
+        "twitter_name": "Dailynewsboss"
+    },
+    "ResponseMetadata": {
+        "RequestId": "O0FKNMU49C1STD0I6IQ5GLO1UVVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:53:09 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "320",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "O0FKNMU49C1STD0I6IQ5GLO1UVVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "121441381"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  356.0
+Limit:  100
+length of tweets:  100
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "dailynewsboss_tweets_07:53:39.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "1B33THS5AALNSD4H4UD5VKL0ENVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:53:39 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "90",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "1B33THS5AALNSD4H4UD5VKL0ENVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "2524892573"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/simply_lite
+Name:  simply  
+
+ 
+ 
+Bio:  
+Location:  
+Date Joined:  Joined April 2017
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Nigeria",
+        "website": "empty",
+        "date_joined": "Joined April 2017",
+        "bio": "empty",
+        "twitter_name": "simply  \n\n \n "
+    },
+    "ResponseMetadata": {
+        "RequestId": "NU06PI184I5IHSM5VU56EM2B1NVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:53:48 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "175",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "NU06PI184I5IHSM5VU56EM2B1NVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "2597820317"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  7925.0
+Limit:  100
+length of tweets:  100
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "simply_lite_tweets_07:54:18.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "8J931O8RUCUULBMR006JQ3HA3JVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:54:18 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "88",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "8J931O8RUCUULBMR006JQ3HA3JVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "3749765525"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/farefunmi1
+Name:  Farefunmi-unique-closet 
+
+ 
+ 
+Bio:  CEO @farefunmi's closet
+Location:  Ondo Town
+Date Joined:  Joined August 2019
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Ondo Town",
+        "website": "empty",
+        "date_joined": "Joined August 2019",
+        "bio": "CEO @farefunmi's closet",
+        "twitter_name": "Farefunmi-unique-closet \n\n \n "
+    },
+    "ResponseMetadata": {
+        "RequestId": "AC5EH8GVQIFSSCR1QMKTQ95473VV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:54:26 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "212",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "AC5EH8GVQIFSSCR1QMKTQ95473VV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "3741471783"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  104.0
+Limit:  100
+length of tweets:  37
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "Farefunmi1_tweets_07:54:41.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "IREREO7PBLCKSF66F5H5BO7BR7VV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:54:41 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "87",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "IREREO7PBLCKSF66F5H5BO7BR7VV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "1130980156"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/2muchakanni
+Name:  Akanni Of Lagos  
+
+ 
+ 
+Bio:  Good Governance| Investment Banking| Public Affairs Analyst and Strategist| Teacher |Mentor | Speaker .
+Location:  Lagos,Nigeria
+Date Joined:  Joined January 2012
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Lagos,Nigeria",
+        "website": "empty",
+        "date_joined": "Joined January 2012",
+        "bio": "Good Governance| Investment Banking| Public Affairs Analyst and Strategist| Teacher |Mentor | Speaker .",
+        "twitter_name": "Akanni Of Lagos  \n\n \n "
+    },
+    "ResponseMetadata": {
+        "RequestId": "DN7T30C414VHA9NENPNS637JVBVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:54:49 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "290",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "DN7T30C414VHA9NENPNS637JVBVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "1508203869"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  100
+Limit:  100
+length of tweets:  100
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "2muchAkanni_tweets_07:55:20.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "E81G1P53G0IB18F35FG3D94F0JVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:55:20 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "88",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "E81G1P53G0IB18F35FG3D94F0JVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "3165216157"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/hayonielgram
+Name:  UnwantedGram
+Bio:  | Content creator | Meme Creator | Industrial chemist in making | Forca Barça | Do you want to DM for business ?
+Location:  Imo ☆
+Date Joined:  Joined February 2016
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Imo \u2606",
+        "website": "empty",
+        "date_joined": "Joined February 2016",
+        "bio": "| Content creator | Meme Creator | Industrial chemist in making | Forca Bar\u00e7a | Do you want to DM for business ?",
+        "twitter_name": "UnwantedGram"
+    },
+    "ResponseMetadata": {
+        "RequestId": "QHS1POSJDAEMKQDGDDDB3J3MABVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:55:28 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "282",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "QHS1POSJDAEMKQDGDDDB3J3MABVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "2021480736"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  1981.0
+Limit:  100
+length of tweets:  100
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "Hayonielgram_tweets_07:55:58.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "S6I9KE7GAPD77EJF9RC8RM5J0BVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:55:58 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "89",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "S6I9KE7GAPD77EJF9RC8RM5J0BVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "643030510"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/elizabe41116715
+Name:  Elizabeth 
+
+ 
+Bio:  Lagos nigeria
+Location:  
+Date Joined:  Joined July 2019
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Nigeria",
+        "website": "empty",
+        "date_joined": "Joined July 2019",
+        "bio": "Lagos nigeria",
+        "twitter_name": "Elizabeth \n\n "
+    },
+    "ResponseMetadata": {
+        "RequestId": "76SBJIJ2M3OI6RTQGBJT0QUQA3VV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:56:06 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "181",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "76SBJIJ2M3OI6RTQGBJT0QUQA3VV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "3293534021"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  317.0
+Limit:  100
+length of tweets:  100
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "Elizabe41116715_tweets_07:56:36.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "147NAA545LTF2PU5N4US6C1TIJVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:56:37 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "92",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "147NAA545LTF2PU5N4US6C1TIJVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "419696300"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/shegzy270
+Name:  HappyHolmes
+Bio:  real ones wana see your success
+Location:  lagos
+Date Joined:  Joined December 2014
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "lagos",
+        "website": "empty",
+        "date_joined": "Joined December 2014",
+        "bio": "real ones wana see your success",
+        "twitter_name": "HappyHolmes"
+    },
+    "ResponseMetadata": {
+        "RequestId": "2AV6AHVJKVIE0K7LP03VEQVEFFVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:56:45 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "197",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "2AV6AHVJKVIE0K7LP03VEQVEFFVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "2326235761"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  881.0
+Limit:  100
+length of tweets:  100
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "shegzy270_tweets_07:57:15.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "NG1C2BIB6NUIQABVJTNEH80BOFVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:57:15 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "86",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "NG1C2BIB6NUIQABVJTNEH80BOFVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "2733091692"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/victnii
+Name:  Victor Olawuyi
+Bio:  Blogger and Chess Lover
+Location:  Everywhere
+Date Joined:  Joined October 2013
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Everywhere",
+        "website": "empty",
+        "date_joined": "Joined October 2013",
+        "bio": "Blogger and Chess Lover",
+        "twitter_name": "Victor Olawuyi"
+    },
+    "ResponseMetadata": {
+        "RequestId": "JII7S7K47JUE9N1QD1MP7UFJRBVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:57:23 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "196",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "JII7S7K47JUE9N1QD1MP7UFJRBVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "2237982137"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  100
+Limit:  100
+length of tweets:  100
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "Victnii_tweets_07:57:51.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "8IUGM4OTVTRJT1ALDJ3PU889KRVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:57:51 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "84",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "8IUGM4OTVTRJT1ALDJ3PU889KRVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "882343661"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/iamprincessbana
+Name:  MercilessNation
+Bio:  #TeamMercy #NBA #ThugLife #Lonewolf
+Location:  
+Date Joined:  Joined August 2018
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Nigeria",
+        "website": "empty",
+        "date_joined": "Joined August 2018",
+        "bio": "#TeamMercy #NBA #ThugLife #Lonewolf",
+        "twitter_name": "MercilessNation"
+    },
+    "ResponseMetadata": {
+        "RequestId": "QFV7PFCQVCVFB85E8BGHM00KH3VV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:58:00 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "205",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "QFV7PFCQVCVFB85E8BGHM00KH3VV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "4290394291"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  2592.0
+Limit:  100
+length of tweets:  101
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "iamprincessbana_tweets_07:58:29.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "B3795390SMEMIMN2TH67ILANFNVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:58:29 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "92",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "B3795390SMEMIMN2TH67ILANFNVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "2715488937"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/itoroumoh001
+Name:  African Emperor 
+
+Bio:  Public Affairs Analyst|| Sports Enthusiast ||Teacher|| Social media Influencer||
+Location:  Uyo, Nigeria
+Date Joined:  Joined September 2019
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Uyo, Nigeria",
+        "website": "empty",
+        "date_joined": "Joined September 2019",
+        "bio": "Public Affairs Analyst|| Sports Enthusiast ||Teacher|| Social media Influencer||",
+        "twitter_name": "African Emperor \n"
+    },
+    "ResponseMetadata": {
+        "RequestId": "6P79Q9T8PS5H9ASB4D6DKLSA9JVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:58:37 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "261",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "6P79Q9T8PS5H9ASB4D6DKLSA9JVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "38297721"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  175.0
+Limit:  100
+length of tweets:  98
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "ItoroUmoh001_tweets_07:59:11.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "HLL7FLM8PBRPI45783CE6JQ2RNVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:59:11 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "89",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "HLL7FLM8PBRPI45783CE6JQ2RNVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "3217064440"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/mitchynwanne
+Name:  PRIESTE
+Bio:  *Chem completed* *Phy completed* *typing Bio*
+Location:  
+Date Joined:  Joined February 2015
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Nigeria",
+        "website": "empty",
+        "date_joined": "Joined February 2015",
+        "bio": "*Chem completed* *Phy completed* *typing Bio*",
+        "twitter_name": "PRIESTE"
+    },
+    "ResponseMetadata": {
+        "RequestId": "JP71SUE1SL0RQ6I21RH0H50VTVVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:59:19 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "209",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "JP71SUE1SL0RQ6I21RH0H50VTVVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "672256980"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  379.0
+Limit:  100
+length of tweets:  119
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "mitchynwanne_tweets_07:59:54.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "621G2VUGJ4LBGO7D6QSLFK9ENFVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 07:59:54 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "89",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "621G2VUGJ4LBGO7D6QSLFK9ENFVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "1244433291"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/bello_jnr_
+Name:  ABSM
+Bio:  Ace || Arsenal fc || Section 90 || Guardians is key. ALLAH Guide me and make the path to ease easy for me (Ameen) ||
+Location:  Abuja, ilorin
+Date Joined:  Joined December 2017
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Abuja, ilorin",
+        "website": "empty",
+        "date_joined": "Joined December 2017",
+        "bio": "Ace || Arsenal fc || Section 90 || Guardians is key. ALLAH Guide me and make the path to ease easy for me (Ameen) ||",
+        "twitter_name": "ABSM"
+    },
+    "ResponseMetadata": {
+        "RequestId": "0NV5N9S0IK2023470HO0RTH9M3VV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 08:00:03 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "283",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "0NV5N9S0IK2023470HO0RTH9M3VV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "1368072702"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  2002.0
+Limit:  100
+length of tweets:  100
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "bello_jnr__tweets_08:00:32.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "Q0T8LD91BUUHQGDUNP4QRM7D3FVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 08:00:32 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "87",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "Q0T8LD91BUUHQGDUNP4QRM7D3FVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "1349854959"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/larrypeter6
+Name:  Larry peter
+Bio:  
+Location:  Lagos, Nigeria
+Date Joined:  Joined June 2012
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Lagos, Nigeria",
+        "website": "empty",
+        "date_joined": "Joined June 2012",
+        "bio": "empty",
+        "twitter_name": "Larry peter"
+    },
+    "ResponseMetadata": {
+        "RequestId": "FLCRN7AAKFKDB352TVTFPB34RJVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 08:00:40 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "176",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "FLCRN7AAKFKDB352TVTFPB34RJVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "3863862957"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  261.0
+Limit:  100
+length of tweets:  6
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "Larrypeter6_tweets_08:00:48.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "UOFIH9S2U8PMLOD0OHR3JDAI93VV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 08:00:48 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "88",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "UOFIH9S2U8PMLOD0OHR3JDAI93VV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "596516287"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/violettepromo
+Name:  #BBNAIJA Volette Promotion
+Bio:  Social Media Marketing & Advertising, Music, Entertainment, Hype, Engagement, and all kinds of Promotion. DM or Email Violettepromotion@gmail.com for business.
+Location:  Nigeria
+Date Joined:  Joined July 2019
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Nigeria",
+        "website": "empty",
+        "date_joined": "Joined July 2019",
+        "bio": "Social Media Marketing & Advertising, Music, Entertainment, Hype, Engagement, and all kinds of Promotion. DM or Email Violettepromotion@gmail.com for business.",
+        "twitter_name": "#BBNAIJA Volette Promotion"
+    },
+    "ResponseMetadata": {
+        "RequestId": "DP00Q4TKARAE1RNV3MSJ0V5F07VV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 08:00:56 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "338",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "DP00Q4TKARAE1RNV3MSJ0V5F07VV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "1918477198"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  2028.0
+Limit:  100
+length of tweets:  118
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "Violettepromo_tweets_08:01:32.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "93IU1Q58VPK974DH3V9OTTHR6JVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 08:01:33 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "90",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "93IU1Q58VPK974DH3V9OTTHR6JVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "3231604099"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/olayemi_cupid
+Name:  Olaleye Olayemi
+Bio:  virgo
+Location:  Federal Capital Territory, Nig
+Date Joined:  Joined November 2015
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Federal Capital Territory, Nig",
+        "website": "empty",
+        "date_joined": "Joined November 2015",
+        "bio": "virgo",
+        "twitter_name": "Olaleye Olayemi"
+    },
+    "ResponseMetadata": {
+        "RequestId": "BLCELBU447L9E1T6BN33AMLJMBVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 08:01:40 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "200",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "BLCELBU447L9E1T6BN33AMLJMBVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "4158142881"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  22.0
+Limit:  22.0
+length of tweets:  2
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "olayemi_cupid_tweets_08:01:48.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "B3H8AU7HJKFDFCI5A6Q9RQPF2VVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 08:01:48 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "90",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "B3H8AU7HJKFDFCI5A6Q9RQPF2VVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "1564743343"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/cool aysha 
+💖
+ 
+----------------------------- Captured stderr call -----------------------------
+python-telegram-logger : INFO: credentials: Found credentials in environment variables.
+python-telegram-logger : INFO: scrapelog: Updating user: ONYEDAKADURU
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: ONYEDAKADURU
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 20
+python-telegram-logger : INFO: scrapelog: Gathered 40 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 60 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 80 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 100 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: Misterkobz
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: Misterkobz
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 20
+python-telegram-logger : INFO: scrapelog: Gathered 39 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 55 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 73 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 92 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 112 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: AAyozie
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: AAyozie
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 21
+python-telegram-logger : INFO: scrapelog: Gathered 39 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 59 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 77 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 96 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 116 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: SulaimonOlayiw3
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: SulaimonOlayiw3
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 5
+python-telegram-logger : INFO: scrapelog: Gathered 5 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: damotozey
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: damotozey
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 20
+python-telegram-logger : INFO: scrapelog: Gathered 40 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 59 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 79 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 99 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 119 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: Amchizzy
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: Amchizzy
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 21
+python-telegram-logger : INFO: scrapelog: Gathered 41 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 61 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 81 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 101 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: NaijaProud
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: NaijaProud
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 17
+python-telegram-logger : INFO: scrapelog: Gathered 17 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: Superstaredd
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: Superstaredd
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 21
+python-telegram-logger : INFO: scrapelog: Gathered 41 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 61 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 80 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 98 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 118 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: nobodybeme
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: nobodybeme
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 21
+python-telegram-logger : INFO: scrapelog: Gathered 41 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 61 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 81 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 101 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: Rofokofo
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: Rofokofo
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 20
+python-telegram-logger : INFO: scrapelog: Gathered 40 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 60 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 80 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 100 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: Izumichaels_Iam
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: Izumichaels_Iam
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 21
+python-telegram-logger : INFO: scrapelog: Gathered 41 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 61 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 81 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 101 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: PrecioussPearll
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: PrecioussPearll
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 21
+python-telegram-logger : INFO: scrapelog: Gathered 41 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 61 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 81 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 100 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: AWOLOWOCLAN
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: AWOLOWOCLAN
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 20
+python-telegram-logger : INFO: scrapelog: Gathered 40 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 60 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 80 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 100 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: QGoldfinger
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: QGoldfinger
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 7
+python-telegram-logger : INFO: scrapelog: Gathered 7 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: Veronic12276071
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: Veronic12276071
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 18
+python-telegram-logger : INFO: scrapelog: Gathered 37 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 45 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 45 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: wolexz007
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: wolexz007
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 20
+python-telegram-logger : INFO: scrapelog: Gathered 39 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 59 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 79 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 99 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 119 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: Prince__Chris
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: Prince__Chris
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 21
+python-telegram-logger : INFO: scrapelog: Gathered 41 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 61 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 81 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 101 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: Officialfixedo1
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: Officialfixedo1
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 21
+python-telegram-logger : INFO: scrapelog: Gathered 40 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 47 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 47 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: dailynewsboss
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: dailynewsboss
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 20
+python-telegram-logger : INFO: scrapelog: Gathered 40 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 60 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 80 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 100 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: simply_lite
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: simply_lite
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 20
+python-telegram-logger : INFO: scrapelog: Gathered 40 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 60 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 80 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 100 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: Farefunmi1
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: Farefunmi1
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 20
+python-telegram-logger : INFO: scrapelog: Gathered 37 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 37 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: 2muchAkanni
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: 2muchAkanni
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 20
+python-telegram-logger : INFO: scrapelog: Gathered 40 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 60 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 80 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 100 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: Hayonielgram
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: Hayonielgram
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 20
+python-telegram-logger : INFO: scrapelog: Gathered 40 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 60 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 80 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 100 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: Elizabe41116715
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: Elizabe41116715
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 20
+python-telegram-logger : INFO: scrapelog: Gathered 40 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 60 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 80 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 100 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: shegzy270
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: shegzy270
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 20
+python-telegram-logger : INFO: scrapelog: Gathered 40 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 60 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 80 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 100 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: Victnii
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: Victnii
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 20
+python-telegram-logger : INFO: scrapelog: Gathered 40 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 60 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 80 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 100 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: iamprincessbana
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: iamprincessbana
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 21
+python-telegram-logger : INFO: scrapelog: Gathered 41 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 61 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 81 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 101 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: ItoroUmoh001
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: ItoroUmoh001
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 20
+python-telegram-logger : INFO: scrapelog: Gathered 40 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 60 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 80 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 98 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 98 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: mitchynwanne
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: mitchynwanne
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 21
+python-telegram-logger : INFO: scrapelog: Gathered 41 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 60 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 80 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 99 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 119 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: bello_jnr_
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: bello_jnr_
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 21
+python-telegram-logger : INFO: scrapelog: Gathered 41 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 61 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 80 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 100 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: Larrypeter6
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: Larrypeter6
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 6
+python-telegram-logger : INFO: scrapelog: Gathered 6 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: Violettepromo
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: Violettepromo
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 20
+python-telegram-logger : INFO: scrapelog: Gathered 40 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 58 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 78 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 98 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 118 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: olayemi_cupid
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: olayemi_cupid
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 2
+python-telegram-logger : INFO: scrapelog: Gathered 2 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: Cool Aysha 
+💖
+ 
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: Cool Aysha 
+💖
+ 
+------------------------------ Captured log call -------------------------------
+INFO     botocore.credentials:credentials.py:1059 Found credentials in environment variables.
+INFO     tg:scrapelog.py:36 Updating user: ONYEDAKADURU
+INFO     tg:scrapelog.py:36 Updating DB for handle: ONYEDAKADURU
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 20
+INFO     tg:scrapelog.py:36 Gathered 40 tweets
+INFO     tg:scrapelog.py:36 Gathered 60 tweets
+INFO     tg:scrapelog.py:36 Gathered 80 tweets
+INFO     tg:scrapelog.py:36 Gathered 100 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: Misterkobz
+INFO     tg:scrapelog.py:36 Updating DB for handle: Misterkobz
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 20
+INFO     tg:scrapelog.py:36 Gathered 39 tweets
+INFO     tg:scrapelog.py:36 Gathered 55 tweets
+INFO     tg:scrapelog.py:36 Gathered 73 tweets
+INFO     tg:scrapelog.py:36 Gathered 92 tweets
+INFO     tg:scrapelog.py:36 Gathered 112 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: AAyozie
+INFO     tg:scrapelog.py:36 Updating DB for handle: AAyozie
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 21
+INFO     tg:scrapelog.py:36 Gathered 39 tweets
+INFO     tg:scrapelog.py:36 Gathered 59 tweets
+INFO     tg:scrapelog.py:36 Gathered 77 tweets
+INFO     tg:scrapelog.py:36 Gathered 96 tweets
+INFO     tg:scrapelog.py:36 Gathered 116 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: SulaimonOlayiw3
+INFO     tg:scrapelog.py:36 Updating DB for handle: SulaimonOlayiw3
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 5
+INFO     tg:scrapelog.py:36 Gathered 5 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: damotozey
+INFO     tg:scrapelog.py:36 Updating DB for handle: damotozey
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 20
+INFO     tg:scrapelog.py:36 Gathered 40 tweets
+INFO     tg:scrapelog.py:36 Gathered 59 tweets
+INFO     tg:scrapelog.py:36 Gathered 79 tweets
+INFO     tg:scrapelog.py:36 Gathered 99 tweets
+INFO     tg:scrapelog.py:36 Gathered 119 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: Amchizzy
+INFO     tg:scrapelog.py:36 Updating DB for handle: Amchizzy
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 21
+INFO     tg:scrapelog.py:36 Gathered 41 tweets
+INFO     tg:scrapelog.py:36 Gathered 61 tweets
+INFO     tg:scrapelog.py:36 Gathered 81 tweets
+INFO     tg:scrapelog.py:36 Gathered 101 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: NaijaProud
+INFO     tg:scrapelog.py:36 Updating DB for handle: NaijaProud
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 17
+INFO     tg:scrapelog.py:36 Gathered 17 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: Superstaredd
+INFO     tg:scrapelog.py:36 Updating DB for handle: Superstaredd
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 21
+INFO     tg:scrapelog.py:36 Gathered 41 tweets
+INFO     tg:scrapelog.py:36 Gathered 61 tweets
+INFO     tg:scrapelog.py:36 Gathered 80 tweets
+INFO     tg:scrapelog.py:36 Gathered 98 tweets
+INFO     tg:scrapelog.py:36 Gathered 118 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: nobodybeme
+INFO     tg:scrapelog.py:36 Updating DB for handle: nobodybeme
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 21
+INFO     tg:scrapelog.py:36 Gathered 41 tweets
+INFO     tg:scrapelog.py:36 Gathered 61 tweets
+INFO     tg:scrapelog.py:36 Gathered 81 tweets
+INFO     tg:scrapelog.py:36 Gathered 101 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: Rofokofo
+INFO     tg:scrapelog.py:36 Updating DB for handle: Rofokofo
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 20
+INFO     tg:scrapelog.py:36 Gathered 40 tweets
+INFO     tg:scrapelog.py:36 Gathered 60 tweets
+INFO     tg:scrapelog.py:36 Gathered 80 tweets
+INFO     tg:scrapelog.py:36 Gathered 100 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: Izumichaels_Iam
+INFO     tg:scrapelog.py:36 Updating DB for handle: Izumichaels_Iam
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 21
+INFO     tg:scrapelog.py:36 Gathered 41 tweets
+INFO     tg:scrapelog.py:36 Gathered 61 tweets
+INFO     tg:scrapelog.py:36 Gathered 81 tweets
+INFO     tg:scrapelog.py:36 Gathered 101 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: PrecioussPearll
+INFO     tg:scrapelog.py:36 Updating DB for handle: PrecioussPearll
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 21
+INFO     tg:scrapelog.py:36 Gathered 41 tweets
+INFO     tg:scrapelog.py:36 Gathered 61 tweets
+INFO     tg:scrapelog.py:36 Gathered 81 tweets
+INFO     tg:scrapelog.py:36 Gathered 100 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: AWOLOWOCLAN
+INFO     tg:scrapelog.py:36 Updating DB for handle: AWOLOWOCLAN
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 20
+INFO     tg:scrapelog.py:36 Gathered 40 tweets
+INFO     tg:scrapelog.py:36 Gathered 60 tweets
+INFO     tg:scrapelog.py:36 Gathered 80 tweets
+INFO     tg:scrapelog.py:36 Gathered 100 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: QGoldfinger
+INFO     tg:scrapelog.py:36 Updating DB for handle: QGoldfinger
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 7
+INFO     tg:scrapelog.py:36 Gathered 7 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: Veronic12276071
+INFO     tg:scrapelog.py:36 Updating DB for handle: Veronic12276071
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 18
+INFO     tg:scrapelog.py:36 Gathered 37 tweets
+INFO     tg:scrapelog.py:36 Gathered 45 tweets
+INFO     tg:scrapelog.py:36 Gathered 45 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: wolexz007
+INFO     tg:scrapelog.py:36 Updating DB for handle: wolexz007
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 20
+INFO     tg:scrapelog.py:36 Gathered 39 tweets
+INFO     tg:scrapelog.py:36 Gathered 59 tweets
+INFO     tg:scrapelog.py:36 Gathered 79 tweets
+INFO     tg:scrapelog.py:36 Gathered 99 tweets
+INFO     tg:scrapelog.py:36 Gathered 119 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: Prince__Chris
+INFO     tg:scrapelog.py:36 Updating DB for handle: Prince__Chris
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 21
+INFO     tg:scrapelog.py:36 Gathered 41 tweets
+INFO     tg:scrapelog.py:36 Gathered 61 tweets
+INFO     tg:scrapelog.py:36 Gathered 81 tweets
+INFO     tg:scrapelog.py:36 Gathered 101 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: Officialfixedo1
+INFO     tg:scrapelog.py:36 Updating DB for handle: Officialfixedo1
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 21
+INFO     tg:scrapelog.py:36 Gathered 40 tweets
+INFO     tg:scrapelog.py:36 Gathered 47 tweets
+INFO     tg:scrapelog.py:36 Gathered 47 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: dailynewsboss
+INFO     tg:scrapelog.py:36 Updating DB for handle: dailynewsboss
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 20
+INFO     tg:scrapelog.py:36 Gathered 40 tweets
+INFO     tg:scrapelog.py:36 Gathered 60 tweets
+INFO     tg:scrapelog.py:36 Gathered 80 tweets
+INFO     tg:scrapelog.py:36 Gathered 100 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: simply_lite
+INFO     tg:scrapelog.py:36 Updating DB for handle: simply_lite
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 20
+INFO     tg:scrapelog.py:36 Gathered 40 tweets
+INFO     tg:scrapelog.py:36 Gathered 60 tweets
+INFO     tg:scrapelog.py:36 Gathered 80 tweets
+INFO     tg:scrapelog.py:36 Gathered 100 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: Farefunmi1
+INFO     tg:scrapelog.py:36 Updating DB for handle: Farefunmi1
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 20
+INFO     tg:scrapelog.py:36 Gathered 37 tweets
+INFO     tg:scrapelog.py:36 Gathered 37 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: 2muchAkanni
+INFO     tg:scrapelog.py:36 Updating DB for handle: 2muchAkanni
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 20
+INFO     tg:scrapelog.py:36 Gathered 40 tweets
+INFO     tg:scrapelog.py:36 Gathered 60 tweets
+INFO     tg:scrapelog.py:36 Gathered 80 tweets
+INFO     tg:scrapelog.py:36 Gathered 100 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: Hayonielgram
+INFO     tg:scrapelog.py:36 Updating DB for handle: Hayonielgram
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 20
+INFO     tg:scrapelog.py:36 Gathered 40 tweets
+INFO     tg:scrapelog.py:36 Gathered 60 tweets
+INFO     tg:scrapelog.py:36 Gathered 80 tweets
+INFO     tg:scrapelog.py:36 Gathered 100 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: Elizabe41116715
+INFO     tg:scrapelog.py:36 Updating DB for handle: Elizabe41116715
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 20
+INFO     tg:scrapelog.py:36 Gathered 40 tweets
+INFO     tg:scrapelog.py:36 Gathered 60 tweets
+INFO     tg:scrapelog.py:36 Gathered 80 tweets
+INFO     tg:scrapelog.py:36 Gathered 100 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: shegzy270
+INFO     tg:scrapelog.py:36 Updating DB for handle: shegzy270
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 20
+INFO     tg:scrapelog.py:36 Gathered 40 tweets
+INFO     tg:scrapelog.py:36 Gathered 60 tweets
+INFO     tg:scrapelog.py:36 Gathered 80 tweets
+INFO     tg:scrapelog.py:36 Gathered 100 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: Victnii
+INFO     tg:scrapelog.py:36 Updating DB for handle: Victnii
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 20
+INFO     tg:scrapelog.py:36 Gathered 40 tweets
+INFO     tg:scrapelog.py:36 Gathered 60 tweets
+INFO     tg:scrapelog.py:36 Gathered 80 tweets
+INFO     tg:scrapelog.py:36 Gathered 100 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: iamprincessbana
+INFO     tg:scrapelog.py:36 Updating DB for handle: iamprincessbana
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 21
+INFO     tg:scrapelog.py:36 Gathered 41 tweets
+INFO     tg:scrapelog.py:36 Gathered 61 tweets
+INFO     tg:scrapelog.py:36 Gathered 81 tweets
+INFO     tg:scrapelog.py:36 Gathered 101 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: ItoroUmoh001
+INFO     tg:scrapelog.py:36 Updating DB for handle: ItoroUmoh001
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 20
+INFO     tg:scrapelog.py:36 Gathered 40 tweets
+INFO     tg:scrapelog.py:36 Gathered 60 tweets
+INFO     tg:scrapelog.py:36 Gathered 80 tweets
+INFO     tg:scrapelog.py:36 Gathered 98 tweets
+INFO     tg:scrapelog.py:36 Gathered 98 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: mitchynwanne
+INFO     tg:scrapelog.py:36 Updating DB for handle: mitchynwanne
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 21
+INFO     tg:scrapelog.py:36 Gathered 41 tweets
+INFO     tg:scrapelog.py:36 Gathered 60 tweets
+INFO     tg:scrapelog.py:36 Gathered 80 tweets
+INFO     tg:scrapelog.py:36 Gathered 99 tweets
+INFO     tg:scrapelog.py:36 Gathered 119 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: bello_jnr_
+INFO     tg:scrapelog.py:36 Updating DB for handle: bello_jnr_
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 21
+INFO     tg:scrapelog.py:36 Gathered 41 tweets
+INFO     tg:scrapelog.py:36 Gathered 61 tweets
+INFO     tg:scrapelog.py:36 Gathered 80 tweets
+INFO     tg:scrapelog.py:36 Gathered 100 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: Larrypeter6
+INFO     tg:scrapelog.py:36 Updating DB for handle: Larrypeter6
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 6
+INFO     tg:scrapelog.py:36 Gathered 6 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: Violettepromo
+INFO     tg:scrapelog.py:36 Updating DB for handle: Violettepromo
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 20
+INFO     tg:scrapelog.py:36 Gathered 40 tweets
+INFO     tg:scrapelog.py:36 Gathered 58 tweets
+INFO     tg:scrapelog.py:36 Gathered 78 tweets
+INFO     tg:scrapelog.py:36 Gathered 98 tweets
+INFO     tg:scrapelog.py:36 Gathered 118 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: olayemi_cupid
+INFO     tg:scrapelog.py:36 Updating DB for handle: olayemi_cupid
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 2
+INFO     tg:scrapelog.py:36 Gathered 2 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: Cool Aysha 
+                            💖
+                             
+INFO     tg:scrapelog.py:36 Updating DB for handle: Cool Aysha 
+                            💖
+======================== 1 failed in 1160.69s (0:19:20) ========================
+============================= test session starts ==============================
+platform linux -- Python 3.6.8, pytest-5.1.2, py-1.8.0, pluggy-0.13.0
+rootdir: /home/ubuntu/project_scrape
+collected 1 item
+
+tests/scraper.py F                                                       [100%]
+
+=================================== FAILURES ===================================
+__________________________ TestSelenium2.test_update ___________________________
+
+self = <scraper.TestSelenium2 object at 0x7f3d16306a90>
+
+    def test_update(self):
+        while True:
+            users = self.__get_users()
+            for user in users:
+                if user:
+                    logger.info("Updating user: {}".format(user))
+>                   UpdateBot(handle=str(user)).run()
+
+tests/scraper.py:350: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/scraper.py:317: in run
+    self.update_user_dynamo()
+tests/scraper.py:192: in update_user_dynamo
+    name = self.browser.find_element(*self.locator_dictionary['name']).text
+../.local/lib/python3.6/site-packages/selenium/webdriver/remote/webdriver.py:978: in find_element
+    'value': value})['value']
+../.local/lib/python3.6/site-packages/selenium/webdriver/remote/webdriver.py:321: in execute
+    self.error_handler.check_response(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <selenium.webdriver.remote.errorhandler.ErrorHandler object at 0x7f3d14a473c8>
+response = {'status': 404, 'value': '{"value":{"error":"no such element","message":"no such element: Unable to locate element: {\...-nameLink\\"}\\n  (Session info: headless chrome=77.0.3865.90)","stacktrace":"#0 0x55a4a0181959 \\u003Cunknown>\\n"}}'}
+
+    def check_response(self, response):
+        """
+        Checks that a JSON response from the WebDriver does not have an error.
+    
+        :Args:
+         - response - The JSON response from the WebDriver server as a dictionary
+           object.
+    
+        :Raises: If the response contains an error message.
+        """
+        status = response.get('status', None)
+        if status is None or status == ErrorCode.SUCCESS:
+            return
+        value = None
+        message = response.get("message", "")
+        screen = response.get("screen", "")
+        stacktrace = None
+        if isinstance(status, int):
+            value_json = response.get('value', None)
+            if value_json and isinstance(value_json, basestring):
+                import json
+                try:
+                    value = json.loads(value_json)
+                    if len(value.keys()) == 1:
+                        value = value['value']
+                    status = value.get('error', None)
+                    if status is None:
+                        status = value["status"]
+                        message = value["value"]
+                        if not isinstance(message, basestring):
+                            value = message
+                            message = message.get('message')
+                    else:
+                        message = value.get('message', None)
+                except ValueError:
+                    pass
+    
+        exception_class = ErrorInResponseException
+        if status in ErrorCode.NO_SUCH_ELEMENT:
+            exception_class = NoSuchElementException
+        elif status in ErrorCode.NO_SUCH_FRAME:
+            exception_class = NoSuchFrameException
+        elif status in ErrorCode.NO_SUCH_WINDOW:
+            exception_class = NoSuchWindowException
+        elif status in ErrorCode.STALE_ELEMENT_REFERENCE:
+            exception_class = StaleElementReferenceException
+        elif status in ErrorCode.ELEMENT_NOT_VISIBLE:
+            exception_class = ElementNotVisibleException
+        elif status in ErrorCode.INVALID_ELEMENT_STATE:
+            exception_class = InvalidElementStateException
+        elif status in ErrorCode.INVALID_SELECTOR \
+                or status in ErrorCode.INVALID_XPATH_SELECTOR \
+                or status in ErrorCode.INVALID_XPATH_SELECTOR_RETURN_TYPER:
+            exception_class = InvalidSelectorException
+        elif status in ErrorCode.ELEMENT_IS_NOT_SELECTABLE:
+            exception_class = ElementNotSelectableException
+        elif status in ErrorCode.ELEMENT_NOT_INTERACTABLE:
+            exception_class = ElementNotInteractableException
+        elif status in ErrorCode.INVALID_COOKIE_DOMAIN:
+            exception_class = InvalidCookieDomainException
+        elif status in ErrorCode.UNABLE_TO_SET_COOKIE:
+            exception_class = UnableToSetCookieException
+        elif status in ErrorCode.TIMEOUT:
+            exception_class = TimeoutException
+        elif status in ErrorCode.SCRIPT_TIMEOUT:
+            exception_class = TimeoutException
+        elif status in ErrorCode.UNKNOWN_ERROR:
+            exception_class = WebDriverException
+        elif status in ErrorCode.UNEXPECTED_ALERT_OPEN:
+            exception_class = UnexpectedAlertPresentException
+        elif status in ErrorCode.NO_ALERT_OPEN:
+            exception_class = NoAlertPresentException
+        elif status in ErrorCode.IME_NOT_AVAILABLE:
+            exception_class = ImeNotAvailableException
+        elif status in ErrorCode.IME_ENGINE_ACTIVATION_FAILED:
+            exception_class = ImeActivationFailedException
+        elif status in ErrorCode.MOVE_TARGET_OUT_OF_BOUNDS:
+            exception_class = MoveTargetOutOfBoundsException
+        elif status in ErrorCode.JAVASCRIPT_ERROR:
+            exception_class = JavascriptException
+        elif status in ErrorCode.SESSION_NOT_CREATED:
+            exception_class = SessionNotCreatedException
+        elif status in ErrorCode.INVALID_ARGUMENT:
+            exception_class = InvalidArgumentException
+        elif status in ErrorCode.NO_SUCH_COOKIE:
+            exception_class = NoSuchCookieException
+        elif status in ErrorCode.UNABLE_TO_CAPTURE_SCREEN:
+            exception_class = ScreenshotException
+        elif status in ErrorCode.ELEMENT_CLICK_INTERCEPTED:
+            exception_class = ElementClickInterceptedException
+        elif status in ErrorCode.INSECURE_CERTIFICATE:
+            exception_class = InsecureCertificateException
+        elif status in ErrorCode.INVALID_COORDINATES:
+            exception_class = InvalidCoordinatesException
+        elif status in ErrorCode.INVALID_SESSION_ID:
+            exception_class = InvalidSessionIdException
+        elif status in ErrorCode.UNKNOWN_METHOD:
+            exception_class = UnknownMethodException
+        else:
+            exception_class = WebDriverException
+        if value == '' or value is None:
+            value = response['value']
+        if isinstance(value, basestring):
+            if exception_class == ErrorInResponseException:
+                raise exception_class(response, value)
+            raise exception_class(value)
+        if message == "" and 'message' in value:
+            message = value['message']
+    
+        screen = None
+        if 'screen' in value:
+            screen = value['screen']
+    
+        stacktrace = None
+        if 'stackTrace' in value and value['stackTrace']:
+            stacktrace = []
+            try:
+                for frame in value['stackTrace']:
+                    line = self._value_or_default(frame, 'lineNumber', '')
+                    file = self._value_or_default(frame, 'fileName', '<anonymous>')
+                    if line:
+                        file = "%s:%s" % (file, line)
+                    meth = self._value_or_default(frame, 'methodName', '<anonymous>')
+                    if 'className' in frame:
+                        meth = "%s.%s" % (frame['className'], meth)
+                    msg = "    at %s (%s)"
+                    msg = msg % (meth, file)
+                    stacktrace.append(msg)
+            except TypeError:
+                pass
+        if exception_class == ErrorInResponseException:
+            raise exception_class(response, message)
+        elif exception_class == UnexpectedAlertPresentException:
+            alert_text = None
+            if 'data' in value:
+                alert_text = value['data'].get('text')
+            elif 'alert' in value:
+                alert_text = value['alert'].get('text')
+            raise exception_class(message, screen, stacktrace, alert_text)
+>       raise exception_class(message, screen, stacktrace)
+E       selenium.common.exceptions.NoSuchElementException: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-nameLink"}
+E         (Session info: headless chrome=77.0.3865.90)
+
+../.local/lib/python3.6/site-packages/selenium/webdriver/remote/errorhandler.py:242: NoSuchElementException
+----------------------------- Captured stdout call -----------------------------
+GetItem succeeded:
+URL:  https://twitter.com/kjarpesport
+Name:  King James Academy Royston PE and School Sport
+Bio:  We are a new year 5 - 11 through school providing each of our pupils with a high quality education learning in, and through, the physical.
+Location:  Royston, Hertfordshire
+Date Joined:  Joined April 2013
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Royston, Hertfordshire",
+        "website": "empty",
+        "date_joined": "Joined April 2013",
+        "bio": "We are a new year 5 - 11 through school providing each of our pupils with a high quality education learning in, and through, the physical.",
+        "twitter_name": "King James Academy Royston PE and School Sport"
+    },
+    "ResponseMetadata": {
+        "RequestId": "H2HMQNLQS539J392UNSD7IJ707VV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 08:12:03 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "353",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "H2HMQNLQS539J392UNSD7IJ707VV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "3322722204"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  3205.0
+Limit:  100
+length of tweets:  100
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "KJARPESPORT_tweets_08:12:31.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "DFB6IFOJ2LUVK6S8S88RR2DFSVVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 08:12:31 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "88",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "DFB6IFOJ2LUVK6S8S88RR2DFSVVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "846512639"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/william_ukpe
+Name:  William Ukpe
+Bio:  #SouthPunk
+Location:  
+Date Joined:  Joined May 2018
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Nigeria",
+        "website": "empty",
+        "date_joined": "Joined May 2018",
+        "bio": "#SouthPunk",
+        "twitter_name": "William Ukpe"
+    },
+    "ResponseMetadata": {
+        "RequestId": "9L3A0I1NCJB3RIDG62BPFLODCFVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 08:12:40 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "174",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "9L3A0I1NCJB3RIDG62BPFLODCFVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "581884466"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  2200.0
+Limit:  100
+length of tweets:  101
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "William_Ukpe_tweets_08:13:08.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "HAG6JRHHIFD1MGE2NLFEP3I7AFVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 08:13:08 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "89",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "HAG6JRHHIFD1MGE2NLFEP3I7AFVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "3405891253"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/iscgirls
+Name:  ISCgirls
+Bio:  Internationals Soccer Club - Girls Program | Motto: All for one, one for all! | Building the leaders of tomorrow through the game today.
+Location:  Ohio
+Date Joined:  Joined February 2014
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Ohio",
+        "website": "empty",
+        "date_joined": "Joined February 2014",
+        "bio": "Internationals Soccer Club - Girls Program | Motto: All for one, one for all! | Building the leaders of tomorrow through the game today.",
+        "twitter_name": "ISCgirls"
+    },
+    "ResponseMetadata": {
+        "RequestId": "SEUQC6FTOAE5FCUTTHKSV56BO7VV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 08:13:17 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "298",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "SEUQC6FTOAE5FCUTTHKSV56BO7VV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "349722834"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  1435.0
+Limit:  100
+length of tweets:  100
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "ISCgirls_tweets_08:13:46.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "8EKRM1R1O1CO0ANCDIIUEKPO0JVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 08:13:46 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "85",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "8EKRM1R1O1CO0ANCDIIUEKPO0JVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "378992589"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/emmatex1238
+Name:  Engr Emmatex  
+
+Bio:  Civil Engineer.Senior Sales Representative RealEstate consultant. Oil and gas. Entrepreneur.#Politics#HumanRight Let's make the world a better place for you & i
+Location:  
+Date Joined:  Joined November 2015
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Nigeria",
+        "website": "empty",
+        "date_joined": "Joined November 2015",
+        "bio": "Civil Engineer.Senior Sales Representative RealEstate consultant. Oil and gas. Entrepreneur.#Politics#HumanRight Let's make the world a better place for you & i",
+        "twitter_name": "Engr Emmatex  \n"
+    },
+    "ResponseMetadata": {
+        "RequestId": "RRBNHEM0PB2GV9SU170CDE9LHFVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 08:13:54 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "333",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "RRBNHEM0PB2GV9SU170CDE9LHFVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "1371576310"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  100
+Limit:  100
+length of tweets:  119
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "Emmatex1238_tweets_08:14:30.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "1FK3JEDGFLJ073NMACB7LRJKFRVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 08:14:30 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "88",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "1FK3JEDGFLJ073NMACB7LRJKFRVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "3995317771"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/cobrareviewng
+Name:  cobrareviewng
+Bio:  Nigeria's No1. website delivering original reporting and sharp reviews on brands, products and services as they affect the consumers. Follow us @cobrareviewng
+Location:  1, Adekunle Fajuyi Way, Ikeja.
+Date Joined:  Joined May 2019
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "1, Adekunle Fajuyi Way, Ikeja.",
+        "website": "empty",
+        "date_joined": "Joined May 2019",
+        "bio": "Nigeria's No1. website delivering original reporting and sharp reviews on brands, products and services as they affect the consumers. Follow us @cobrareviewng",
+        "twitter_name": "cobrareviewng"
+    },
+    "ResponseMetadata": {
+        "RequestId": "1M935MO3GEMED8E5801M1I03RBVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 08:14:38 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "346",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "1M935MO3GEMED8E5801M1I03RBVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "1970717462"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  415.0
+Limit:  100
+length of tweets:  100
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "cobrareviewng_tweets_08:15:06.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "93O2G2HOTDAKEP9VSV0B4JNCKFVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 08:15:07 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "90",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "93O2G2HOTDAKEP9VSV0B4JNCKFVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "4124380124"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/ridgeviewhoops
+Name:  Ridge View Hoops
+Bio:  17 straight playoff appearances. 2011 State Championship Runner Up. 2017-2019 Region 3 Champs. 2018 & 2019 4A State Champions
+Location:  Columbia, SC
+Date Joined:  Joined September 2012
+User updated:
+{
+    "Attributes": {
+        "twitter_location": "Columbia, SC",
+        "website": "empty",
+        "date_joined": "Joined September 2012",
+        "bio": "17 straight playoff appearances. 2011 State Championship Runner Up. 2017-2019 Region 3 Champs. 2018 & 2019 4A State Champions",
+        "twitter_name": "Ridge View Hoops"
+    },
+    "ResponseMetadata": {
+        "RequestId": "6JS6N2N6NNOF9OIE7JE0PIU777VV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 08:15:15 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "304",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "6JS6N2N6NNOF9OIE7JE0PIU777VV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "21047597"
+        },
+        "RetryAttempts": 0
+    }
+}
+Tweets No:  6356.0
+Limit:  100
+length of tweets:  117
+User updated:
+{
+    "Attributes": {
+        "is_scraped": 1,
+        "tweets": "RidgeViewHoops_tweets_08:15:51.txt"
+    },
+    "ResponseMetadata": {
+        "RequestId": "9FRHG2V7BVPRIQ35LOI9JDEQ7FVV4KQNSO5AEMVJF66Q9ASUAAJG",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "server": "Server",
+            "date": "Sat, 21 Sep 2019 08:15:51 GMT",
+            "content-type": "application/x-amz-json-1.0",
+            "content-length": "91",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "9FRHG2V7BVPRIQ35LOI9JDEQ7FVV4KQNSO5AEMVJF66Q9ASUAAJG",
+            "x-amz-crc32": "2465746161"
+        },
+        "RetryAttempts": 0
+    }
+}
+URL:  https://twitter.com/cool aysha 
+💖
+ 
+----------------------------- Captured stderr call -----------------------------
+python-telegram-logger : INFO: credentials: Found credentials in environment variables.
+python-telegram-logger : INFO: scrapelog: Updating user: KJARPESPORT
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: KJARPESPORT
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 20
+python-telegram-logger : INFO: scrapelog: Gathered 40 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 60 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 80 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 100 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: William_Ukpe
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: William_Ukpe
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 21
+python-telegram-logger : INFO: scrapelog: Gathered 41 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 61 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 81 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 101 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: ISCgirls
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: ISCgirls
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 20
+python-telegram-logger : INFO: scrapelog: Gathered 40 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 60 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 80 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 100 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: Emmatex1238
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: Emmatex1238
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 20
+python-telegram-logger : INFO: scrapelog: Gathered 40 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 60 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 80 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 99 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 119 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: cobrareviewng
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: cobrareviewng
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 20
+python-telegram-logger : INFO: scrapelog: Gathered 40 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 60 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 80 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 100 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: RidgeViewHoops
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: RidgeViewHoops
+python-telegram-logger : WARNING: scrapelog: Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+  (Session info: headless chrome=77.0.3865.90)
+
+python-telegram-logger : INFO: scrapelog: initial No: 19
+python-telegram-logger : INFO: scrapelog: Gathered 38 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 57 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 77 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 97 tweets
+python-telegram-logger : INFO: scrapelog: Gathered 117 tweets
+python-telegram-logger : INFO: scrapelog: Adding tweets to S3...
+python-telegram-logger : INFO: scrapelog: Updating user: Cool Aysha 
+💖
+ 
+python-telegram-logger : INFO: scrapelog: Updating DB for handle: Cool Aysha 
+💖
+ 
+------------------------------ Captured log call -------------------------------
+INFO     botocore.credentials:credentials.py:1059 Found credentials in environment variables.
+INFO     tg:scrapelog.py:36 Updating user: KJARPESPORT
+INFO     tg:scrapelog.py:36 Updating DB for handle: KJARPESPORT
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 20
+INFO     tg:scrapelog.py:36 Gathered 40 tweets
+INFO     tg:scrapelog.py:36 Gathered 60 tweets
+INFO     tg:scrapelog.py:36 Gathered 80 tweets
+INFO     tg:scrapelog.py:36 Gathered 100 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: William_Ukpe
+INFO     tg:scrapelog.py:36 Updating DB for handle: William_Ukpe
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 21
+INFO     tg:scrapelog.py:36 Gathered 41 tweets
+INFO     tg:scrapelog.py:36 Gathered 61 tweets
+INFO     tg:scrapelog.py:36 Gathered 81 tweets
+INFO     tg:scrapelog.py:36 Gathered 101 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: ISCgirls
+INFO     tg:scrapelog.py:36 Updating DB for handle: ISCgirls
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 20
+INFO     tg:scrapelog.py:36 Gathered 40 tweets
+INFO     tg:scrapelog.py:36 Gathered 60 tweets
+INFO     tg:scrapelog.py:36 Gathered 80 tweets
+INFO     tg:scrapelog.py:36 Gathered 100 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: Emmatex1238
+INFO     tg:scrapelog.py:36 Updating DB for handle: Emmatex1238
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 20
+INFO     tg:scrapelog.py:36 Gathered 40 tweets
+INFO     tg:scrapelog.py:36 Gathered 60 tweets
+INFO     tg:scrapelog.py:36 Gathered 80 tweets
+INFO     tg:scrapelog.py:36 Gathered 99 tweets
+INFO     tg:scrapelog.py:36 Gathered 119 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: cobrareviewng
+INFO     tg:scrapelog.py:36 Updating DB for handle: cobrareviewng
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 20
+INFO     tg:scrapelog.py:36 Gathered 40 tweets
+INFO     tg:scrapelog.py:36 Gathered 60 tweets
+INFO     tg:scrapelog.py:36 Gathered 80 tweets
+INFO     tg:scrapelog.py:36 Gathered 100 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: RidgeViewHoops
+INFO     tg:scrapelog.py:36 Updating DB for handle: RidgeViewHoops
+WARNING  tg:scrapelog.py:39 Message: no such element: Unable to locate element: {"method":"css selector","selector":".ProfileHeaderCard-periscopeProfileTextLink"}
+                              (Session info: headless chrome=77.0.3865.90)
+INFO     tg:scrapelog.py:36 initial No: 19
+INFO     tg:scrapelog.py:36 Gathered 38 tweets
+INFO     tg:scrapelog.py:36 Gathered 57 tweets
+INFO     tg:scrapelog.py:36 Gathered 77 tweets
+INFO     tg:scrapelog.py:36 Gathered 97 tweets
+INFO     tg:scrapelog.py:36 Gathered 117 tweets
+INFO     tg:scrapelog.py:36 Adding tweets to S3...
+INFO     tg:scrapelog.py:36 Updating user: Cool Aysha 
+                            💖
+                             
+INFO     tg:scrapelog.py:36 Updating DB for handle: Cool Aysha 
+                            💖
+======================== 1 failed in 239.04s (0:03:59) =========================
+

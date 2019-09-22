@@ -1,3 +1,4 @@
 {
-  "tests/scraper.py": true
+  "tests/scraper.py::TestSelenium2::test_update": true,
+  "tests/scrapeusers.py::TestSelenium1::test_scrape": true
 }

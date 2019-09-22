@@ -1,1 +1,3 @@
-[]
+[
+  "tests/scraper.py::TestSelenium2::test_update"
+]
