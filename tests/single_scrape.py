@@ -101,7 +101,7 @@ class ScrapeBot(object):
 
         self.add_tweet(tweets)
         self.add_user_dynamo(
-            handle=user.username if user.username else 'empty',
+            handle=self.handle,
             user_id=user.id if user.id else 'empty',
             bio=user.bio if user.bio else 'empty',
             date_joined=user.join_date if user.join_date else 'empty',
