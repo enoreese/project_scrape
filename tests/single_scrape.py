@@ -58,7 +58,7 @@ class ScrapeBot(object):
                         tweets,
                         user_id
                         ):
-        logger.info("Adding user to DynamoDB...")
+        # logger.info("Adding user to DynamoDB...")
         dynamodb = boto3.resource("dynamodb", region_name='us-east-2')
 
         table = dynamodb.Table('person')
@@ -90,7 +90,7 @@ class ScrapeBot(object):
         tweet_file.put(Body=tweets)
 
     def run(self):
-        logger.info("User lookup")
+        logger.info("User lookup: {}".format(self.i))
         user = self.__lookup(self.handle)
         print(user)
         user = user[-1]
