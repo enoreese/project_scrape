@@ -27,6 +27,8 @@ class ScrapeBot(object):
     def __init__(self, handle):
         self.handle = handle
         self.filename = None
+        self.tweets = None
+        self.users = None
         logger.info("Scraping for handle: {}".format(handle))
         self.user_config = twint.Config()
         self.tweet_config = twint.Config()
@@ -38,7 +40,7 @@ class ScrapeBot(object):
 
         self.tweet_config.Username = handle
         self.tweet_config.Limit = 120
-        self.tweet_config.Store_object = True
+        self.tweet_config.Store_object_tweets_list = self.tweets
 
     def __lookup(self):
         twint.run.Lookup(self.user_config)
@@ -46,7 +48,7 @@ class ScrapeBot(object):
 
     def __scrape_tweets(self):
         twint.run.Search(self.tweet_config)
-        return twint.output.tweets_list
+        # return twint.output.tweets_list
 
     def add_user_dynamo(self,
                         name,
@@ -92,11 +94,12 @@ class ScrapeBot(object):
     def run(self):
         logger.info("User lookup")
         user = self.__lookup()
+        print(user)
         user = user[0]
         logger.info("Tweets lookup")
-        tweets = self.__scrape_tweets()
+        self.__scrape_tweets()
 
-        tweets = [tweet.tweet for tweet in tweets]
+        tweets = [tweet.tweet for tweet in self.tweets]
         tweets = ' '.join(tweets)
 
         self.add_tweet(tweets)
@@ -114,7 +117,7 @@ class ScrapeBot(object):
 
 class TestSelenium1():
     def test_scrape(self):
-        with open('demola_followers.txt', 'r') as file:
+        with open('../demola_followers.txt', 'r') as file:
             data = file.readlines()
         content = [x.strip() for x in data]
         for handle in content:
