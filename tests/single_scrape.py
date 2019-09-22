@@ -93,7 +93,7 @@ class ScrapeBot(object):
         logger.info("User lookup: {}".format(self.i))
         user = self.__lookup(self.handle)
         print(user)
-        user = user[-1]
+        user = user[self.i]
         print(user.name)
         logger.info("Tweets lookup")
         tweets = self.__scrape_tweets(self.handle)
@@ -118,14 +118,17 @@ class TestSelenium1():
     def test_scrape(self):
         with open('demola_followers.txt', 'r') as file:
             data = file.readlines()
-        content = [x.strip() for x in data]
-        for i in range(len(content)):
+        contents = [x.strip() for x in data]
+        i=0
+        for content in contents:
             try:
-                ScrapeBot(handle=content[i], i=i).run()
+                ScrapeBot(handle=content, i=i).run()
+                i += 1
             except (Exception, IndexError) as e:
                 logger.warn(e)
                 time.sleep(3)
                 # ScrapeBot(handle=content[i], i=i).run()
+
 
 
 if __name__ == '__main__':
