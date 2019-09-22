@@ -126,6 +126,6 @@ class TestSelenium1():
                 ScrapeBot(handle=handle).run()
 
 
-if __name__ == '__main__':
-    logger.info("Starting Handles Scraper in Parallel")
-    TestSelenium1().test_scrape()
+# if __name__ == '__main__':
+#     logger.info("Starting Handles Scraper in Parallel")
+#     TestSelenium1().test_scrape()
