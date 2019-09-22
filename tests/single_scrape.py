@@ -27,8 +27,6 @@ class ScrapeBot(object):
     def __init__(self, handle):
         self.handle = handle
         self.filename = None
-        self.tweets = None
-        self.users = None
         logger.info("Scraping for handle: {}".format(handle))
         self.user_config = twint.Config()
         self.tweet_config = twint.Config()
@@ -40,7 +38,7 @@ class ScrapeBot(object):
 
         self.tweet_config.Username = handle
         self.tweet_config.Limit = 120
-        self.tweet_config.Store_object_tweets_list = self.tweets
+        self.tweet_config.Store_object = True
 
     def __lookup(self):
         twint.run.Lookup(self.user_config)
@@ -48,7 +46,7 @@ class ScrapeBot(object):
 
     def __scrape_tweets(self):
         twint.run.Search(self.tweet_config)
-        # return twint.output.tweets_list
+        return twint.output.tweets_list
 
     def add_user_dynamo(self,
                         name,
@@ -97,9 +95,9 @@ class ScrapeBot(object):
         print(user)
         user = user[0]
         logger.info("Tweets lookup")
-        self.__scrape_tweets()
+        tweets = self.__scrape_tweets()
 
-        tweets = [tweet.tweet for tweet in self.tweets]
+        tweets = [tweet.tweet for tweet in tweets]
         tweets = ' '.join(tweets)
 
         self.add_tweet(tweets)
