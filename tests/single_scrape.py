@@ -93,7 +93,7 @@ class ScrapeBot(object):
         logger.info("User lookup")
         user = self.__lookup(self.handle)
         print(user)
-        user = user[0]
+        user = user[-1]
         print(user.name)
         logger.info("Tweets lookup")
         tweets = self.__scrape_tweets(self.handle)
