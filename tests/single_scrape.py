@@ -24,9 +24,10 @@ class DecimalEncoder(json.JSONEncoder):
 
 class ScrapeBot(object):
 
-    def __init__(self, handle):
+    def __init__(self, handle, i):
         self.handle = handle
         self.filename = None
+        self.i = i
         logger.info("Scraping for handle: {}".format(handle))
         self.user_config = twint.Config()
         self.tweet_config = twint.Config()
@@ -92,8 +93,8 @@ class ScrapeBot(object):
     def run(self):
         logger.info("User lookup")
         user = self.__lookup()
-        print(user)
-        user = user[0]
+        user = user[self.i]
+        print(user.name)
         logger.info("Tweets lookup")
         tweets = self.__scrape_tweets()
 
@@ -118,13 +119,13 @@ class TestSelenium1():
         with open('../demola_followers.txt', 'r') as file:
             data = file.readlines()
         content = [x.strip() for x in data]
-        for handle in content:
+        for i in range(len(content)):
             try:
-                ScrapeBot(handle=handle).run()
+                ScrapeBot(handle=content[i], i=i).run()
             except Exception as e:
                 logger.warn(e)
                 time.sleep(3)
-                ScrapeBot(handle=handle).run()
+                ScrapeBot(handle=content[i], i=i).run()
 
 
 if __name__ == '__main__':
