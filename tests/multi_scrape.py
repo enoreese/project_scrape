@@ -24,28 +24,29 @@ class DecimalEncoder(json.JSONEncoder):
 
 class ScrapeBot(object):
 
-    def __init__(self, handle, i):
+    def __init__(self, handle):
         self.handle = handle
         self.filename = None
-        self.i = i
-        logger.info("Scraping for handle: {}".format(self.handle))
+        logger.info("Scraping for handle: {}".format(handle))
+        self.user_config = twint.Config()
 
-    def __lookup(self, handle):
-        user_config = twint.Config()
-        user_config.Username = handle
+
+        self.user_config.Username = handle
         # self.user_config.Format = "ID {id} | Name {name} | Bio {bio} | Location {location} | Join Date {join_date}"
-        user_config.Store_object = True
-        user_config.User_full = True
+        self.user_config.Store_object = True
+        # self.user_config.Limit = 20
+        self.user_config.User_full = True
 
-        twint.run.Lookup(user_config)
+    def __lookup(self):
+        twint.run.Followers(self.user_config)
         return twint.output.users_list
 
     def __scrape_tweets(self, handle):
-        tweet_config = twint.Config()
-        tweet_config.Username = handle
-        tweet_config.Limit = 120
-        tweet_config.Store_object = True
-        twint.run.Search(tweet_config)
+        self.tweet_config = twint.Config()
+        self.tweet_config.Username = handle
+        self.tweet_config.Limit = 120
+        self.tweet_config.Store_object = True
+        twint.run.Search(self.tweet_config)
         return twint.output.tweets_list
 
     def add_user_dynamo(self,
@@ -90,44 +91,43 @@ class ScrapeBot(object):
         tweet_file.put(Body=tweets)
 
     def run(self):
-        logger.info("User lookup")
-        user = self.__lookup(self.handle)
-        print(user)
-        user = user[0]
-        print(user.name)
-        logger.info("Tweets lookup")
-        tweets = self.__scrape_tweets(self.handle)
+        logger.info("Users lookup")
+        users = self.__lookup()
+        logger.info('Length of followers: '.format(len(users)))
+        i=0
+        for user in users:
+            print(user.name)
+            logger.info("Tweets lookup: {}".format(i))
+            tweets = self.__scrape_tweets(user.username)
 
-        tweets = [tweet.tweet for tweet in tweets]
-        tweets = ' '.join(tweets)
+            tweets = [tweet.tweet for tweet in tweets]
+            tweets = ' '.join(tweets)
 
-        self.add_tweet(tweets)
-        self.add_user_dynamo(
-            handle=self.handle,
-            user_id=user.id if user.id else 'empty',
-            bio=user.bio if user.bio else 'empty',
-            date_joined=user.join_date if user.join_date else 'empty',
-            location=user.location if user.location else 'empty',
-            name=user.name if user.name else 'empty',
-            tweets=self.filename,
-            website=user.url if user.url else 'empty'
-        )
+            self.add_tweet(tweets)
+            self.add_user_dynamo(
+                handle=user.username if user.username else 'empty',
+                user_id=user.id if user.id else 'empty',
+                bio=user.bio if user.bio else 'empty',
+                date_joined=user.join_date if user.join_date else 'empty',
+                location=user.location if user.location else 'empty',
+                name=user.name if user.name else 'empty',
+                tweets=self.filename,
+                website=user.url if user.url else 'empty'
+            )
+            i+=1
 
 
 class TestSelenium1():
     def test_scrape(self):
-        with open('../demola_followers.txt', 'r') as file:
-            data = file.readlines()
-        content = [x.strip() for x in data]
-        for i in range(len(content)):
+        contents = ['GalacticoHD', 'Lazywrita']
+        for content in contents:
             try:
-                ScrapeBot(handle=content[i], i=i).run()
-            except (Exception, IndexError) as e:
+                ScrapeBot(handle=content).run()
+            except Exception as e:
                 logger.warn(e)
                 time.sleep(3)
-                # ScrapeBot(handle=content[i], i=i).run()
 
 
 if __name__ == '__main__':
-    logger.info("Starting Handles Scraper in Parallel")
+    logger.info("Starting Multi Handles Scraper in Parallel")
     TestSelenium1().test_scrape()

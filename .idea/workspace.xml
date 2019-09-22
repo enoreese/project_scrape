@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a4ef8ffc-212e-459b-96e4-930f5c5152e2" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/tests/multi_scrape.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demola_followers.txt" beforeDir="false" afterPath="$PROJECT_DIR$/demola_followers.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/single_scrape.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/single_scrape.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -54,11 +57,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="single_scrape.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="single_scrape.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/single_scrape.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="124">
-              <caret line="118" column="19" selection-start-line="118" selection-start-column="19" selection-end-line="118" selection-end-column="19" />
+            <state relative-caret-position="199">
+              <caret line="40" column="38" lean-forward="true" selection-start-line="40" selection-start-column="38" selection-end-line="40" selection-end-column="38" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="multi_scrape.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/tests/multi_scrape.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="55">
+              <caret line="95" column="63" lean-forward="true" selection-start-line="95" selection-start-column="63" selection-end-line="95" selection-end-column="63" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -92,18 +107,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="start_script.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/start_script.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="30" column="41" selection-start-line="30" selection-start-column="41" selection-end-line="30" selection-end-column="41" />
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="base.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/models/base.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -129,6 +132,7 @@
     <findStrings>
       <find>filename</find>
       <find>person</find>
+      <find>Ezekiel12567523</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -150,7 +154,9 @@
         <option value="$PROJECT_DIR$/hashtags.txt" />
         <option value="$PROJECT_DIR$/tests/scrapeusers.py" />
         <option value="$PROJECT_DIR$/tests/scraper.py" />
+        <option value="$PROJECT_DIR$/demola_followers.txt" />
         <option value="$PROJECT_DIR$/tests/single_scrape.py" />
+        <option value="$PROJECT_DIR$/tests/multi_scrape.py" />
       </list>
     </option>
   </component>
@@ -205,7 +211,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.Twint">
+  <component name="RunManager" selected="Python.Multi Twint">
     <configuration name="Main" type="PythonConfigurationType" factoryName="Python">
       <module name="Project Scrape" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -236,6 +242,41 @@
         </ENTRIES>
       </EXTENSION>
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="Multi Twint" type="PythonConfigurationType" factoryName="Python">
+      <module name="Project Scrape" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DB_USERNAME" value="root" />
+        <env name="DB_PASSWORD" value="root" />
+        <env name="PATH" value="$PROJECT_DIR$/driver/" />
+        <env name="TELEGRAM_TOKEN" value="951443203:AAEeoc0Q6-4Q6Dq7S40ACRr1ceXcIA_Twv0" />
+        <env name="AWS_ACCESS_KEY_ID" value="AKIAWFNWBEHETSGTGDGY" />
+        <env name="AWS_SECRET_ACCESS_KEY" value="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" />
+        <env name="BUCKET_NAME" value="spearlytics-tweets" />
+      </envs>
+      <option name="SDK_HOME" value="/anaconda3/envs/Development/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="net.ashald.envfile">
+        <option name="IS_ENABLED" value="false" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" />
+        </ENTRIES>
+      </EXTENSION>
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/multi_scrape.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -279,6 +320,7 @@
     <list>
       <item itemvalue="Python.Main" />
       <item itemvalue="Python.Twint" />
+      <item itemvalue="Python.Multi Twint" />
     </list>
   </component>
   <component name="SvnConfiguration">
@@ -304,9 +346,9 @@
       <window_info anchor="bottom" id="Event Log" order="4" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="1" />
       <window_info anchor="bottom" id="Python Console" order="2" />
-      <window_info anchor="bottom" id="Run" order="7" weight="0.32965517" />
+      <window_info active="true" anchor="bottom" id="Run" order="7" visible="true" weight="0.32965517" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="3" visible="true" weight="0.32965517" />
+      <window_info anchor="bottom" id="Terminal" order="3" weight="0.32965517" />
       <window_info id="Favorites" order="0" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="8" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -342,16 +384,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tests/models/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="28" selection-start-line="19" selection-start-column="28" selection-end-line="19" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/models/users.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="372">
@@ -691,9 +723,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/demola_followers.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/scrapeusers.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="84">
@@ -704,10 +733,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/demola_followers.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/tests/single_scrape.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="118" column="19" selection-start-line="118" selection-start-column="19" selection-end-line="118" selection-end-column="19" />
+        <state relative-caret-position="199">
+          <caret line="40" column="38" lean-forward="true" selection-start-line="40" selection-start-column="38" selection-end-line="40" selection-end-column="38" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/multi_scrape.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="55">
+          <caret line="95" column="63" lean-forward="true" selection-start-line="95" selection-start-column="63" selection-end-line="95" selection-end-column="63" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
