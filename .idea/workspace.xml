@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a4ef8ffc-212e-459b-96e4-930f5c5152e2" name="Default" comment="" />
+    <list default="true" id="a4ef8ffc-212e-459b-96e4-930f5c5152e2" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demola_followers.txt" beforeDir="false" afterPath="$PROJECT_DIR$/demola_followers.txt" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -55,7 +58,7 @@
       <file leaf-file-name="single_scrape.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tests/single_scrape.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="229">
+            <state relative-caret-position="667">
               <caret line="125" column="22" selection-start-line="125" selection-start-column="22" selection-end-line="125" selection-end-column="22" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
@@ -67,7 +70,7 @@
       <file leaf-file-name="multi_scrape.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/multi_scrape.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="169">
+            <state relative-caret-position="545">
               <caret line="121" column="41" selection-start-line="121" selection-start-column="41" selection-end-line="121" selection-end-column="41" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
@@ -78,7 +81,9 @@
       </file>
       <file leaf-file-name="demola_followers.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/demola_followers.txt">
-          <provider selected="true" editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-333" />
+          </provider>
         </entry>
       </file>
       <file leaf-file-name="users.py" pinned="false" current-in-tab="false">
@@ -128,6 +133,8 @@
       <find>filename</find>
       <find>person</find>
       <find>Ezekiel12567523</find>
+      <find>klemzlamar</find>
+      <find>luxurywomanNg</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -149,9 +156,9 @@
         <option value="$PROJECT_DIR$/hashtags.txt" />
         <option value="$PROJECT_DIR$/tests/scrapeusers.py" />
         <option value="$PROJECT_DIR$/tests/scraper.py" />
-        <option value="$PROJECT_DIR$/demola_followers.txt" />
         <option value="$PROJECT_DIR$/tests/multi_scrape.py" />
         <option value="$PROJECT_DIR$/tests/single_scrape.py" />
+        <option value="$PROJECT_DIR$/demola_followers.txt" />
       </list>
     </option>
   </component>
@@ -333,6 +340,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.2494043" />
       <window_info anchor="bottom" id="TODO" order="11" />
@@ -704,9 +712,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hashtags.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/scraper.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="127">
@@ -727,12 +732,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/demola_followers.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/multi_scrape.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="169">
+        <state relative-caret-position="545">
           <caret line="121" column="41" selection-start-line="121" selection-start-column="41" selection-end-line="121" selection-end-column="41" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
@@ -740,9 +742,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/hashtags.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demola_followers.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-333" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/tests/single_scrape.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
+        <state relative-caret-position="667">
           <caret line="125" column="22" selection-start-line="125" selection-start-column="22" selection-end-line="125" selection-end-column="22" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
