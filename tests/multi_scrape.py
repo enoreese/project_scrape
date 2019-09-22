@@ -119,7 +119,7 @@ class ScrapeBot(object):
 
 class TestSelenium1():
     def test_scrape(self):
-        contents = ['GalacticoHD', 'Lazywrita']
+        contents = ['Chydee', 'CuteKimani']
         for content in contents:
             try:
                 ScrapeBot(handle=content).run()
