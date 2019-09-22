@@ -185,7 +185,7 @@ class TestSelenium1:
 
     def scrape2(self):
         try:
-            ScrapeBot().run()
+            ScrapeBot().run2()
         except (Exception, IndexError) as e:
             logger.warn(e)
             time.sleep(3)
